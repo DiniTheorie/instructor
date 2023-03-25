@@ -16,16 +16,15 @@ use Slim\Exception\HttpNotFoundException;
 
 class RequestValidatorExtensions
 {
-
     public static function checkExactlyKeysSet(Request $request, array $array, ...$keys): void
     {
         if (count(array_keys($array)) !== count($keys)) {
-            throw new HttpNotFoundException($request, 'you must provide exactly ' . count($keys) . ' keys.');
+            throw new HttpNotFoundException($request, 'you must provide exactly '.count($keys).' keys.');
         }
 
         foreach ($keys as $key) {
             if (!key_exists($key, $array)) {
-                throw new HttpNotFoundException($request, 'key ' . $key . ' expected, but not provided.');
+                throw new HttpNotFoundException($request, 'key '.$key.' expected, but not provided.');
             }
         }
     }

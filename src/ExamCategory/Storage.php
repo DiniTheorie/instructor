@@ -18,7 +18,7 @@ class Storage
 {
     private Repository $database;
 
-    public const QUESTIONS_PATH = Repository::REPO_PATH . '/template/questions';
+    public const QUESTIONS_PATH = Repository::REPO_PATH.'/template/questions';
 
     public function __construct(Repository $database)
     {
@@ -43,7 +43,7 @@ class Storage
 
     public function getCategory(string $id): array
     {
-        $categoryPath = self::QUESTIONS_PATH . '/' . $id;
+        $categoryPath = self::QUESTIONS_PATH.'/'.$id;
         $translations = $this->readTranslations($categoryPath);
 
         return ['id' => $id, 'translations' => $translations];
@@ -51,7 +51,7 @@ class Storage
 
     public function addCategory(array $category): void
     {
-        $categoryPath = self::QUESTIONS_PATH . '/' . $category['id'];
+        $categoryPath = self::QUESTIONS_PATH.'/'.$category['id'];
         mkdir($categoryPath);
 
         $this->storeTranslations($categoryPath, $category['translations']);
@@ -59,8 +59,8 @@ class Storage
 
     public function storeCategory(string $id, array $category): void
     {
-        $categoryPath = self::QUESTIONS_PATH . '/' . $id;
-        $nodes = glob($categoryPath . '/introduction.*.yml');
+        $categoryPath = self::QUESTIONS_PATH.'/'.$id;
+        $nodes = glob($categoryPath.'/introduction.*.yml');
         foreach ($nodes as $node) {
             unlink($node);
         }
@@ -70,13 +70,13 @@ class Storage
 
     public function removeCategory(string $id): void
     {
-        $categoryPath = self::QUESTIONS_PATH . '/' . $id;
+        $categoryPath = self::QUESTIONS_PATH.'/'.$id;
         rmdir($categoryPath);
     }
 
     private function readTranslations(string $categoryPath): array
     {
-        $nodes = glob($categoryPath . '/introduction.*.yml');
+        $nodes = glob($categoryPath.'/introduction.*.yml');
 
         $translations = [];
         foreach ($nodes as $node) {
@@ -102,7 +102,7 @@ class Storage
             unset($translation['language']);
 
             $content = Yaml::dump($translation);
-            $filePath = $path . '/introduction.' . $language . '.yml';
+            $filePath = $path.'/introduction.'.$language.'.yml';
             file_put_contents($filePath, $content);
         }
 
