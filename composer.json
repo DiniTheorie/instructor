@@ -1,7 +1,54 @@
 {
+    "type": "project",
+    "name": "dinitheorie/instructor",
+    "description": "administer course data",
+    "license": "MIT",
     "require": {
+        "php": "^8.2",
         "slim/slim": "^4.11",
         "slim/psr7": "^1.6",
         "symfony/yaml": "^6.2"
+    },
+    "require-dev": {
+        "brainmaestro/composer-git-hooks": "^2.8",
+        "famoser/agnes": "^4.0",
+        "friendsofphp/php-cs-fixer": "^3"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "platform": {
+            "php": "8.2"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "DiniTheorie\\Instructor\\": "src/"
+        }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "vendor/bin/cghooks update": "script"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "extra": {
+        "hooks": {
+            "pre-commit": [
+                "echo committing as $(git config user.name)",
+                "./vendor/bin/php-cs-fixer fix",
+                "npm run lint-fix",
+                "git update-index --again"
+            ],
+            "post-merge": [
+                "composer install",
+                "npm install"
+            ]
+        }
     }
 }

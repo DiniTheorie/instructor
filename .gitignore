@@ -1,5 +1,7 @@
 # IDE
 .idea
+.code
+.php-cs-fixer.cache
 
 # deployment
 .build
@@ -8,3 +10,6 @@
 # dependencies
 vendor
 node_modules
+
+# local config
+.npmrc

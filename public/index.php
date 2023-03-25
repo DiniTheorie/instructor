@@ -1,18 +1,26 @@
 <?php
 
+/*
+ * This file is part of the DiniTheorie project.
+ *
+ * (c) Florian Moser <git@famoser.ch>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Exception\HttpBadRequestException;
-use Slim\Exception\HttpNotFoundException;
 use Slim\Factory\AppFactory;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 $app = AppFactory::create();
 $examRepository = new ExamCategoryRepository(new GitDatabase());
 
 $app->get('/exam/categories', function (Request $request, Response $response, array $args) use ($examRepository) {
     $categories = $examRepository->getCategories();
+
     return SlimExtensions::createJsonResponse($response, $categories);
 });
 
@@ -21,6 +29,7 @@ $app->get('/exam/category/{id}', function (Request $request, Response $response,
     RequestValidator::validateCategoryId($request, $examRepository, $categoryId);
 
     $category = $examRepository->getCategory($categoryId);
+
     return SlimExtensions::createJsonResponse($response, $category);
 });
 
@@ -32,6 +41,7 @@ $app->post('/exam/category', function (Request $request, Response $response, arr
     $examRepository->addCategory($category);
 
     $category = $examRepository->getCategory($category['id']);
+
     return SlimExtensions::createJsonResponse($response, $category, SlimExtensions::STATUS_CREATED);
 });
 
@@ -44,6 +54,7 @@ $app->put('/exam/category/{id}', function (Request $request, Response $response,
     $examRepository->storeCategory($categoryId, $category);
 
     $category = $examRepository->getCategory($category['id']);
+
     return SlimExtensions::createJsonResponse($response, $category);
 });
 

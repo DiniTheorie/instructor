@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the DiniTheorie project.
+ *
+ * (c) Florian Moser <git@famoser.ch>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
 use Slim\Psr7\Request;
@@ -37,12 +46,12 @@ class RequestValidator
     private static function checkExactlyKeysSet(Request $request, array $array, ...$keys): void
     {
         if (count(array_keys($array)) !== count($keys)) {
-            throw new HttpNotFoundException($request, 'you must provide exactly ' . count($keys) . ' keys.');
+            throw new HttpNotFoundException($request, 'you must provide exactly '.count($keys).' keys.');
         }
 
         foreach ($keys as $key) {
             if (!key_exists($key, $array)) {
-                throw new HttpNotFoundException($request, 'key ' . $key . ' expected, but not provided.');
+                throw new HttpNotFoundException($request, 'key '.$key.' expected, but not provided.');
             }
         }
     }

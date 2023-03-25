@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the DiniTheorie project.
+ *
+ * (c) Florian Moser <git@famoser.ch>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
@@ -11,6 +20,7 @@ class SlimExtensions
     public static function parseJsonRequestBody(Request $request): array
     {
         $bodyContents = $request->getBody()->getContents();
+
         return json_decode($bodyContents, true);
     }
 
