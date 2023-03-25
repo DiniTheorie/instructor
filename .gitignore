@@ -13,3 +13,7 @@ node_modules
 
 # local config
 .npmrc
+*.local
+
+# Logs
+npm-debug.log*

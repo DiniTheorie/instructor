@@ -31,7 +31,7 @@ jobs:
           yarn install
 
       - name: Build
-        run: yarn encore production
+        run: npm run build
 
       - name: Check dependencies
         run: yarn audit --groups dependencies

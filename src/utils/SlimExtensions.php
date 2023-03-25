@@ -28,10 +28,21 @@ class SlimExtensions
 
     public static function createJsonResponse(Response $response, array $body, int $statusCode = self::STATUS_OK): Response
     {
-        $response->getBody()->write(json_encode($body));
+        $jsonContent = json_encode($body);
+        $response->getBody()->write($jsonContent);
 
         return $response
             ->withStatus($statusCode)
             ->withHeader('Content-Type', 'application/json');
+    }
+
+    public static function createHTMLResponse(Response $response, string $htmlFilePath, int $statusCode = self::STATUS_OK): Response
+    {
+        $htmlContent = file_get_contents($htmlFilePath);
+        $response->getBody()->write($htmlContent);
+
+        return $response
+            ->withStatus($statusCode)
+            ->withHeader('Content-Type', 'text/html');
     }
 }
