@@ -1,0 +1,10 @@
+# IDE
+.idea
+
+# deployment
+.build
+.agnes
+
+# dependencies
+vendor
+node_modules
