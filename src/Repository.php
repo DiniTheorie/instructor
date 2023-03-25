@@ -9,9 +9,12 @@
  * file that was distributed with this source code.
  */
 
-class GitDatabase
+namespace DiniTheorie\Instructor;
+use Exception;
+
+class Repository
 {
-    public const REPO_PATH = __DIR__.'/../var/persistent/Data';
+    public const REPO_PATH = __DIR__ . '/../var/persistent/Data';
 
     /**
      * @throws Exception
@@ -21,19 +24,25 @@ class GitDatabase
         $this->setup();
     }
 
+    /**
+     * @throws Exception
+     */
     private function executeCommand(string $command): void
     {
         exec($command, $output, $result);
         if ($result > 0) {
-            throw new Exception('command execution failed: '.join(', ', $output));
+            throw new Exception('command execution failed: ' . join(', ', $output));
         }
     }
 
+    /**
+     * @throws Exception
+     */
     private function executeRepositoryCommand(string $command): void
     {
-        exec('cd '.self::REPO_PATH.' && '.$command, $output, $result);
+        exec('cd ' . self::REPO_PATH . ' && ' . $command, $output, $result);
         if ($result > 0) {
-            throw new Exception('repository command execution failed: '.join(', ', $output));
+            throw new Exception('repository command execution failed: ' . join(', ', $output));
         }
     }
 
@@ -44,7 +53,7 @@ class GitDatabase
     {
         if (!is_dir(self::REPO_PATH)) {
             mkdir(self::REPO_PATH, 0777, true);
-            $this->executeCommand('git clone git@github.com:DiniTheorie/Data '.self::REPO_PATH);
+            $this->executeCommand('git clone git@github.com:DiniTheorie/Data ' . self::REPO_PATH);
         } else {
             $this->executeRepositoryCommand('git pull');
         }

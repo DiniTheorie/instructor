@@ -9,8 +9,10 @@
  * file that was distributed with this source code.
  */
 
-use Slim\Psr7\Request;
-use Slim\Psr7\Response;
+namespace DiniTheorie\Instructor\utils;
+
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class SlimExtensions
 {
