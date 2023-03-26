@@ -5,8 +5,9 @@
   "license": "MIT",
   "require": {
     "php": "^8.2",
-    "slim/slim": "^4.11",
     "slim/psr7": "^1.6",
+    "slim/slim": "^4.11",
+    "symfony/dotenv": "^6.2",
     "symfony/yaml": "^6.2"
   },
   "require-dev": {
@@ -27,14 +28,11 @@
     }
   },
   "scripts": {
-    "auto-scripts": {
-      "vendor/bin/cghooks update": "script"
-    },
     "post-install-cmd": [
-      "@auto-scripts"
+      "vendor/bin/cghooks update"
     ],
     "post-update-cmd": [
-      "@auto-scripts"
+      "vendor/bin/cghooks update"
     ]
   },
   "extra": {

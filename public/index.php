@@ -11,40 +11,52 @@
 
 use DiniTheorie\Instructor\ExamCategory\RouteFactory;
 use DiniTheorie\Instructor\Repository;
-use DiniTheorie\Instructor\Utils\HtmlEmitter;
+use DiniTheorie\Instructor\Utils\ManifestParser;
 use Slim\Factory\AppFactory;
 use Slim\Routing\RouteCollectorProxy;
+use Symfony\Component\Dotenv\Dotenv;
 
 require __DIR__.'/../vendor/autoload.php';
-if (false !== stripos($_SERVER['REQUEST_URI'], 'api')) {
+
+(new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
+if (str_starts_with($_SERVER['REQUEST_URI'], '/api')) {
     $app = AppFactory::create();
-    $app->addErrorMiddleware(true, true, true);
-    $repository = new Repository();
-    $app->group('/api', function (RouteCollectorProxy $route) use ($repository) {
+    $app->addRoutingMiddleware();
+    $app->addErrorMiddleware('dev' === $_SERVER['APP_ENV'], true, true);
+
+    $app->group('/api', function (RouteCollectorProxy $route) {
+        $repository = new Repository();
         RouteFactory::addRoutes($route, $repository);
     });
     $app->run();
-} else {
-    $htmlEmitter = new HtmlEmitter();
-    ?>
-    <!DOCTYPE html>
-    <html lang="en">
+    exit;
+}
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Vite App</title>
+$manifestParser = new ManifestParser();
+// frontend requests
+if (str_starts_with($_SERVER['REQUEST_URI'], '/assets')) {
+    $assetUrl = $manifestParser->getAssetUrl($_SERVER['REQUEST_URI']);
+    header('Location: '.$assetUrl);
+    exit;
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
 
-        <?php echo $htmlEmitter->vite('main.js'); ?>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite App</title>
 
-    </head>
+    <?php echo $manifestParser->renderHtmlTags('main.js'); ?>
+</head>
 
-    <body>
-    <div class="vue-app">
-        <div id="app"></div>
-    </div>
+<body>
+<div class="vue-app">
+    <div id="app"></div>
+</div>
 
-    </body>
+</body>
 
-    </html>
-<?php }
+</html>
+

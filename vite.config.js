@@ -26,4 +26,9 @@ export default defineConfig({
       input: path.resolve(__dirname, 'client/main.js'),
     }
   },
+
+  server: {
+    strictPort: true,
+    port: 5173
+  },
 })
