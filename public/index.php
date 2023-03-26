@@ -11,7 +11,6 @@
 
 use DiniTheorie\Instructor\ExamCategory\RouteFactory;
 use DiniTheorie\Instructor\Repository;
-use DiniTheorie\Instructor\Utils\ManifestParser;
 use Slim\Factory\AppFactory;
 use Slim\Routing\RouteCollectorProxy;
 use Symfony\Component\Dotenv\Dotenv;
@@ -32,31 +31,5 @@ if (str_starts_with($_SERVER['REQUEST_URI'], '/api')) {
     exit;
 }
 
-$manifestParser = new ManifestParser();
-// frontend requests
-if (str_starts_with($_SERVER['REQUEST_URI'], '/assets')) {
-    $assetUrl = $manifestParser->getAssetUrl($_SERVER['REQUEST_URI']);
-    header('Location: '.$assetUrl);
-    exit;
-}
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
-
-    <?php echo $manifestParser->renderHtmlTags('main.js'); ?>
-</head>
-
-<body>
-<div class="vue-app">
-    <div id="app"></div>
-</div>
-
-</body>
-
-</html>
-
+// when developing locally, use the server provided by vite
+include 'index.html';
