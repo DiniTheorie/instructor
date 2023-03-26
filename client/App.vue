@@ -1,14 +1,26 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import {RouterLink, RouterView} from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome"
+import {useI18n} from "vue-i18n";
+import {ref} from "vue";
+import {api} from "@/services/api";
+
+const {t} = useI18n()
+
+const categories = ref()
+api.setupErrorNotifications(t)
+api.getExamCategories().then(result => categories.value = result.data)
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125"/>
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <HelloWorld :msg="t('welcome')"/>
+      <FontAwesomeIcon :icon="['fal', 'pencil']"/>
+      {{ categories.join(", ") }}
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
@@ -17,7 +29,7 @@ import HelloWorld from './components/HelloWorld.vue'
     </div>
   </header>
 
-  <RouterView />
+  <RouterView/>
 </template>
 
 <style scoped>

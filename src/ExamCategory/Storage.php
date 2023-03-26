@@ -17,7 +17,6 @@ use Symfony\Component\Yaml\Yaml;
 class Storage
 {
     private Repository $database;
-
     public const QUESTIONS_PATH = Repository::REPO_PATH.'/template/questions';
 
     public function __construct(Repository $database)
@@ -31,7 +30,8 @@ class Storage
 
         $categoryFolders = [];
         foreach ($nodes as $node) {
-            if (!is_dir($node)) {
+            $path = self::QUESTIONS_PATH.'/'.$node;
+            if (!is_dir($path) || in_array($node, ['.', '..'], true)) {
                 continue;
             }
 

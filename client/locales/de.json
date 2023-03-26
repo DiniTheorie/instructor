@@ -1,3 +1,6 @@
 {
-  "welcome": "Hallo"
+  "welcome": "Hallo",
+  "_api": {
+    "request_failed": "Serveraufruf fehlgeschlagen"
+  }
 }

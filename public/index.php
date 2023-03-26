@@ -18,6 +18,11 @@ use Symfony\Component\Dotenv\Dotenv;
 require __DIR__.'/../vendor/autoload.php';
 
 (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
+$isDevMode = 'dev' === $_SERVER['APP_ENV'];
+if ($isDevMode) {
+    header('Access-Control-Allow-Origin: *');
+}
+
 if (str_starts_with($_SERVER['REQUEST_URI'], '/api')) {
     $app = AppFactory::create();
     $app->addRoutingMiddleware();
@@ -29,7 +34,9 @@ if (str_starts_with($_SERVER['REQUEST_URI'], '/api')) {
     });
     $app->run();
     exit;
+} elseif ($isDevMode) {
+    // when developing locally, use the server provided by vite
+    header('Location: http://localhost:5173/');
 }
 
-// when developing locally, use the server provided by vite
 include 'index.html';

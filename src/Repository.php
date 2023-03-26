@@ -20,7 +20,9 @@ class Repository
      */
     public function __construct()
     {
-        $this->setup();
+        if ('dev' !== $_SERVER['APP_ENV']) {
+            $this->setup();
+        }
     }
 
     /**
