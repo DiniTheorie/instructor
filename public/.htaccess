@@ -25,8 +25,10 @@ DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteCond %{REQUEST_FILENAME} !-f # serve existing files
-    RewriteRule ^ index.php [QSA,L] # redirect all else to the index.php
+     # serve existing files
+    RewriteCond %{REQUEST_FILENAME} !-f
+     # redirect all else to the index.php
+    RewriteRule ^ index.php [QSA,L]
 </IfModule>
 
 # Serve resources with the proper media types (f.k.a. MIME types).

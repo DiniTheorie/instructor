@@ -4,7 +4,7 @@ agnes:
 config:
   path: .agnes
   repository:
-    url: git@gitlab.com:DiniTheorie/instructor-agnes.git
+    url: git@github.com:DiniTheorie/instructor-agnes.git
 
 build:
   path: .build
@@ -20,7 +20,7 @@ data:
   files:
     - path: .env.local
       required: true
-    - path: htpasswd
+    - path: .htpasswd
       required: true
 
 scripts:
@@ -31,6 +31,11 @@ scripts:
       - 'npm install'
       - 'npm run build'
       - 'rm -rf node_modules'
+
+  deploy:
+    hook: deploy
+    script:
+      - 'realpath .htpasswd | (printf "AuthUserFile " && cat) >> public/.htaccess'
 
 tasks:
   deploy_after_release:
