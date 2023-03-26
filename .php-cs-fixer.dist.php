@@ -10,7 +10,7 @@ file that was distributed with this source code.
 COMMENT;
 
 $finder = PhpCsFixer\Finder::create()
-    ->in('client')
+    ->in('src')
     ->in('public');
 
 $config = new PhpCsFixer\Config();
