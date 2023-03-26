@@ -15,61 +15,63 @@ use DiniTheorie\Instructor\Repository;
 use DiniTheorie\Instructor\Utils\SlimExtensions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\App;
+use Slim\Routing\RouteCollectorProxy;
 
 class RouteFactory
 {
-    public static function addRoutes(App $app, Repository $repository): void
+    public static function addRoutes(RouteCollectorProxy $route, Repository $repository): void
     {
         $storage = new Storage($repository);
 
-        $app->get('/exam/categories', function (Request $request, Response $response, array $args) use ($storage) {
-            $categories = $storage->getCategories();
+        $route->group('/exam', function (RouteCollectorProxy $route) use ($storage) {
+            $route->get('/categories', function (Request $request, Response $response, array $args) use ($storage) {
+                $categories = $storage->getCategories();
 
-            return SlimExtensions::createJsonResponse($response, $categories);
-        });
+                return SlimExtensions::createJsonResponse($response, $categories);
+            });
 
-        $app->get('/exam/category/{id}', function (Request $request, Response $response, array $args) use ($storage) {
-            $categoryId = $args['id'];
-            RequestValidator::validateCategoryId($request, $storage, $categoryId);
+            $route->get('/category/{id}', function (Request $request, Response $response, array $args) use ($storage) {
+                $categoryId = $args['id'];
+                RequestValidator::validateCategoryId($request, $storage, $categoryId);
 
-            $category = $storage->getCategory($categoryId);
+                $category = $storage->getCategory($categoryId);
 
-            return SlimExtensions::createJsonResponse($response, $category);
-        });
+                return SlimExtensions::createJsonResponse($response, $category);
+            });
 
-        $app->post('/exam/category', function (Request $request, Response $response, array $args) use ($storage) {
-            $category = SlimExtensions::parseJsonRequestBody($request);
-            RequestValidator::validateCategory($request, $category);
-            RequestValidator::validateNewCategoryId($request, $storage, $category['id']);
+            $route->post('/category', function (Request $request, Response $response, array $args) use ($storage) {
+                $category = SlimExtensions::parseJsonRequestBody($request);
+                RequestValidator::validateCategory($request, $category);
+                RequestValidator::validateNewCategoryId($request, $storage, $category['id']);
 
-            $storage->addCategory($category);
+                $storage->addCategory($category);
 
-            $category = $storage->getCategory($category['id']);
+                $category = $storage->getCategory($category['id']);
 
-            return SlimExtensions::createJsonResponse($response, $category, SlimExtensions::STATUS_CREATED);
-        });
+                return SlimExtensions::createJsonResponse($response, $category, SlimExtensions::STATUS_CREATED);
+            });
 
-        $app->put('/exam/category/{id}', function (Request $request, Response $response, array $args) use ($storage) {
-            $categoryId = $args['id'];
-            $category = SlimExtensions::parseJsonRequestBody($request);
-            RequestValidator::validateCategoryId($request, $storage, $categoryId);
-            RequestValidator::validateCategory($request, $category);
+            $route->put('/category/{id}', function (Request $request, Response $response, array $args) use ($storage) {
+                $categoryId = $args['id'];
+                $category = SlimExtensions::parseJsonRequestBody($request);
+                RequestValidator::validateCategoryId($request, $storage, $categoryId);
+                RequestValidator::validateCategory($request, $category);
 
-            $storage->storeCategory($categoryId, $category);
+                $storage->storeCategory($categoryId, $category);
 
-            $category = $storage->getCategory($category['id']);
+                $category = $storage->getCategory($category['id']);
 
-            return SlimExtensions::createJsonResponse($response, $category);
-        });
+                return SlimExtensions::createJsonResponse($response, $category);
+            });
 
-        $app->delete('/exam/category/{id}', function (Request $request, Response $response, array $args) use ($storage) {
-            $categoryId = $args['id'];
-            RequestValidator::validateCategoryId($request, $storage, $categoryId);
+            $route->delete('/category/{id}', function (Request $request, Response $response, array $args) use ($storage) {
+                $categoryId = $args['id'];
+                RequestValidator::validateCategoryId($request, $storage, $categoryId);
 
-            $storage->removeCategory($categoryId);
+                $storage->removeCategory($categoryId);
 
-            return $response->withStatus(SlimExtensions::STATUS_OK);
+                return $response->withStatus(SlimExtensions::STATUS_OK);
+            });
         });
     }
 }

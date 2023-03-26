@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the DiniTheorie project.
  *
@@ -8,46 +9,42 @@
  * file that was distributed with this source code.
  */
 
+use DiniTheorie\Instructor\ExamCategory\RouteFactory;
 use DiniTheorie\Instructor\Repository;
-use DiniTheorie\Instructor\utils\SlimExtensions;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use DiniTheorie\Instructor\Utils\HtmlEmitter;
 use Slim\Factory\AppFactory;
+use Slim\Routing\RouteCollectorProxy;
 
 require __DIR__.'/../vendor/autoload.php';
-$app = AppFactory::create();
-$repository = new Repository();
-$app->get('/', function (Request $request, Response $response, array $args) {
-    return SlimExtensions::createHTMLResponse($response, 'index.html');
-});
-// RouteFactory::addRoutes($app, $repository);
-$app->run();
+if (false !== stripos($_SERVER['REQUEST_URI'], 'api')) {
+    $app = AppFactory::create();
+    $app->addErrorMiddleware(true, true, true);
+    $repository = new Repository();
+    $app->group('/api', function (RouteCollectorProxy $route) use ($repository) {
+        RouteFactory::addRoutes($route, $repository);
+    });
+    $app->run();
+} else {
+    $htmlEmitter = new HtmlEmitter();
+    ?>
+    <!DOCTYPE html>
+    <html lang="en">
 
-// This would be your framework default bootstrap file
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Vite App</title>
 
-// During dev, this file would be hit when accessing your local host, like:
-// http://vite-php-setup.test
+        <?php echo $htmlEmitter->vite('main.js'); ?>
 
-require_once __DIR__.'/helper.php';
+    </head>
 
-?>
-<!DOCTYPE html>
-<html lang="en">
+    <body>
+    <div class="vue-app">
+        <div id="app"></div>
+    </div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
+    </body>
 
-    <?php echo vite('main.js'); ?>
-
-</head>
-
-<body>
-<div class="vue-app">
-    <div id="app"></div>
-</div>
-
-</body>
-
-</html>
+    </html>
+<?php }
