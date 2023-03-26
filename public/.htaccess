@@ -1,8 +1,7 @@
-
-
-
-
-
+AuthType Basic
+AuthName "Passwortgeschützter Bereich"
+AuthUserFile /absolute/path/.htpasswd
+Require valid-user
 
 
 # Use the front controller as index file. It serves as a fallback solution when
