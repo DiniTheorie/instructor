@@ -3,8 +3,12 @@ import {displayError} from './notifiers'
 
 const validImageTypes = ['image/jpeg', 'image/png', 'image/gif']
 
+if (window.location.hostname === 'localhost') {
+  axios.defaults.baseURL = 'https://localhost:8000'
+}
+
 const api = {
-  setupErrorNotifications: function (translator) {
+  setup: function (translator) {
     axios.interceptors.response.use(
       response => {
         return response
@@ -37,7 +41,7 @@ const api = {
     )
   },
   getExamCategories: function () {
-    return axios.get('https://localhost:8000/api/exam/categories')
+    return axios.get('/api/exam/categories')
   },
 }
 

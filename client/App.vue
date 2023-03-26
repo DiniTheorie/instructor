@@ -9,7 +9,7 @@ import {api} from "@/services/api";
 const {t} = useI18n()
 
 const categories = ref()
-api.setupErrorNotifications(t)
+api.setup(t)
 api.getExamCategories().then(result => categories.value = result.data)
 </script>
 
