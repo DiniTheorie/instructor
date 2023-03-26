@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace DiniTheorie\Instructor\utils;
+namespace DiniTheorie\Instructor\Utils;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

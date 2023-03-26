@@ -11,7 +11,7 @@
 
 namespace DiniTheorie\Instructor\ExamCategory;
 
-use DiniTheorie\Instructor\utils\RequestValidatorExtensions;
+use DiniTheorie\Instructor\Utils\RequestValidatorExtensions;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;

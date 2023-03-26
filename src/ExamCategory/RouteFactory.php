@@ -12,7 +12,7 @@
 namespace DiniTheorie\Instructor\ExamCategory;
 
 use DiniTheorie\Instructor\Repository;
-use DiniTheorie\Instructor\utils\SlimExtensions;
+use DiniTheorie\Instructor\Utils\SlimExtensions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
