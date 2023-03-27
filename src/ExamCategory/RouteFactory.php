@@ -24,7 +24,7 @@ class RouteFactory
         $storage = new Storage($repository);
 
         $route->group('/exam', function (RouteCollectorProxy $route) use ($storage) {
-            $route->get('/categories', function (Request $request, Response $response, array $args) use ($storage) {
+            $route->get('/categoryIds', function (Request $request, Response $response, array $args) use ($storage) {
                 $categories = $storage->getCategories();
 
                 return SlimExtensions::createJsonResponse($response, $categories);

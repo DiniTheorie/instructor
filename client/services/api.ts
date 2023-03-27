@@ -1,14 +1,11 @@
 import axios from 'axios'
 import { displayError } from './notifiers'
+import type { ExamCategory } from '@/components/domain/exam/types'
 
 const validImageTypes = ['image/jpeg', 'image/png', 'image/gif']
 
 if (window.location.hostname === 'localhost') {
   axios.defaults.baseURL = 'https://localhost:8000'
-}
-
-export type ExamCategory = {
-  id: string
 }
 
 const api = {
@@ -44,9 +41,13 @@ const api = {
       }
     )
   },
-  getExamCategories: async function (): Promise<ExamCategory[]> {
-    const result = await axios.get('/api/exam/categories')
-    return result.data as ExamCategory[]
+  getExamCategoryIds: async function () {
+    const result = await axios.get('/api/exam/categoryIds')
+    return result.data as string[]
+  },
+  getExamCategory: async function (id: string) {
+    const result = await axios.get('/api/exam/category/' + id)
+    return result.data as ExamCategory
   }
 }
 

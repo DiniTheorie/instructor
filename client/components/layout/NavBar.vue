@@ -8,7 +8,7 @@ const emit = defineEmits<{
 
 const props = defineProps<{ language: string }>()
 const language = ref(props.language)
-const supportedLanguages = ['de', 'en', 'fr', 'it']
+const supportedLanguages: string[] = ['de', 'en', 'fr', 'it']
 
 watchEffect(() => {
   emit('languageChanged', language.value)
@@ -20,7 +20,10 @@ const { t } = useI18n()
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light mt-0">
     <div class="container">
-      <RouterLink class="navbar-brand" to="/">{{ t('page.home.title') }}</RouterLink>
+      <div class="navbar-brand">
+        <img alt="DiniTheorie logo" class="me-2" src="@/assets/logo.png" width="25" height="25" />
+        <RouterLink to="/">{{ t('page.home.title') }}</RouterLink>
+      </div>
       <button
         class="navbar-toggler"
         type="button"

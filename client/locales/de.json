@@ -1,6 +1,5 @@
 {
-  "welcome": "Hallo",
-  "_api": {
+  "api": {
     "request_failed": "Serveraufruf fehlgeschlagen"
   },
   "layout": {
@@ -10,7 +9,8 @@
   },
   "page": {
     "home": {
-      "title": "Instruktor"
+      "title": "Instruktor",
+      "exam_categories": "Prüfungsfragen Kategorien"
     }
   },
   "domain": {

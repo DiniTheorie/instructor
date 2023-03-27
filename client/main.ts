@@ -13,10 +13,9 @@ FontawesomeLibrary.add(faPlus, faPencil, faTrash)
 // configure locale
 const locale = document.documentElement.lang.substr(0, 2)
 
-// Type-define 'en-US' as the master schema for the resource
 type MessageSchema = typeof de
 const i18n = createI18n<[MessageSchema], 'de'>({
-  locale,
+  locale: 'de',
   fallbackLocale: 'de',
   messages: {
     de
