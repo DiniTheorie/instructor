@@ -2,5 +2,23 @@
   "welcome": "Hallo",
   "_api": {
     "request_failed": "Serveraufruf fehlgeschlagen"
+  },
+  "layout": {
+    "nav_bar": {
+      "language": "Sprache"
+    }
+  },
+  "page": {
+    "home": {
+      "title": "Instruktor"
+    }
+  },
+  "domain": {
+    "supported_language": {
+      "de": "Deutsch",
+      "en": "Englisch",
+      "fr": "Französisch",
+      "it": "Italienisch"
+    }
   }
 }

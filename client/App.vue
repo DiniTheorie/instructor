@@ -5,8 +5,11 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome"
 import {useI18n} from "vue-i18n";
 import {ref} from "vue";
 import {api} from "@/services/api";
+import NavBar from "@/components/layout/NavBar.vue";
 
 const {t} = useI18n()
+
+const language = ref('de')
 
 const categories = ref()
 api.setup(t)
@@ -14,22 +17,26 @@ api.getExamCategories().then(result => categories.value = result.data)
 </script>
 
 <template>
-  <header>
+  <NavBar language="de" @language-changed="language = $event"/>
+
+  <div class="container">
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125"/>
 
+    {{ language }}
     <div class="wrapper">
       <HelloWorld :msg="t('welcome')"/>
       <FontAwesomeIcon :icon="['fal', 'pencil']"/>
-      {{ categories.join(", ") }}
+      {{ categories?.join(", ") }}
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>
-  </header>
 
-  <RouterView/>
+    <RouterView/>
+  </div>
+
 </template>
 
 <style scoped>
