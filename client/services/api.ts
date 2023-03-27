@@ -7,7 +7,7 @@ if (window.location.hostname === 'localhost') {
   axios.defaults.baseURL = 'https://localhost:8000'
 }
 
-type ExamCategory = {
+export type ExamCategory = {
   id: string
 }
 

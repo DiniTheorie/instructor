@@ -3,14 +3,14 @@ import { RouterLink, RouterView } from 'vue-router'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
-import { api } from './services/api.js'
+import { api, ExamCategory } from './services/api.js'
 import NavBar from '@/components/layout/NavBar.vue'
 
 const { t } = useI18n()
 
 const language = ref('de')
 
-const categories = ref()
+const categories = ref<ExamCategory[]>()
 api.setup(t)
 api.getExamCategories().then((result) => (categories.value = result))
 </script>

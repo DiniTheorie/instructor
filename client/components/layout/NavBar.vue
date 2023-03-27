@@ -43,7 +43,7 @@ const { t } = useI18n()
             id="language-select"
             aria-label="Default select example"
           >
-            <option v-for="language in supportedLanguages" :value="language">
+            <option v-for="language in supportedLanguages" :key="language" :value="language">
               {{ t('domain.supported_language.' + language) }}
             </option>
           </select>
