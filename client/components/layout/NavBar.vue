@@ -1,17 +1,14 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useSettingsStore } from '@/stores/localeStore'
 
-const emit = defineEmits<{
-  (e: 'languageChanged', language: string): void
-}>()
+const language = ref('en')
+const supportedLanguages: string[] = ['en', 'fr', 'it']
 
-const props = defineProps<{ language: string }>()
-const language = ref(props.language)
-const supportedLanguages: string[] = ['de', 'en', 'fr', 'it']
-
+const settings = useSettingsStore()
 watchEffect(() => {
-  emit('languageChanged', language.value)
+  settings.setTranslationLanguage(language.value)
 })
 
 const { t } = useI18n()
