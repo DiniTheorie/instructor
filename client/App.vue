@@ -1,32 +1,32 @@
 <script setup>
-import {RouterLink, RouterView} from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome"
-import {useI18n} from "vue-i18n";
-import {ref} from "vue";
-import {api} from "@/services/api";
-import NavBar from "@/components/layout/NavBar.vue";
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { useI18n } from 'vue-i18n'
+import { ref } from 'vue'
+import { api } from '@/services/api'
+import NavBar from '@/components/layout/NavBar.vue'
 
-const {t} = useI18n()
+const { t } = useI18n()
 
 const language = ref('de')
 
 const categories = ref()
 api.setup(t)
-api.getExamCategories().then(result => categories.value = result.data)
+api.getExamCategories().then((result) => (categories.value = result.data))
 </script>
 
 <template>
-  <NavBar language="de" @language-changed="language = $event"/>
+  <NavBar language="de" @language-changed="language = $event" />
 
   <div class="container">
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125"/>
+    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     {{ language }}
     <div class="wrapper">
-      <HelloWorld :msg="t('welcome')"/>
-      <FontAwesomeIcon :icon="['fal', 'pencil']"/>
-      {{ categories?.join(", ") }}
+      <HelloWorld :msg="t('welcome')" />
+      <FontAwesomeIcon :icon="['fal', 'pencil']" />
+      {{ categories?.join(', ') }}
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
@@ -34,9 +34,8 @@ api.getExamCategories().then(result => categories.value = result.data)
       </nav>
     </div>
 
-    <RouterView/>
+    <RouterView />
   </div>
-
 </template>
 
 <style scoped>

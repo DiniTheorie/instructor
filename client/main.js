@@ -1,16 +1,14 @@
-import {createApp} from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import de from './locales/de.json'
-import {library as FontawesomeLibrary} from '@fortawesome/fontawesome-svg-core'
-import {faPencil, faPlus, faTrash,} from '@fortawesome/pro-light-svg-icons'
+import { library as FontawesomeLibrary } from '@fortawesome/fontawesome-svg-core'
+import { faPencil, faPlus, faTrash } from '@fortawesome/pro-light-svg-icons'
 import './assets/main.scss'
-import {createI18n} from "vue-i18n";
-import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import { createI18n } from 'vue-i18n'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-FontawesomeLibrary.add(
-  faPlus, faPencil, faTrash
-)
+FontawesomeLibrary.add(faPlus, faPencil, faTrash)
 
 // configure locale
 const locale = document.documentElement.lang.substr(0, 2)

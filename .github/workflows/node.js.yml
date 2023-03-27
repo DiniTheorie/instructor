@@ -30,8 +30,14 @@ jobs:
           npm config set "//npm.fontawesome.com/:_authToken" $FONTAWESOME_AUTH_TOKEN
           npm install
 
+      - name: Check dependencies
+        run: npm audit --groups dependencies
+
       - name: Build
         run: npm run build
 
-      - name: Check dependencies
-        run: npm audit --groups dependencies
+      - name: Lint
+        run: npm run lint:check
+
+      - name: Format
+        run: npm run format:check

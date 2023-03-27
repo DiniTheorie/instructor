@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint client --ext .vue,.js --fix --ignore-path .gitignore",
-    "format": "prettier --write client"
+    "lint": "eslint client --ext .vue,.js --fix",
+    "lint:check": "eslint client --ext .vue,.js",
+    "format": "prettier --write client",
+    "format:check": "prettier --check client"
   },
   "dependencies": {
     "@fortawesome/fontawesome-pro": "^6.3.0",

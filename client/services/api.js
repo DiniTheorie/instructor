@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {displayError} from './notifiers'
+import { displayError } from './notifiers'
 
 const validImageTypes = ['image/jpeg', 'image/png', 'image/gif']
 
@@ -10,10 +10,10 @@ if (window.location.hostname === 'localhost') {
 const api = {
   setup: function (translator) {
     axios.interceptors.response.use(
-      response => {
+      (response) => {
         return response
       },
-      error => {
+      (error) => {
         /* eslint-disable-next-line eqeqeq */
         if (error == 'Error: Request aborted') {
           // hide aborted errors (happens when navigating rapidly in firefox)
@@ -42,7 +42,7 @@ const api = {
   },
   getExamCategories: function () {
     return axios.get('/api/exam/categories')
-  },
+  }
 }
 
-export {api, validImageTypes}
+export { api, validImageTypes }
