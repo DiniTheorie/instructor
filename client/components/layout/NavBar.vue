@@ -1,13 +1,12 @@
-<script setup>
-import { RouterLink } from 'vue-router'
-import { useI18n } from 'vue-i18n'
+<script setup lang="ts">
 import { ref, watchEffect } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const emit = defineEmits(['languageChanged'])
+const emit = defineEmits<{
+  (e: 'languageChanged', language: string): void
+}>()
 
-const props = defineProps({
-  language: { type: String, required: true }
-})
+const props = defineProps<{ language: string }>()
 const language = ref(props.language)
 const supportedLanguages = ['de', 'en', 'fr', 'it']
 

@@ -1,10 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
-import { api } from '@/services/api'
+import { api } from './services/api.js'
 import NavBar from '@/components/layout/NavBar.vue'
 
 const { t } = useI18n()
@@ -13,7 +12,7 @@ const language = ref('de')
 
 const categories = ref()
 api.setup(t)
-api.getExamCategories().then((result) => (categories.value = result.data))
+api.getExamCategories().then((result) => (categories.value = result))
 </script>
 
 <template>
@@ -24,7 +23,6 @@ api.getExamCategories().then((result) => (categories.value = result.data))
 
     {{ language }}
     <div class="wrapper">
-      <HelloWorld :msg="t('welcome')" />
       <FontAwesomeIcon :icon="['fal', 'pencil']" />
       {{ categories?.join(', ') }}
 

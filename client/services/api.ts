@@ -7,8 +7,12 @@ if (window.location.hostname === 'localhost') {
   axios.defaults.baseURL = 'https://localhost:8000'
 }
 
+type ExamCategory = {
+  id: string
+}
+
 const api = {
-  setup: function (translator) {
+  setup: function (translator: (label: string) => string) {
     axios.interceptors.response.use(
       (response) => {
         return response
@@ -40,8 +44,9 @@ const api = {
       }
     )
   },
-  getExamCategories: function () {
-    return axios.get('/api/exam/categories')
+  getExamCategories: async function (): Promise<ExamCategory[]> {
+    const result = await axios.get('/api/exam/categories')
+    return result.data as ExamCategory[]
   }
 }
 

@@ -12,7 +12,10 @@ FontawesomeLibrary.add(faPlus, faPencil, faTrash)
 
 // configure locale
 const locale = document.documentElement.lang.substr(0, 2)
-const i18n = createI18n({
+
+// Type-define 'en-US' as the master schema for the resource
+type MessageSchema = typeof de
+const i18n = createI18n<[MessageSchema], 'de'>({
   locale,
   fallbackLocale: 'de',
   messages: {
@@ -21,8 +24,6 @@ const i18n = createI18n({
 })
 
 const app = createApp(App)
-
-app.config.productionTip = false
 
 app.use(router)
 app.use(i18n)

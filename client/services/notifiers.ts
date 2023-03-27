@@ -5,14 +5,14 @@ Noty.overrideDefaults({
   type: 'success'
 })
 
-const displaySuccess = function (successMessage) {
+const displaySuccess = function (successMessage: string) {
   new Noty({
     text: successMessage,
     timeout: 2000
   }).show()
 }
 
-const displayWarning = function (warningMessage) {
+const displayWarning = function (warningMessage: string) {
   new Noty({
     text: warningMessage,
     type: 'warning',
@@ -20,7 +20,7 @@ const displayWarning = function (warningMessage) {
   }).show()
 }
 
-const displayError = function (errorMessage) {
+const displayError = function (errorMessage: string) {
   new Noty({
     text: errorMessage,
     type: 'error',

@@ -41,6 +41,7 @@
         "echo committing as $(git config user.name)",
         "./vendor/bin/php-cs-fixer fix",
         "npm run lint",
+        "npm run format",
         "git update-index --again"
       ],
       "post-merge": [

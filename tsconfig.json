@@ -1,0 +1,22 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "include": ["env.d.ts", "client/**/*", "client/**/*.vue"],
+  "compilerOptions": {
+    "target": "es5",
+    "ignoreDeprecations": "5.0",
+    "lib": [
+      "es5",
+      "dom",
+      "es2015.promise"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./client/*"]
+    }
+  },
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}
