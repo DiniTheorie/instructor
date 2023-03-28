@@ -39,12 +39,14 @@ class Repository
     /**
      * @throws \Exception
      */
-    private function executeRepositoryCommand(string $command): void
+    private function executeRepositoryCommand(string $command): ?array
     {
         exec('cd '.self::REPO_PATH.' && '.$command, $output, $result);
         if ($result > 0) {
             throw new \Exception('repository command execution failed: '.join(', ', $output));
         }
+
+        return $output;
     }
 
     /**
@@ -65,8 +67,11 @@ class Repository
      */
     public function store(): void
     {
-        $this->executeRepositoryCommand('git add -A');
-        $this->executeRepositoryCommand('git commit -m "instructor: Store"');
-        $this->executeRepositoryCommand('git push');
+        $output = $this->executeRepositoryCommand('git status --porcelain');
+        if ($output) {
+            $this->executeRepositoryCommand('git add -A');
+            $this->executeRepositoryCommand('git commit -m "instructor: Store" --author="Automation <automation@instructor.dinitheorie.ch>"');
+            $this->executeRepositoryCommand('git push');
+        }
     }
 }

@@ -16,13 +16,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class Storage
 {
-    private Repository $database;
     public const QUESTIONS_PATH = Repository::REPO_PATH.'/template/questions';
-
-    public function __construct(Repository $database)
-    {
-        $this->database = $database;
-    }
 
     public function getCategories(): array
     {
@@ -105,7 +99,5 @@ class Storage
             $filePath = $path.'/introduction.'.$language.'.yml';
             file_put_contents($filePath, $content);
         }
-
-        $this->database->store();
     }
 }

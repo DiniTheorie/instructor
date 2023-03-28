@@ -1,10 +1,17 @@
 {
-  "api": {
-    "request_failed": "Serveraufruf fehlgeschlagen"
+  "service": {
+    "api": {
+      "published": "Änderungen publiziert",
+      "created": "Erfolgreich erstellt",
+      "stored": "Änderungen gespeichert",
+      "removed": "Erfolgreich entfernt",
+      "request_failed": "Serveraufruf fehlgeschlagen"
+    }
   },
   "layout": {
     "nav_bar": {
-      "language": "Sprache"
+      "publish_changes": "Änderungen publizieren",
+      "translation_language": "Übersetzung"
     }
   },
   "page": {
@@ -13,7 +20,18 @@
       "exam_categories": "Prüfungsfragen Kategorien"
     }
   },
+  "components": {
+    "shared": {
+      "store": "Speichern"
+    }
+  },
   "domain": {
+    "exam": {
+      "category": {
+        "name": "Name",
+        "description": "Beschreibung"
+      }
+    },
     "supported_language": {
       "de": "Deutsch",
       "en": "Englisch",
