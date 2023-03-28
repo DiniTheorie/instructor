@@ -6,8 +6,9 @@ import type { ExamCategory } from '@/components/domain/Category'
 import CategoryEdit from '@/components/action/CategoryEdit.vue'
 import { routes } from '@/router'
 import BackButton from '@/components/layout/BackButton.vue'
-import QuestionLinkList from '@/components/view/QuestionIdList.vue'
 import { useI18n } from 'vue-i18n'
+import CategoryRemove from '@/components/action/CategoryRemove.vue'
+import IdList from '@/components/view/IdList.vue'
 
 const params = useRoute()
 const router = useRouter()
@@ -15,14 +16,6 @@ const categoryId = params.params.id as string
 
 const category = ref<ExamCategory>()
 api.exam.category.get(categoryId).then((result) => (category.value = result))
-
-const storeCategory = async (changedCategory: ExamCategory) => {
-  category.value = await api.exam.category.put(changedCategory)
-}
-const removeCategory = async () => {
-  await api.exam.category.delete(categoryId)
-  await router.push({ name: routes.home })
-}
 
 const toQuestion = (id: string) => {
   router.push({ name: routes.categoryQuestion, params: { categoryId: categoryId, id } })
@@ -36,9 +29,12 @@ const { t } = useI18n()
 
 <template>
   <BackButton />
-  <h2>{{ categoryId }}</h2>
-  <CategoryEdit v-if="category" :category="category" :store="storeCategory" :remove="removeCategory" />
+  <CategoryEdit v-if="category" :category="category" @updated="category = $event" />
 
   <h3 class="mt-5">{{ t('domain.exam.category.questions') }}</h3>
-  <QuestionLinkList :question-ids="questionIds" @click="toQuestion" />
+  <IdList class="mt-1" v-if="questionIds" size="2" :ids="questionIds" @click="toQuestion" />
+
+  <div class="mt-5 mb-5">
+    <CategoryRemove v-if="category" :category="category" @removed="router.push({ name: routes.home })" />
+  </div>
 </template>

@@ -11,7 +11,7 @@ const lastMouseDownEvent = ref<MouseEvent>()
 const mouseUpOutside = (event: MouseEvent) => {
   let lastEvent = lastMouseDownEvent.value
   if (!lastEvent) {
-    this.$emit('hide')
+    emit('hide')
     return
   }
 
@@ -19,7 +19,7 @@ const mouseUpOutside = (event: MouseEvent) => {
   const diffY = Math.abs(event.pageY - lastEvent.pageY)
 
   if (diffX < 10 && diffY < 10) {
-    this.$emit('hide')
+    emit('hide')
   }
 }
 </script>
@@ -42,6 +42,6 @@ const mouseUpOutside = (event: MouseEvent) => {
         </div>
       </div>
     </div>
-    <div class="modal-backdrop show"></div>
+    <div class="modal-backdrop show" @click="emit('hide')"></div>
   </div>
 </template>

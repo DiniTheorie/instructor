@@ -29,6 +29,9 @@
     "action": {
       "category_create": {
         "id_help": "Darf nur einmalig vorkommen und muss aus a-z A-Z 0-9 bestehen (kein äöü oder sonst Komisches). Nicht mehr änderbar!"
+      },
+      "category_remove": {
+        "remove_all": "Kategorie und Fragen entfernen"
       }
     },
     "exam": {
@@ -48,6 +51,7 @@
         "id": "Id",
         "name": "Name",
         "description": "Beschreibung",
+        "translations": "Übersetzungen",
         "questions": "Fragen"
       }
     },

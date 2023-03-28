@@ -7,7 +7,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <p class="mb-0 mt-4">
+  <p class="mb-4 mt-4">
     <RouterLink v-if="!empty" to="/">
       <FontAwesomeIcon size="2xs" :icon="['fal', 'chevron-left']" />
       {{ t('layout.back_button.go_back') }}
