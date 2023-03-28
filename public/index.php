@@ -35,7 +35,9 @@ if ($isDevMode) {
 if (str_starts_with($_SERVER['REQUEST_URI'], '/api')) {
     $app = AppFactory::create();
     $app->addRoutingMiddleware();
-    $app->addErrorMiddleware('dev' === $_SERVER['APP_ENV'], true, true);
+
+    // display error details always, as frontend validation only bare-bones
+    $app->addErrorMiddleware(true, true, true);
 
     $app->group('/api', function (RouteCollectorProxy $route) {
         $repository = new Repository();

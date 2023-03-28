@@ -23,5 +23,5 @@ api.exam.category.getIds().then((result) => (categoryIds.value = result))
   <BackButton empty />
   <h2>{{ t('page.home.exam_categories') }}</h2>
   <CategoryCreate @created="(category) => toCategory(category.id)" />
-  <CategoryLinkList v-if="categoryIds" :category-ids="categoryIds" @click="toCategory" />
+  <CategoryLinkList class="mt-1" v-if="categoryIds" :category-ids="categoryIds" @click="toCategory" />
 </template>

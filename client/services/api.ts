@@ -41,15 +41,13 @@ const api = {
         let errorText = error
         if (error.response) {
           const response = error.response
-          errorText = response.status
-          if (response.data && response.data.detail) {
-            errorText += ': ' + response.data.detail
-          } else if (response.statusText) {
-            errorText += ': ' + response.statusText
+          errorText = '(' + response.status + ' ' + response.statusText + ')'
+          if (response.data && response.data.exception && response.data.exception[0].message) {
+            errorText += ': ' + response.data.exception[0].message
           }
         }
 
-        const errorMessage = translator('service.api.request_failed') + ' (' + errorText + ')'
+        const errorMessage = translator('service.api.request_failed') + ' ' + errorText
         displayError(errorMessage)
 
         return Promise.reject(error)

@@ -26,6 +26,11 @@
     }
   },
   "components": {
+    "action": {
+      "category_create": {
+        "id_help": "Darf nur einmalig vorkommen und muss aus a-z A-Z 0-9 bestehen (kein äöü oder sonst Komisches). Nicht mehr änderbar!"
+      }
+    },
     "exam": {
       "category": {
         "create": "Kategorie hinzufügen"
