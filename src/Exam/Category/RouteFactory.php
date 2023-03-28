@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace DiniTheorie\Instructor\ExamCategory;
+namespace DiniTheorie\Instructor\Exam\Category;
 
 use DiniTheorie\Instructor\Utils\SlimExtensions;
 use Psr\Http\Message\ResponseInterface as Response;

@@ -74,4 +74,12 @@ class Repository
             $this->executeRepositoryCommand('git push');
         }
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function resetHard(): void
+    {
+        $this->executeRepositoryCommand('git reset HEAD --hard');
+    }
 }

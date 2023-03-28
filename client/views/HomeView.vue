@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { routes } from '@/router'
 import CategoryLinkList from '@/components/domain/exam/CategoryLinkList.vue'
+import BackButton from '@/components/layout/BackButton.vue'
 
 const { t } = useI18n()
 
@@ -14,11 +15,11 @@ const toCategory = (id: string) => {
 }
 
 const categoryIds = ref<string[]>()
-api.getExamCategoryIds().then((result) => (categoryIds.value = result))
+api.exam.category.getIds().then((result) => (categoryIds.value = result))
 </script>
 
 <template>
-  <FontAwesomeIcon :icon="['fal', 'pencil']" />
+  <BackButton empty />
   <h2>{{ t('page.home.exam_categories') }}</h2>
   <CategoryLinkList v-if="categoryIds" :category-ids="categoryIds" @click="toCategory" />
 </template>

@@ -13,8 +13,14 @@ watchEffect(() => {
   settings.setTranslationLanguage(language.value)
 })
 
-const publishChanges = () => {
-  return api.store()
+const publishChanges = async () => {
+  await api.store()
+}
+const discardChanges = async () => {
+  if (window.confirm(t('layout.nav_bar.discard_changes_confirm'))) {
+    await api.discard()
+    window.location.reload()
+  }
 }
 
 const { t } = useI18n()
@@ -39,7 +45,10 @@ const { t } = useI18n()
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <SubmitButton class="ms-auto" :submit="publishChanges">{{ t('layout.nav_bar.publish_changes') }}</SubmitButton>
+        <div class="btn-group ms-auto">
+          <SubmitButton :submit="publishChanges">{{ t('layout.nav_bar.publish_changes') }}</SubmitButton>
+          <SubmitButton class="btn-danger" :submit="discardChanges">{{ t('layout.nav_bar.discard_changes') }}</SubmitButton>
+        </div>
         <form class="d-flex ms-4">
           <label class="col-form-label me-2" for="language-select">{{ t('layout.nav_bar.translation_language') }}</label>
           <select class="form-select" v-model="language" id="language-select" aria-label="Default select example">

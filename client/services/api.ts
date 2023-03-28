@@ -12,7 +12,6 @@ const api = {
   setup: function (translator: (label: string) => string) {
     axios.interceptors.response.use(
       (response) => {
-        console.log(response)
         if (response.config.url.endsWith('/publish')) {
           const message = translator('service.api.published')
           displaySuccess(message)
@@ -59,17 +58,27 @@ const api = {
   store: function () {
     return axios.post('/api/publish')
   },
-  getExamCategoryIds: async function () {
-    const result = await axios.get('/api/exam/categoryIds')
-    return result.data as string[]
+  discard: function () {
+    return axios.post('/api/discard')
   },
-  getExamCategory: async function (id: string) {
-    const result = await axios.get('/api/exam/category/' + id)
-    return result.data as ExamCategory
-  },
-  putExamCategory: async function (category: ExamCategory) {
-    const result = await axios.put('/api/exam/category/' + category.id, category)
-    return result.data as ExamCategory
+  exam: {
+    category: {
+      getIds: async function () {
+        const result = await axios.get('/api/exam/categoryIds')
+        return result.data as string[]
+      },
+      get: async function (id: string) {
+        const result = await axios.get('/api/exam/category/' + id)
+        return result.data as ExamCategory
+      },
+      put: async function (category: ExamCategory) {
+        const result = await axios.put('/api/exam/category/' + category.id, category)
+        return result.data as ExamCategory
+      },
+      delete: async function (id: string) {
+        return axios.delete('/api/exam/category/' + id)
+      }
+    }
   }
 }
 

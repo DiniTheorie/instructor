@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace DiniTheorie\Instructor\ExamCategory;
+namespace DiniTheorie\Instructor\Exam\Category;
 
 use DiniTheorie\Instructor\Repository;
 use Symfony\Component\Yaml\Yaml;
@@ -65,7 +65,30 @@ class Storage
     public function removeCategory(string $id): void
     {
         $categoryPath = self::QUESTIONS_PATH.'/'.$id;
-        rmdir($categoryPath);
+        $this->removeDirectlyRecursively($categoryPath);
+    }
+
+    private function removeDirectlyRecursively(string $dir): void
+    {
+        if (!file_exists($dir)) {
+            return;
+        }
+
+        if (!is_dir($dir)) {
+            unlink($dir);
+
+            return;
+        }
+
+        foreach (scandir($dir) as $item) {
+            if ('.' === $item || '..' === $item) {
+                continue;
+            }
+
+            $this->removeDirectlyRecursively($dir.DIRECTORY_SEPARATOR.$item);
+        }
+
+        rmdir($dir);
     }
 
     private function readTranslations(string $categoryPath): array

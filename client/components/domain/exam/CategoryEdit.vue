@@ -6,7 +6,7 @@ import { useSettingsStore } from '@/stores/localeStore'
 import LoadingForm from '@/components/shared/LoadingForm.vue'
 import { storeToRefs } from 'pinia'
 
-const props = defineProps<{ category: ExamCategory; store: (category: ExamCategory) => Promise<void> }>()
+const props = defineProps<{ category: ExamCategory; store: (category: ExamCategory) => Promise<void>; remove: () => Promise<void> }>()
 
 const model = ref(props.category)
 let fallback = model.value.translations.find((translation) => translation.language === 'de')
@@ -37,7 +37,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <LoadingForm :submit="storeCategory">
+  <LoadingForm :submit="storeCategory" :remove="remove">
     <div class="row">
       <div class="col-md-6">
         <div class="mb-3">

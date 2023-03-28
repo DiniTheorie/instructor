@@ -9,9 +9,14 @@
     }
   },
   "layout": {
+    "back_button": {
+      "go_back": "zurück"
+    },
     "nav_bar": {
       "publish_changes": "Änderungen publizieren",
-      "translation_language": "Übersetzung"
+      "translation_language": "Übersetzung",
+      "discard_changes": "Änderungen verwerfen",
+      "discard_changes_confirm": "Verwirft alle Änderungen seit der letzten Publikation. Wirklich fortfahren?"
     }
   },
   "page": {
@@ -22,7 +27,9 @@
   },
   "components": {
     "shared": {
-      "store": "Speichern"
+      "store": "Speichern",
+      "remove": "Entfernen",
+      "remove_confirm": "Wirklich entfernen?"
     }
   },
   "domain": {

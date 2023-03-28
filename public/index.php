@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-use DiniTheorie\Instructor\ExamCategory\RouteFactory;
+use DiniTheorie\Instructor\Exam\Category\RouteFactory as ExamCategoryRouteFactory;
 use DiniTheorie\Instructor\Repository;
 use DiniTheorie\Instructor\Utils\SlimExtensions;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -45,7 +45,12 @@ if (str_starts_with($_SERVER['REQUEST_URI'], '/api')) {
 
             return $response->withStatus(SlimExtensions::STATUS_OK);
         });
-        RouteFactory::addRoutes($route);
+        $route->post('/discard', function (Request $request, Response $response) use ($repository) {
+            $repository->resetHard();
+
+            return $response->withStatus(SlimExtensions::STATUS_OK);
+        });
+        ExamCategoryRouteFactory::addRoutes($route);
     });
     $app->run();
     exit;
