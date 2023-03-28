@@ -4,7 +4,7 @@ import { api } from '@/services/api'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { routes } from '@/router'
-import CategoryLinkList from '@/components/domain/exam/CategoryLinkList.vue'
+import CategoryLinkList from '@/components/domain/exam/category/CategoryLinkList.vue'
 import BackButton from '@/components/layout/BackButton.vue'
 
 const { t } = useI18n()

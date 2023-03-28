@@ -83,7 +83,7 @@ class RouteFactory
                 $questionId = $args['id'];
                 RequestValidator::validateQuestionId($request, $storage, $categoryId, $questionId);
 
-                $storage->removeQuestion($questionId);
+                $storage->removeQuestion($categoryId, $questionId);
 
                 return $response->withStatus(SlimExtensions::STATUS_OK);
             });

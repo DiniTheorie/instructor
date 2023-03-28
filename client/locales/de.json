@@ -36,7 +36,8 @@
     "exam": {
       "category": {
         "name": "Name",
-        "description": "Beschreibung"
+        "description": "Beschreibung",
+        "questions": "Fragen"
       }
     },
     "supported_language": {

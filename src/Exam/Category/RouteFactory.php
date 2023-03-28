@@ -11,6 +11,7 @@
 
 namespace DiniTheorie\Instructor\Exam\Category;
 
+use DiniTheorie\Instructor\Exam\Category\Question\RouteFactory as QuestionRouteFactory;
 use DiniTheorie\Instructor\Utils\SlimExtensions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -21,6 +22,8 @@ class RouteFactory
     public static function addRoutes(RouteCollectorProxy $route): void
     {
         $storage = new Storage();
+
+        QuestionRouteFactory::addRoutes($route, $storage);
 
         $route->group('/exam', function (RouteCollectorProxy $route) use ($storage) {
             $route->get('/categoryIds', function (Request $request, Response $response, array $args) use ($storage) {

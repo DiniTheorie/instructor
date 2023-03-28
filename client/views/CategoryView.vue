@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { api } from '@/services/api'
-import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import type { ExamCategory } from '@/components/domain/exam/types'
-import CategoryEdit from '@/components/domain/exam/CategoryEdit.vue'
+import type { ExamCategory } from '@/components/domain/exam/category/types'
+import CategoryEdit from '@/components/domain/exam/category/CategoryEdit.vue'
 import { routes } from '@/router'
 import BackButton from '@/components/layout/BackButton.vue'
+import QuestionLinkList from '@/components/domain/exam/category/question/QuestionLinkList.vue'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
-
-const category = ref<ExamCategory>()
 const params = useRoute()
 const router = useRouter()
-let categoryId = params.params.id as string
+const categoryId = params.params.id as string
+
+const category = ref<ExamCategory>()
 api.exam.category.get(categoryId).then((result) => (category.value = result))
 
 const storeCategory = async (changedCategory: ExamCategory) => {
@@ -23,10 +23,22 @@ const removeCategory = async () => {
   await api.exam.category.delete(categoryId)
   await router.push({ name: routes.home })
 }
+
+const toQuestion = (id: string) => {
+  router.push({ name: routes.categoryQuestion, params: { categoryId: categoryId, id } })
+}
+
+const questionIds = ref<string[]>()
+api.exam.category.question.getIds(categoryId).then((result) => (questionIds.value = result))
+
+const { t } = useI18n()
 </script>
 
 <template>
   <BackButton />
   <h2>{{ categoryId }}</h2>
   <CategoryEdit v-if="category" :category="category" :store="storeCategory" :remove="removeCategory" />
+
+  <h3 class="mt-5">{{ t('domain.exam.category.questions') }}</h3>
+  <QuestionLinkList :question-ids="questionIds" @click="toQuestion" />
 </template>

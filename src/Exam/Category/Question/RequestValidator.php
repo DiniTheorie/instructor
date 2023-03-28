@@ -21,12 +21,12 @@ class RequestValidator
     public static function validateNewQuestionId(Request $request, Storage $storage, string $categoryId, string $questionId): void
     {
         if (!preg_match('/^\w+/i', $questionId)) {
-            throw new HttpBadRequestException($request, 'question name invalid; use only alphanummeric or underscore');
+            throw new HttpBadRequestException($request, 'category name invalid; use only alphanummeric or underscore');
         }
 
         $questions = $storage->getQuestionIds($categoryId);
         if (in_array($questionId, $questions, true)) {
-            throw new HttpBadRequestException($request, 'question already exists');
+            throw new HttpBadRequestException($request, 'category already exists');
         }
     }
 
@@ -34,7 +34,7 @@ class RequestValidator
     {
         $questions = $storage->getQuestionIds($categoryId);
         if (!in_array($questionId, $questions, true)) {
-            throw new HttpNotFoundException($request, 'question not found');
+            throw new HttpNotFoundException($request, 'category not found');
         }
     }
 
@@ -45,7 +45,7 @@ class RequestValidator
         RequestValidatorExtensions::checkKeysBoolean($request, $question['meta'], ...$metaKeys);
 
         foreach ($question['translations'] as $translation) {
-            RequestValidatorExtensions::checkExactlyKeysSet($request, $translation, 'language', 'question', 'answer_1', 'answer_2', 'answer_3');
+            RequestValidatorExtensions::checkExactlyKeysSet($request, $translation, 'language', 'category', 'answer_1', 'answer_2', 'answer_3');
             RequestValidatorExtensions::checkLanguageSupported($request, $translation['language']);
         }
     }
