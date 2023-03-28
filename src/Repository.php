@@ -80,6 +80,7 @@ class Repository
      */
     public function resetHard(): void
     {
+        $this->executeRepositoryCommand('git add -A');
         $this->executeRepositoryCommand('git reset HEAD --hard');
     }
 }
