@@ -69,7 +69,7 @@ class StorageExtensions
             unset($translation['language']);
 
             $filePath = $dir.'/'.$filePrefix.$language.'.yml';
-            self::writeYmlFile($filePath, $translations);
+            self::writeYmlFile($filePath, $translation);
         }
     }
 

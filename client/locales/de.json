@@ -26,6 +26,11 @@
     }
   },
   "components": {
+    "exam": {
+      "category": {
+        "create": "Kategorie hinzufügen"
+      }
+    },
     "shared": {
       "store": "Speichern",
       "remove": "Entfernen",
@@ -35,6 +40,7 @@
   "domain": {
     "exam": {
       "category": {
+        "id": "Id",
         "name": "Name",
         "description": "Beschreibung",
         "questions": "Fragen"

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { displayError, displaySuccess } from './notifiers'
-import type { ExamCategory } from '@/components/domain/exam/category/types'
-import type { Question } from '@/components/domain/exam/category/question/types'
+import type { ExamCategory } from '@/components/domain/Category'
+import type { Question } from '@/components/domain/Question'
 
 const validImageTypes = ['image/jpeg', 'image/png', 'image/gif']
 
@@ -87,6 +87,10 @@ const api = {
       },
       get: async function (id: string) {
         const result = await axios.get('/api/exam/category/' + id)
+        return result.data as ExamCategory
+      },
+      post: async function (category: ExamCategory) {
+        const result = await axios.post('/api/exam/category', category)
         return result.data as ExamCategory
       },
       put: async function (category: ExamCategory) {

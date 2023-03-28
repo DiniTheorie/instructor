@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ExamCategory } from '@/components/domain/exam/category/types'
+import type { ExamCategory } from '@/components/domain/Category'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useSettingsStore } from '@/stores/localeStore'

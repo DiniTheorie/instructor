@@ -4,7 +4,7 @@ import { api } from '@/services/api'
 import { useRoute, useRouter } from 'vue-router'
 import { routes } from '@/router'
 import BackButton from '@/components/layout/BackButton.vue'
-import type { Question } from '@/components/domain/exam/category/question/types'
+import type { Question } from '@/components/domain/Question'
 
 const category = ref<Question>()
 const params = useRoute()

@@ -2,11 +2,11 @@
 import { ref } from 'vue'
 import { api } from '@/services/api'
 import { useRoute, useRouter } from 'vue-router'
-import type { ExamCategory } from '@/components/domain/exam/category/types'
-import CategoryEdit from '@/components/domain/exam/category/CategoryEdit.vue'
+import type { ExamCategory } from '@/components/domain/Category'
+import CategoryEdit from '@/components/action/CategoryEdit.vue'
 import { routes } from '@/router'
 import BackButton from '@/components/layout/BackButton.vue'
-import QuestionLinkList from '@/components/domain/exam/category/question/QuestionLinkList.vue'
+import QuestionLinkList from '@/components/view/QuestionIdList.vue'
 import { useI18n } from 'vue-i18n'
 
 const params = useRoute()

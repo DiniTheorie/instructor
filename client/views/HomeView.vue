@@ -4,8 +4,9 @@ import { api } from '@/services/api'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { routes } from '@/router'
-import CategoryLinkList from '@/components/domain/exam/category/CategoryLinkList.vue'
+import CategoryLinkList from '@/components/view/CategoryIdList.vue'
 import BackButton from '@/components/layout/BackButton.vue'
+import CategoryCreate from '@/components/action/CategoryCreate.vue'
 
 const { t } = useI18n()
 
@@ -21,5 +22,6 @@ api.exam.category.getIds().then((result) => (categoryIds.value = result))
 <template>
   <BackButton empty />
   <h2>{{ t('page.home.exam_categories') }}</h2>
+  <CategoryCreate @created="(category) => toCategory(category.id)" />
   <CategoryLinkList v-if="categoryIds" :category-ids="categoryIds" @click="toCategory" />
 </template>
