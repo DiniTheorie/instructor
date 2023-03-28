@@ -24,7 +24,7 @@ class RouteFactory
 
         $route->group('/exam', function (RouteCollectorProxy $route) use ($storage) {
             $route->get('/categoryIds', function (Request $request, Response $response, array $args) use ($storage) {
-                $categories = $storage->getCategories();
+                $categories = $storage->getCategoryIds();
 
                 return SlimExtensions::createJsonResponse($response, $categories);
             });
@@ -40,8 +40,8 @@ class RouteFactory
 
             $route->post('/category', function (Request $request, Response $response, array $args) use ($storage) {
                 $category = SlimExtensions::parseJsonRequestBody($request);
-                RequestValidator::validateCategory($request, $category);
                 RequestValidator::validateNewCategoryId($request, $storage, $category['id']);
+                RequestValidator::validateCategory($request, $category);
 
                 $storage->addCategory($category);
 
@@ -51,12 +51,11 @@ class RouteFactory
             });
 
             $route->put('/category/{id}', function (Request $request, Response $response, array $args) use ($storage) {
-                $categoryId = $args['id'];
                 $category = SlimExtensions::parseJsonRequestBody($request);
-                RequestValidator::validateCategoryId($request, $storage, $categoryId);
+                RequestValidator::validateCategoryId($request, $storage, $args['id']);
                 RequestValidator::validateCategory($request, $category);
 
-                $storage->storeCategory($categoryId, $category);
+                $storage->storeCategory($category);
 
                 $category = $storage->getCategory($category['id']);
 

@@ -12,115 +12,50 @@
 namespace DiniTheorie\Instructor\Exam\Category;
 
 use DiniTheorie\Instructor\Repository;
-use Symfony\Component\Yaml\Yaml;
+use DiniTheorie\Instructor\Utils\StorageExtensions;
 
 class Storage
 {
-    public const QUESTIONS_PATH = Repository::REPO_PATH.'/template/questions';
+    public const CATEGORIES_DIR = Repository::REPO_DIR.'/template/questions';
+    private const TRANSLATION_FILE_PREFIX = 'introduction.';
 
-    public function getCategories(): array
+    private static function getCategoryDir(string $id): string
     {
-        $nodes = scandir(self::QUESTIONS_PATH);
+        return self::CATEGORIES_DIR.'/'.$id;
+    }
 
-        $categoryFolders = [];
-        foreach ($nodes as $node) {
-            $path = self::QUESTIONS_PATH.'/'.$node;
-            if (!is_dir($path) || in_array($node, ['.', '..'], true)) {
-                continue;
-            }
-
-            $categoryFolders[] = $node;
-        }
-
-        return $categoryFolders;
+    public function getCategoryIds(): array
+    {
+        return StorageExtensions::listDirectories(self::CATEGORIES_DIR);
     }
 
     public function getCategory(string $id): array
     {
-        $categoryPath = self::QUESTIONS_PATH.'/'.$id;
-        $translations = $this->readTranslations($categoryPath);
+        $categoryDir = self::getCategoryDir($id);
+        $translations = StorageExtensions::readTranslations($categoryDir, self::TRANSLATION_FILE_PREFIX);
 
         return ['id' => $id, 'translations' => $translations];
     }
 
     public function addCategory(array $category): void
     {
-        $categoryPath = self::QUESTIONS_PATH.'/'.$category['id'];
-        mkdir($categoryPath);
+        $categoryDir = self::getCategoryDir($category['id']);
+        mkdir($categoryDir);
 
-        $this->storeTranslations($categoryPath, $category['translations']);
+        self::storeCategory($category);
     }
 
-    public function storeCategory(string $id, array $category): void
+    public function storeCategory(array $category): void
     {
-        $categoryPath = self::QUESTIONS_PATH.'/'.$id;
-        $nodes = glob($categoryPath.'/introduction.*.yml');
-        foreach ($nodes as $node) {
-            unlink($node);
-        }
+        $categoryDir = self::getCategoryDir($category['id']);
 
-        $this->storeTranslations($categoryPath, $category['translations']);
+        StorageExtensions::storeTranslations($categoryDir, $category['translations'], self::TRANSLATION_FILE_PREFIX);
     }
 
     public function removeCategory(string $id): void
     {
-        $categoryPath = self::QUESTIONS_PATH.'/'.$id;
-        $this->removeDirectlyRecursively($categoryPath);
-    }
+        $categoryDir = self::getCategoryDir($id);
 
-    private function removeDirectlyRecursively(string $dir): void
-    {
-        if (!file_exists($dir)) {
-            return;
-        }
-
-        if (!is_dir($dir)) {
-            unlink($dir);
-
-            return;
-        }
-
-        foreach (scandir($dir) as $item) {
-            if ('.' === $item || '..' === $item) {
-                continue;
-            }
-
-            $this->removeDirectlyRecursively($dir.DIRECTORY_SEPARATOR.$item);
-        }
-
-        rmdir($dir);
-    }
-
-    private function readTranslations(string $categoryPath): array
-    {
-        $nodes = glob($categoryPath.'/introduction.*.yml');
-
-        $translations = [];
-        foreach ($nodes as $node) {
-            if (!is_file($node)) {
-                continue;
-            }
-
-            $language = substr(substr($node, -6), 0, 2); // read out de.yml
-            $content = file_get_contents($node);
-            $parsedContent = Yaml::parse($content);
-            $parsedContent['language'] = $language;
-
-            $translations[] = $parsedContent;
-        }
-
-        return $translations;
-    }
-
-    private function storeTranslations(string $path, array $translations): void
-    {
-        foreach ($translations as $translation) {
-            $language = $translation['language'];
-            unset($translation['language']);
-
-            $content = Yaml::dump($translation);
-            $filePath = $path.'/introduction.'.$language.'.yml';
-            file_put_contents($filePath, $content);
-        }
+        StorageExtensions::removeDirectoryRecursively($categoryDir);
     }
 }

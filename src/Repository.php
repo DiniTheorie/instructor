@@ -13,7 +13,7 @@ namespace DiniTheorie\Instructor;
 
 class Repository
 {
-    public const REPO_PATH = PathHelper::VAR_PERSISTENT_DIR.'/Data';
+    public const REPO_DIR = PathHelper::VAR_PERSISTENT_DIR.'/Data';
 
     /**
      * @throws \Exception
@@ -41,7 +41,7 @@ class Repository
      */
     private function executeRepositoryCommand(string $command): ?array
     {
-        exec('cd '.self::REPO_PATH.' && '.$command, $output, $result);
+        exec('cd '.self::REPO_DIR.' && '.$command, $output, $result);
         if ($result > 0) {
             throw new \Exception('repository command execution failed: '.join(', ', $output));
         }
@@ -54,9 +54,9 @@ class Repository
      */
     private function setup(): void
     {
-        if (!is_dir(self::REPO_PATH)) {
-            mkdir(self::REPO_PATH, 0777, true);
-            $this->executeCommand('git clone git@github.com:DiniTheorie/Data '.self::REPO_PATH);
+        if (!is_dir(self::REPO_DIR)) {
+            mkdir(self::REPO_DIR, 0777, true);
+            $this->executeCommand('git clone git@github.com:DiniTheorie/Data '.self::REPO_DIR);
         } else {
             $this->executeRepositoryCommand('git pull');
         }
