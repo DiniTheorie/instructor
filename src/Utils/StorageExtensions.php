@@ -135,7 +135,7 @@ class StorageExtensions
         return null;
     }
 
-    public static function readFilteredImages(string $dir, string $negativeFilter = ''): array
+    public static function readSortedImages(string $dir, string $negativeFilter = ''): array
     {
         $nodes = glob($dir.'/*.*');
         $result = [];
@@ -154,7 +154,9 @@ class StorageExtensions
             }
         }
 
-        return $result;
+        natcasesort($result);
+
+        return array_values($result);
     }
 
     private static function checkSupportedImageFile(string $path): bool
@@ -166,5 +168,10 @@ class StorageExtensions
         }
 
         return false;
+    }
+
+    public static function removeFile(string $path): void
+    {
+        unlink($path);
     }
 }

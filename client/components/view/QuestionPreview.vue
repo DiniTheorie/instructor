@@ -6,18 +6,34 @@ import GreenRedBadge from '@/components/shared/GreenRedBadge.vue'
 import { useI18n } from 'vue-i18n'
 import { api } from '@/services/api'
 import ImageWithFilename from '@/components/shared/ImageWithFilename.vue'
+import RemovableImageWithFilename from '@/components/shared/RemovableImageWithFilename.vue'
 
 const props = defineProps<{ question: QuestionWithUrls; categoryId: string }>()
+
+const emit = defineEmits<{
+  (e: 'updated', question: QuestionWithUrls): void
+}>()
 
 const getImageUrl = (image: string) => api.exam.category.question.getImageUrl(props.categoryId, props.question.id, image)
 const primaryTranslation = computed(() => props.question.translations.find((entry) => entry.language === 'de'))
 const { t } = useI18n()
+
+const removeImage = async (image: string) => {
+  await api.exam.category.question.deleteImage(props.categoryId, props.question.id, image)
+  const newQuestion: QuestionWithUrls = { ...props.question, imageUrls: props.question.imageUrls.filter((url) => url !== image) }
+  emit('updated', newQuestion)
+}
 </script>
 
 <template>
   <div class="row">
     <div class="col-sm-9 col-md-6 col-xxl-4">
       <ImageWithFilename :url="getImageUrl(question.examImageUrl)" :filename="question.examImageUrl" />
+      <div class="row mt-1 g-1">
+        <div v-for="imageUrl in question.imageUrls" :key="imageUrl" class="col-6">
+          <RemovableImageWithFilename :filename="imageUrl" :url="getImageUrl(imageUrl)" :remove="() => removeImage(imageUrl)" />
+        </div>
+      </div>
     </div>
     <div class="col-sm-9 col-md-6 col-xxl-4">
       <div v-if="primaryTranslation">

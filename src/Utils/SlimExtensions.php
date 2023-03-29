@@ -13,6 +13,7 @@ namespace DiniTheorie\Instructor\Utils;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Psr7\Stream;
 
 class SlimExtensions
 {
@@ -36,13 +37,15 @@ class SlimExtensions
             ->withHeader('Content-Type', 'application/json');
     }
 
-    public static function createHTMLResponse(Response $response, string $htmlFilePath, int $statusCode = self::STATUS_OK): Response
+    public static function createFileResponse(Response $response, string $path, string $filename): Response
     {
-        $htmlContent = file_get_contents($htmlFilePath);
-        $response->getBody()->write($htmlContent);
+        $fh = fopen($path, 'rb');
+        $stream = new Stream($fh);
 
-        return $response
-            ->withStatus($statusCode)
-            ->withHeader('Content-Type', 'text/html');
+        return $response->withBody($stream)
+            ->withHeader('Content-Disposition', 'attachment; filename='.$filename.';')
+            ->withHeader('Expires', '0') // immediately expire
+            ->withHeader('Content-Type', mime_content_type($path))
+            ->withHeader('Content-Length', filesize($path));
     }
 }

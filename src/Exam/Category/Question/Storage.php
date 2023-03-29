@@ -43,9 +43,9 @@ class Storage
         $translations = StorageExtensions::readTranslations($questionDir);
         $meta = StorageExtensions::readYmlFile($questionDir.'/'.self::META_FILE_NAME);
         $examImage = StorageExtensions::readImage($questionDir, self::EXAM_FILE_NAME);
-        $images = StorageExtensions::readFilteredImages($questionDir, self::EXAM_FILE_NAME);
+        $images = StorageExtensions::readSortedImages($questionDir, self::EXAM_FILE_NAME);
 
-        return ['id' => $id, 'meta' => $meta, 'translations' => $translations, 'examImageUrl' => $examImage, 'imagesUrls' => $images];
+        return ['id' => $id, 'meta' => $meta, 'translations' => $translations, 'examImageUrl' => $examImage, 'imageUrls' => $images];
     }
 
     public function addQuestion(string $categoryId, array $question): void
@@ -71,7 +71,7 @@ class Storage
         StorageExtensions::removeDirectoryRecursively($questionDir);
     }
 
-    public function checkQuestionImageExists(string $categoryId, string $id, string $filename)
+    public function checkQuestionImageExists(string $categoryId, string $id, string $filename): bool
     {
         $questionDir = self::getQuestionDir($categoryId, $id);
         $examImage = StorageExtensions::readImage($questionDir, self::EXAM_FILE_NAME);
@@ -79,12 +79,12 @@ class Storage
             return true;
         }
 
-        $images = StorageExtensions::readFilteredImages($questionDir, self::EXAM_FILE_NAME);
+        $images = StorageExtensions::readSortedImages($questionDir, self::EXAM_FILE_NAME);
         if (in_array($filename, $images, true)) {
             return true;
         }
 
-        return true;
+        return false;
     }
 
     public function replaceQuestionImage(string $categoryId, string $id, ?UploadedFile $question): void
@@ -93,10 +93,16 @@ class Storage
         StorageExtensions::writeUploadedImage($questionDir, $question);
     }
 
-    public function getQuestionImagePath(mixed $categoryId, string $id, string $filename): string
+    public function getQuestionImagePath(string $categoryId, string $id, string $filename): string
     {
         $questionDir = self::getQuestionDir($categoryId, $id);
 
         return $questionDir.'/'.$filename;
+    }
+
+    public function removeQuestionImage(string $categoryId, string $id, string $filename): void
+    {
+        $questionDir = self::getQuestionDir($categoryId, $id);
+        StorageExtensions::removeFile($questionDir.'/'.$filename);
     }
 }

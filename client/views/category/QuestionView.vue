@@ -9,6 +9,7 @@ import QuestionTranslationEdit from '@/components/action/QuestionTranslationEdit
 import { supportedLanguages } from '@/components/domain/SupportedLanguage'
 import QuestionMetaEdit from '@/components/action/QuestionMetaEdit.vue'
 import QuestionRemove from '@/components/action/QuestionRemove.vue'
+import QuestionImageAdd from '@/components/action/QuestionImageAdd.vue'
 
 const question = ref<QuestionWithUrls>()
 const params = useRoute()
@@ -21,9 +22,10 @@ api.exam.category.question.get(categoryId, questionId).then((result) => (questio
 <template>
   <BackButton />
   <h2>{{ questionId }}</h2>
-  <QuestionPreview v-if="question" :question="question" :category-id="categoryId" />
+  <QuestionPreview v-if="question" :question="question" :category-id="categoryId" @updated="question = $event" />
   <p v-if="question" class="mt-5">
     <QuestionMetaEdit class="me-1 d-inline-block" :question="question" :category-id="categoryId" @updated="question = $event" />
+    <QuestionImageAdd class="me-1 d-inline-block" :question="question" :category-id="categoryId" @updated="question = $event" />
     <QuestionTranslationEdit
       class="d-inline-block me-1"
       v-for="supportedLanguage in supportedLanguages"

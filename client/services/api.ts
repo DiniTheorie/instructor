@@ -108,6 +108,9 @@ const api = {
           const data = new FormData()
           data.append('image', image, imageName)
           return axios.post('/api/exam/category/' + categoryId + '/question/' + id + '/image', data)
+        },
+        deleteImage: function (categoryId: string, id: string, image: string) {
+          return axios.delete('/api/exam/category/' + categoryId + '/question/' + id + '/image/' + image)
         }
       },
       getIds: async function () {
