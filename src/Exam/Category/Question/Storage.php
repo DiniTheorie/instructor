@@ -40,7 +40,7 @@ class Storage
     {
         $questionDir = self::getQuestionDir($categoryId, $id);
 
-        $translations = StorageExtensions::readTranslations($questionDir);
+        $translations = StorageExtensions::readYmlTranslations($questionDir);
         $meta = StorageExtensions::readYmlFile($questionDir.'/'.self::META_FILE_NAME);
         $examImage = StorageExtensions::readImage($questionDir, self::EXAM_FILE_NAME);
         $images = StorageExtensions::readSortedImages($questionDir, self::EXAM_FILE_NAME);
@@ -60,7 +60,7 @@ class Storage
     {
         $questionDir = self::getQuestionDir($categoryId, $question['id']);
 
-        StorageExtensions::storeTranslations($questionDir, $question['translations']);
+        StorageExtensions::storeYmlTranslations($questionDir, $question['translations']);
         StorageExtensions::writeYmlFile($questionDir.'/'.self::META_FILE_NAME, $question['meta']);
     }
 

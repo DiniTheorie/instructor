@@ -32,7 +32,7 @@ class Storage
     public function getCategory(string $id): array
     {
         $categoryDir = self::getCategoryDir($id);
-        $translations = StorageExtensions::readTranslations($categoryDir, self::TRANSLATION_FILE_PREFIX);
+        $translations = StorageExtensions::readYmlTranslations($categoryDir, self::TRANSLATION_FILE_PREFIX);
 
         return ['id' => $id, 'translations' => $translations];
     }
@@ -49,7 +49,7 @@ class Storage
     {
         $categoryDir = self::getCategoryDir($category['id']);
 
-        StorageExtensions::storeTranslations($categoryDir, $category['translations'], self::TRANSLATION_FILE_PREFIX);
+        StorageExtensions::storeYmlTranslations($categoryDir, $category['translations'], self::TRANSLATION_FILE_PREFIX);
     }
 
     public function removeCategory(string $id): void

@@ -25,18 +25,23 @@ class RouteFactory
         $storage = new Storage();
 
         $route->group('/exam/category/{categoryId}', function (RouteCollectorProxy $route) use ($categoryStorage, $storage) {
-            $route->get('/questionIds', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
+            $validateBasePath = function (Request $request, array $args) use ($categoryStorage) {
                 $categoryId = $args['categoryId'];
                 CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
+
+                return $categoryId;
+            };
+
+            $route->get('/questionIds', function (Request $request, Response $response, array $args) use ($validateBasePath, $storage) {
+                $categoryId = $validateBasePath($request, $args);
 
                 $categories = $storage->getQuestionIds($categoryId);
 
                 return SlimExtensions::createJsonResponse($response, $categories);
             });
 
-            $route->get('/question/{id}', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
-                $categoryId = $args['categoryId'];
-                CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
+            $route->get('/question/{id}', function (Request $request, Response $response, array $args) use ($validateBasePath, $storage) {
+                $categoryId = $validateBasePath($request, $args);
 
                 $questionId = $args['id'];
                 RequestValidator::validateExistingQuestionId($request, $storage, $categoryId, $questionId);
@@ -46,9 +51,8 @@ class RouteFactory
                 return SlimExtensions::createJsonResponse($response, $question);
             });
 
-            $route->post('/question', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
-                $categoryId = $args['categoryId'];
-                CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
+            $route->post('/question', function (Request $request, Response $response, array $args) use ($validateBasePath, $storage) {
+                $categoryId = $validateBasePath($request, $args);
 
                 $question = SlimExtensions::parseJsonRequestBody($request);
                 RequestValidator::validateNewQuestionId($request, $storage, $categoryId, $question['id']);
@@ -61,9 +65,8 @@ class RouteFactory
                 return SlimExtensions::createJsonResponse($response, $question, SlimExtensions::STATUS_CREATED);
             });
 
-            $route->put('/question/{id}', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
-                $categoryId = $args['categoryId'];
-                CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
+            $route->put('/question/{id}', function (Request $request, Response $response, array $args) use ($validateBasePath, $storage) {
+                $categoryId = $validateBasePath($request, $args);
 
                 $question = SlimExtensions::parseJsonRequestBody($request);
                 RequestValidator::validateExistingQuestionId($request, $storage, $categoryId, $args['id']);
@@ -76,9 +79,8 @@ class RouteFactory
                 return SlimExtensions::createJsonResponse($response, $question);
             });
 
-            $route->delete('/question/{id}', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
-                $categoryId = $args['categoryId'];
-                CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
+            $route->delete('/question/{id}', function (Request $request, Response $response, array $args) use ($validateBasePath, $storage) {
+                $categoryId = $validateBasePath($request, $args);
 
                 $questionId = $args['id'];
                 RequestValidator::validateExistingQuestionId($request, $storage, $categoryId, $questionId);
@@ -88,9 +90,8 @@ class RouteFactory
                 return $response->withStatus(SlimExtensions::STATUS_OK);
             });
 
-            $route->get('/question/{id}/image/{filename}', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
-                $categoryId = $args['categoryId'];
-                CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
+            $route->get('/question/{id}/image/{filename}', function (Request $request, Response $response, array $args) use ($validateBasePath, $storage) {
+                $categoryId = $validateBasePath($request, $args);
 
                 $questionId = $args['id'];
                 RequestValidator::validateQuestionId($request, $questionId);
@@ -103,9 +104,8 @@ class RouteFactory
                 return SlimExtensions::createFileResponse($response, $path, $filename);
             });
 
-            $route->post('/question/{id}/image', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
-                $categoryId = $args['categoryId'];
-                CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
+            $route->post('/question/{id}/image', function (Request $request, Response $response, array $args) use ($validateBasePath, $storage) {
+                $categoryId = $validateBasePath($request, $args);
 
                 $questionId = $args['id'];
                 RequestValidator::validateQuestionId($request, $questionId);
@@ -117,9 +117,8 @@ class RouteFactory
                 return $response->withStatus(SlimExtensions::STATUS_OK);
             });
 
-            $route->delete('/question/{id}/image/{filename}', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
-                $categoryId = $args['categoryId'];
-                CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
+            $route->delete('/question/{id}/image/{filename}', function (Request $request, Response $response, array $args) use ($validateBasePath, $storage) {
+                $categoryId = $validateBasePath($request, $args);
 
                 $questionId = $args['id'];
                 RequestValidator::validateQuestionId($request, $questionId);

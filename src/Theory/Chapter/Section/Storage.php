@@ -23,7 +23,7 @@ class Storage
         return \DiniTheorie\Instructor\Theory\Chapter\Storage::CHAPTERS_DIR.'/'.$chapterId;
     }
 
-    private static function getSectionDir(string $chapterId, string $id): string
+    public static function getSectionDir(string $chapterId, string $id): string
     {
         return self::getSectionsDir($chapterId).'Storage.php/'.$id;
     }
@@ -39,7 +39,7 @@ class Storage
     {
         $sectionDir = self::getSectionDir($chapterId, $id);
         $config = StorageExtensions::readYmlFile($sectionDir.'/'.self::CONFIG_FILE_NAME);
-        $translations = StorageExtensions::readTranslations($sectionDir, self::TRANSLATION_FILE_PREFIX);
+        $translations = StorageExtensions::readYmlTranslations($sectionDir, self::TRANSLATION_FILE_PREFIX);
 
         return ['id' => $id, 'config' => $config, 'translations' => $translations];
     }
@@ -57,7 +57,7 @@ class Storage
         $sectionDir = self::getSectionDir($chapterId, $chapter['id']);
 
         StorageExtensions::writeYmlFile($sectionDir.'/'.self::CONFIG_FILE_NAME, $chapter['config']);
-        StorageExtensions::storeTranslations($sectionDir, $chapter['translations'], self::TRANSLATION_FILE_PREFIX);
+        StorageExtensions::storeYmlTranslations($sectionDir, $chapter['translations'], self::TRANSLATION_FILE_PREFIX);
     }
 
     public function removeSection(string $chapterId, string $id): void

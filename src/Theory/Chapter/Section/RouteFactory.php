@@ -12,6 +12,7 @@
 namespace DiniTheorie\Instructor\Theory\Chapter\Section;
 
 use DiniTheorie\Instructor\Theory\Chapter\RequestValidator as ChapterRequestValidator;
+use DiniTheorie\Instructor\Theory\Chapter\Section\Article\RouteFactory as ArticleRouteFactory;
 use DiniTheorie\Instructor\Theory\Chapter\Storage as ChapterStorage;
 use DiniTheorie\Instructor\Utils\SlimExtensions;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -24,19 +25,26 @@ class RouteFactory
     {
         $storage = new Storage();
 
-        $route->group('/exam/chapter/{chapterId}', function (RouteCollectorProxy $route) use ($chapterStorage, $storage) {
-            $route->get('/sectionIds', function (Request $request, Response $response, array $args) use ($chapterStorage, $storage) {
+        ArticleRouteFactory::addRoutes($route, $chapterStorage, $storage);
+
+        $route->group('/theory/chapter/{chapterId}', function (RouteCollectorProxy $route) use ($chapterStorage, $storage) {
+            $validateBasePath = function (Request $request, array $args) use ($chapterStorage) {
                 $chapterId = $args['chapterId'];
                 ChapterRequestValidator::validateExistingChapterId($request, $chapterStorage, $chapterId);
+
+                return $chapterId;
+            };
+
+            $route->get('/sectionIds', function (Request $request, Response $response, array $args) use ($validateBasePath, $storage) {
+                $chapterId = $validateBasePath($request, $args);
 
                 $categories = $storage->getSectionIds($chapterId);
 
                 return SlimExtensions::createJsonResponse($response, $categories);
             });
 
-            $route->get('/section/{id}', function (Request $request, Response $response, array $args) use ($chapterStorage, $storage) {
-                $chapterId = $args['chapterId'];
-                ChapterRequestValidator::validateExistingChapterId($request, $chapterStorage, $chapterId);
+            $route->get('/section/{id}', function (Request $request, Response $response, array $args) use ($validateBasePath, $storage) {
+                $chapterId = $validateBasePath($request, $args);
 
                 $sectionId = $args['id'];
                 RequestValidator::validateExistingSectionId($request, $storage, $chapterId, $sectionId);
@@ -46,9 +54,8 @@ class RouteFactory
                 return SlimExtensions::createJsonResponse($response, $section);
             });
 
-            $route->post('/section', function (Request $request, Response $response, array $args) use ($chapterStorage, $storage) {
-                $chapterId = $args['chapterId'];
-                ChapterRequestValidator::validateExistingChapterId($request, $chapterStorage, $chapterId);
+            $route->post('/section', function (Request $request, Response $response, array $args) use ($validateBasePath, $storage) {
+                $chapterId = $validateBasePath($request, $args);
 
                 $section = SlimExtensions::parseJsonRequestBody($request);
                 RequestValidator::validateNewSectionId($request, $storage, $chapterId, $section['id']);
@@ -61,9 +68,8 @@ class RouteFactory
                 return SlimExtensions::createJsonResponse($response, $section, SlimExtensions::STATUS_CREATED);
             });
 
-            $route->put('/section/{id}', function (Request $request, Response $response, array $args) use ($chapterStorage, $storage) {
-                $chapterId = $args['chapterId'];
-                ChapterRequestValidator::validateExistingChapterId($request, $chapterStorage, $chapterId);
+            $route->put('/section/{id}', function (Request $request, Response $response, array $args) use ($validateBasePath, $storage) {
+                $chapterId = $validateBasePath($request, $args);
 
                 $section = SlimExtensions::parseJsonRequestBody($request);
                 RequestValidator::validateExistingSectionId($request, $storage, $chapterId, $args['id']);
@@ -76,9 +82,8 @@ class RouteFactory
                 return SlimExtensions::createJsonResponse($response, $section);
             });
 
-            $route->delete('/section/{id}', function (Request $request, Response $response, array $args) use ($chapterStorage, $storage) {
-                $chapterId = $args['chapterId'];
-                ChapterRequestValidator::validateExistingChapterId($request, $chapterStorage, $chapterId);
+            $route->delete('/section/{id}', function (Request $request, Response $response, array $args) use ($validateBasePath, $storage) {
+                $chapterId = $validateBasePath($request, $args);
 
                 $sectionId = $args['id'];
                 RequestValidator::validateExistingSectionId($request, $storage, $chapterId, $sectionId);

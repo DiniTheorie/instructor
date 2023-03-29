@@ -11,6 +11,7 @@
 
 namespace DiniTheorie\Instructor\Theory\Chapter;
 
+use DiniTheorie\Instructor\Theory\Chapter\Section\RouteFactory as SectionRouteFactory;
 use DiniTheorie\Instructor\Utils\SlimExtensions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -21,6 +22,8 @@ class RouteFactory
     public static function addRoutes(RouteCollectorProxy $route): void
     {
         $storage = new Storage();
+
+        SectionRouteFactory::addRoutes($route, $storage);
 
         $route->group('/theory', function (RouteCollectorProxy $route) use ($storage) {
             $route->get('/chapterIds', function (Request $request, Response $response, array $args) use ($storage) {

@@ -32,7 +32,7 @@ class Storage
     public function getChapter(string $id): array
     {
         $chapterDir = self::getChapterDir($id);
-        $translations = StorageExtensions::readTranslations($chapterDir, self::TRANSLATION_FILE_PREFIX);
+        $translations = StorageExtensions::readYmlTranslations($chapterDir, self::TRANSLATION_FILE_PREFIX);
 
         return ['id' => $id, 'translations' => $translations];
     }
@@ -49,7 +49,7 @@ class Storage
     {
         $chapterDir = self::getChapterDir($chapter['id']);
 
-        StorageExtensions::storeTranslations($chapterDir, $chapter['translations'], self::TRANSLATION_FILE_PREFIX);
+        StorageExtensions::storeYmlTranslations($chapterDir, $chapter['translations'], self::TRANSLATION_FILE_PREFIX);
     }
 
     public function removeChapter(string $id): void

@@ -57,7 +57,7 @@ class StorageExtensions
         return $folders;
     }
 
-    public static function storeTranslations(string $dir, array $translations, string $filePrefix = ''): void
+    public static function storeYmlTranslations(string $dir, array $translations, string $filePrefix = ''): void
     {
         // remove old translations
         $nodes = glob($dir.'/'.$filePrefix.'??.yml');
@@ -75,7 +75,7 @@ class StorageExtensions
         }
     }
 
-    public static function readTranslations(string $categoryDir, string $filePrefix = ''): array
+    public static function readYmlTranslations(string $categoryDir, string $filePrefix = ''): array
     {
         $nodes = glob($categoryDir.'/'.$filePrefix.'??.yml');
 
@@ -91,6 +91,46 @@ class StorageExtensions
             $parsedContent['language'] = substr($fileSuffix, 0, 2); // read out de
 
             $translations[] = $parsedContent;
+        }
+
+        return $translations;
+    }
+
+    public static function storeMdTranslations(string $dir, array $translations): void
+    {
+        // remove old translations
+        $nodes = glob($dir.'/??.md');
+        foreach ($nodes as $node) {
+            unlink($node);
+        }
+
+        // write new translations
+        foreach ($translations as $translation) {
+            $language = $translation['language'];
+            unset($translation['language']);
+
+            $filePath = $dir.'/'.$language.'.md';
+            file_put_contents($filePath, $translation['markdown']);
+        }
+    }
+
+    public static function readMdTranslations(string $dir): array
+    {
+        $nodes = glob($dir.'/??.md');
+
+        $translations = [];
+        foreach ($nodes as $node) {
+            if (!is_file($node)) {
+                continue;
+            }
+
+            $markdown = file_get_contents($node);
+
+            $fileSuffix = substr($node, -6); // get de.yml
+            $language = substr($fileSuffix, 0, 2); // read out de
+            $translation = ['language' => $language, 'markdown' => $markdown];
+
+            $translations[] = $translation;
         }
 
         return $translations;
