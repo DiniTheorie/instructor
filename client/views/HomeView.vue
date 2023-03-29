@@ -16,7 +16,7 @@ const toCategory = (id: string) => {
   router.push({ name: routes.category, params: { id } })
 }
 const toChapter = (id: string) => {
-  router.push({ name: routes.category, params: { id } })
+  router.push({ name: routes.chapter, params: { id } })
 }
 
 const categoryIds = ref<string[]>()

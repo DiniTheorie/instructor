@@ -4,7 +4,10 @@ import HomeView from '../views/HomeView.vue'
 export const routes = {
   home: 'home',
   category: 'category',
-  categoryQuestion: 'question'
+  categoryQuestion: 'question',
+  chapter: 'chapter',
+  chapterSection: 'section',
+  chapterSectionArticle: 'article'
 }
 
 const router = createRouter({
@@ -26,6 +29,24 @@ const router = createRouter({
       name: routes.categoryQuestion,
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/exam/QuestionView.vue')
+    },
+    {
+      path: '/chapter/:id',
+      name: routes.chapter,
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/theory/ChapterView.vue')
+    },
+    {
+      path: '/chapter/:chapterId/section/:id',
+      name: routes.chapterSection,
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/theory/ChapterView.vue')
+    },
+    {
+      path: '/chapter/:chapterId/section/:sectionId/article/:id',
+      name: routes.chapterSectionArticle,
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/theory/ChapterView.vue')
     }
   ]
 })
