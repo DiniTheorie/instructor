@@ -2,7 +2,7 @@
 import { computed, ref, watchEffect } from 'vue'
 import { api } from '@/services/api'
 import { useRoute, useRouter } from 'vue-router'
-import type { ExamCategory } from '@/components/domain/Category'
+import type { Category } from '@/components/domain/Category'
 import CategoryPreview from '@/components/view/CategoryPreview.vue'
 import { routes } from '@/router'
 import BackButton from '@/components/layout/HierarchicNav.vue'
@@ -17,7 +17,7 @@ const route = useRoute()
 const router = useRouter()
 const categoryId = computed(() => route.params.id as string)
 
-const category = ref<ExamCategory>()
+const category = ref<Category>()
 const questionIds = ref<string[]>()
 watchEffect(() => {
   api.exam.category.get(categoryId.value).then((result) => (category.value = result))

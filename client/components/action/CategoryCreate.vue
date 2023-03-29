@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ExamCategory } from '@/components/domain/Category'
+import type { Category } from '@/components/domain/Category'
 import { useI18n } from 'vue-i18n'
 import { api } from '@/services/api'
 import FormModal from '@/components/shared/Modal/FormModal.vue'
@@ -9,13 +9,13 @@ import FormField from '@/components/shared/Form/TextField.vue'
 import TranslatedTextarea from '@/components/shared/Form/TranslatedTextarea.vue'
 
 const emit = defineEmits<{
-  (e: 'created', category: ExamCategory): void
+  (e: 'created', category: Category): void
 }>()
 
 const model = ref({ id: '', name: '', description: '' })
 
 const storeCategory = async () => {
-  const payload: ExamCategory = {
+  const payload: Category = {
     id: model.value.id,
     translations: [{ language: 'de', name: model.value.name, description: model.value.description }]
   }

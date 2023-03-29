@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ExamCategory } from '@/components/domain/Category'
+import type { Category } from '@/components/domain/Category'
 import { computed } from 'vue'
 
-const props = defineProps<{ category: ExamCategory }>()
+const props = defineProps<{ category: Category }>()
 
 const primaryTranslation = computed(() => props.category.translations.find((entry) => entry.language === 'de'))
 </script>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { ExamCategory } from '@/components/domain/Category'
+import type { Category } from '@/components/domain/Category'
 import { api } from '@/services/api'
 import { useI18n } from 'vue-i18n'
 import RemoveButton from '@/components/shared/RemoveButton.vue'
 
-const props = defineProps<{ category: ExamCategory }>()
+const props = defineProps<{ category: Category }>()
 
 const emit = defineEmits<{
   (e: 'removed'): void

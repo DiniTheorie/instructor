@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ExamCategory, ExamCategoryTranslation } from '@/components/domain/Category'
+import type { Category, CategoryTranslation } from '@/components/domain/Category'
 import { api } from '@/services/api'
 import { computed, ref } from 'vue'
 import type { SupportedLanguage } from '@/components/domain/SupportedLanguage'
@@ -10,15 +10,15 @@ import TranslatedTextarea from '@/components/shared/Form/TranslatedTextarea.vue'
 import TranslationFormModal from '@/components/shared/Modal/TranslationFormModal.vue'
 
 const emit = defineEmits<{
-  (e: 'updated', category: ExamCategory): void
+  (e: 'updated', category: Category): void
 }>()
 
-const props = defineProps<{ language: SupportedLanguage; template?: ExamCategoryTranslation; category: ExamCategory }>()
+const props = defineProps<{ language: SupportedLanguage; template?: CategoryTranslation; category: Category }>()
 
 const model = ref({ name: props.template?.name ?? '', description: props.template?.description ?? '' })
 
 const store = async () => {
-  const translations: ExamCategoryTranslation[] = supportedLanguages
+  const translations: CategoryTranslation[] = supportedLanguages
     .map((supportedLanguage) => {
       if (supportedLanguage === props.language) {
         return { ...model.value, language: props.language }
@@ -27,14 +27,14 @@ const store = async () => {
     })
     .filter(truthy)
 
-  const payload: ExamCategory = { ...props.category, translations }
+  const payload: Category = { ...props.category, translations }
   const category = await api.exam.category.put(payload)
   emit('updated', category)
 }
 
 const remove = async () => {
   const translations = props.category.translations.filter((entry) => entry.language !== props.language)
-  const payload: ExamCategory = { ...props.category, translations }
+  const payload: Category = { ...props.category, translations }
   const category = await api.exam.category.put(payload)
   emit('updated', category)
 }
