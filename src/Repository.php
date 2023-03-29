@@ -57,6 +57,7 @@ class Repository
         if (!is_dir(self::REPO_DIR)) {
             mkdir(self::REPO_DIR, 0777, true);
             $this->executeCommand('git clone git@github.com:DiniTheorie/Data '.self::REPO_DIR);
+            $this->executeRepositoryCommand('git checkout -b automation');
         } else {
             $this->executeRepositoryCommand('git pull');
         }
@@ -71,7 +72,7 @@ class Repository
         if ($output) {
             $this->executeRepositoryCommand('git add -A');
             $this->executeRepositoryCommand('git commit -m "instructor: Store" --author="Automation <automation@instructor.dinitheorie.ch>"');
-            $this->executeRepositoryCommand('git push');
+            $this->executeRepositoryCommand('git push --set-upstream');
         }
     }
 
