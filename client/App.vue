@@ -12,7 +12,7 @@ api.setup(t)
 <template>
   <NavBar />
 
-  <div class="container">
+  <div class="container mb-5">
     <RouterView />
   </div>
 </template>

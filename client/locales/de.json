@@ -24,13 +24,17 @@
   "page": {
     "home": {
       "title": "Instruktor",
-      "exam_categories": "Prüfungsfragen Kategorien"
+      "exam_categories": "Prüfungsfragen Kategorien",
+      "theory_chapters": "Theorie Kapitel"
     }
   },
   "components": {
     "action": {
       "category_create": {
         "title": "Kategorie hinzufügen"
+      },
+      "category_remove": {
+        "remove_all": "Kategorie und Fragen entfernen"
       },
       "question_create": {
         "title": "Frage hinzufügen"
@@ -41,11 +45,14 @@
       "question_image_add": {
         "title": "Bild hinzufügen"
       },
-      "category_remove": {
-        "remove_all": "Kategorie und Fragen entfernen"
-      },
       "question_remove": {
         "remove_all": "Frage & Bilder entfernen"
+      },
+      "chapter_create": {
+        "title": "Kapitel hinzufügen"
+      },
+      "chapter_remove": {
+        "remove_all": "Kapitel, Abschnitte und Artikel entfernen"
       }
     },
     "shared": {
@@ -86,6 +93,14 @@
         "answer_2": "Antwort 2",
         "answer_3": "Antwort 3",
         "explanation": "Erklärung"
+      }
+    },
+    "theory": {
+      "chapter": {
+        "title": "Titel",
+        "description": "Beschreibung",
+        "translations": "Übersetzungen",
+        "sections": "Abschnitte"
       }
     },
     "supported_language": {

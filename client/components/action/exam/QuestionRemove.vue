@@ -2,7 +2,7 @@
 import { api } from '@/services/api'
 import { useI18n } from 'vue-i18n'
 import RemoveButton from '@/components/shared/RemoveButton.vue'
-import type { Question } from '@/components/domain/Question'
+import type { Question } from '@/components/domain/exam/Question'
 
 const props = defineProps<{ categoryId: string; question: Question }>()
 

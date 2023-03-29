@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Category } from '@/components/domain/Category'
+import type { Category } from '@/components/domain/exam/Category'
 import { api } from '@/services/api'
 import { useI18n } from 'vue-i18n'
 import RemoveButton from '@/components/shared/RemoveButton.vue'

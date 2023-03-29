@@ -20,9 +20,7 @@ class Repository
      */
     public function __construct()
     {
-        if ('dev' !== $_SERVER['APP_ENV']) {
-            $this->setup();
-        }
+        $this->setup();
     }
 
     /**
@@ -58,8 +56,6 @@ class Repository
             mkdir(self::REPO_DIR, 0777, true);
             $this->executeCommand('git clone git@github.com:DiniTheorie/Data '.self::REPO_DIR);
             $this->executeRepositoryCommand('git checkout -b automation');
-        } else {
-            $this->executeRepositoryCommand('git pull');
         }
     }
 
@@ -70,6 +66,7 @@ class Repository
     {
         $output = $this->executeRepositoryCommand('git status --porcelain');
         if ($output) {
+            $this->executeRepositoryCommand('git pull --rebase');
             $this->executeRepositoryCommand('git add -A');
             $this->executeRepositoryCommand('git commit -m "instructor: Store" --author="Automation <automation@instructor.dinitheorie.ch>"');
             $this->executeRepositoryCommand('git push --set-upstream');

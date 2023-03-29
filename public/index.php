@@ -11,6 +11,7 @@
 
 use DiniTheorie\Instructor\Exam\Category\RouteFactory as ExamCategoryRouteFactory;
 use DiniTheorie\Instructor\Repository;
+use DiniTheorie\Instructor\Theory\Chapter\RouteFactory as TheoryChapterRouteFactory;
 use DiniTheorie\Instructor\Utils\SlimExtensions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -52,7 +53,9 @@ if (str_starts_with($_SERVER['REQUEST_URI'], '/api')) {
 
             return $response->withStatus(SlimExtensions::STATUS_OK);
         });
+
         ExamCategoryRouteFactory::addRoutes($route);
+        TheoryChapterRouteFactory::addRoutes($route);
     });
     $app->run();
     exit;

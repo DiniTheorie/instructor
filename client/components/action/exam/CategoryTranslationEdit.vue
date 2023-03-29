@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Category, CategoryTranslation } from '@/components/domain/Category'
+import type { Category, CategoryTranslation } from '@/components/domain/exam/Category'
 import { api } from '@/services/api'
 import { computed, ref } from 'vue'
 import type { SupportedLanguage } from '@/components/domain/SupportedLanguage'

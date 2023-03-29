@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Question, QuestionTranslation, QuestionWithUrls } from '@/components/domain/Question'
+import type { Question, QuestionTranslation, QuestionWithUrls } from '@/components/domain/exam/Question'
 import { api } from '@/services/api'
 import { computed, ref } from 'vue'
 import type { SupportedLanguage } from '@/components/domain/SupportedLanguage'

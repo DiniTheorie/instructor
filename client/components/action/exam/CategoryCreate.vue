@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Category } from '@/components/domain/Category'
+import type { Category } from '@/components/domain/exam/Category'
 import { useI18n } from 'vue-i18n'
 import { api } from '@/services/api'
 import FormModal from '@/components/shared/Modal/FormModal.vue'

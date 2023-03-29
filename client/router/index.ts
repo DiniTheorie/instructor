@@ -19,13 +19,13 @@ const router = createRouter({
       path: '/category/:id',
       name: routes.category,
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/CategoryView.vue')
+      component: () => import('../views/exam/CategoryView.vue')
     },
     {
       path: '/category/:categoryId/question/:id',
       name: routes.categoryQuestion,
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/category/QuestionView.vue')
+      component: () => import('../views/exam/QuestionView.vue')
     }
   ]
 })

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { QuestionWithUrls } from '@/components/domain/Question'
+import type { QuestionWithUrls } from '@/components/domain/exam/Question'
 import CorrectIndicator from '@/components/view/CorrectIndicator.vue'
 import GreenRedBadge from '@/components/shared/GreenRedBadge.vue'
 import { useI18n } from 'vue-i18n'

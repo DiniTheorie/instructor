@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Category } from '@/components/domain/Category'
+import type { Category } from '@/components/domain/exam/Category'
 import { computed } from 'vue'
 
 const props = defineProps<{ category: Category }>()

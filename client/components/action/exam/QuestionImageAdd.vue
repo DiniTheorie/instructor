@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n'
 import { api } from '@/services/api'
 import FormModal from '@/components/shared/Modal/FormModal.vue'
 import { computed, ref } from 'vue'
-import type { QuestionWithUrls } from '@/components/domain/Question'
+import type { QuestionWithUrls } from '@/components/domain/exam/Question'
 import ImageField from '@/components/shared/Form/ImageField.vue'
 
 const emit = defineEmits<{

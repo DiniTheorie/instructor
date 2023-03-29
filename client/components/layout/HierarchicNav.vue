@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 
-const props = withDefaults(defineProps<{ canGoBack: boolean; siblings?: string[]; current?: string }>(), { canGoBack: false })
+const props = withDefaults(defineProps<{ canGoBack?: boolean; siblings?: string[]; current?: string }>(), { canGoBack: false })
 const emit = defineEmits<{
   (e: 'changeSibling', target: string): void
 }>()
@@ -19,7 +19,6 @@ const currentIndex = computed(() => {
 
 const nextSibling = computed(() => {
   let currentIndexValue = currentIndex.value
-  console.log('executed', currentIndexValue)
   if (currentIndexValue === undefined || !props.siblings) {
     return undefined
   }

@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { displayError, displaySuccess } from './notifiers'
-import type { Category } from '@/components/domain/Category'
-import type { Question, QuestionWithUrls } from '@/components/domain/Question'
-import type { Chapter } from '@/components/domain/Chapter'
-import type { Section } from '@/components/domain/Section'
-import type { Article, ArticleWithUrls } from '@/components/domain/Article'
+import type { Category } from '@/components/domain/exam/Category'
+import type { Question, QuestionWithUrls } from '@/components/domain/exam/Question'
+import type { Chapter } from '@/components/domain/theory/Chapter'
+import type { Section } from '@/components/domain/theory/Section'
+import type { Article, ArticleWithUrls } from '@/components/domain/theory/Article'
 
 const validImageTypes = ['image/jpeg', 'image/png', 'image/gif']
 
@@ -137,78 +137,80 @@ const api = {
       }
     }
   },
-  chapter: {
-    section: {
-      article: {
-        getIds: async function (chapterId: string, sectionId: string) {
-          const result = await axios.get('/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/articleIds')
+  theory: {
+    chapter: {
+      section: {
+        article: {
+          getIds: async function (chapterId: string, sectionId: string) {
+            const result = await axios.get('/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/articleIds')
+            return result.data as string[]
+          },
+          get: async function (chapterId: string, sectionId: string, id: string) {
+            const result = await axios.get('/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/article/' + id)
+            return result.data as ArticleWithUrls
+          },
+          post: async function (chapterId: string, sectionId: string, article: Article) {
+            const result = await axios.post('/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/article', article)
+            return result.data as ArticleWithUrls
+          },
+          put: async function (chapterId: string, sectionId: string, article: Article) {
+            const result = await axios.put('/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/article/' + article.id, article)
+            return result.data as ArticleWithUrls
+          },
+          delete: async function (chapterId: string, sectionId: string, id: string) {
+            return axios.delete('/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/article/' + id)
+          },
+          getImageUrl: function (chapterId: string, sectionId: string, id: string, image: string) {
+            return baseUrl + '/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/article/' + id + '/image/' + image
+          },
+          postImage: function (chapterId: string, sectionId: string, id: string, image: File) {
+            const data = new FormData()
+            data.append('image', image)
+            return axios.post('/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/article/' + id + '/image', data)
+          },
+          deleteImage: function (chapterId: string, sectionId: string, id: string, image: string) {
+            return axios.delete('/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/article/' + id + '/image/' + image)
+          }
+        },
+        getIds: async function (chapterId: string) {
+          const result = await axios.get('/api/theory/chapter/' + chapterId + '/sectionIds')
           return result.data as string[]
         },
-        get: async function (chapterId: string, sectionId: string, id: string) {
-          const result = await axios.get('/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/article/' + id)
-          return result.data as ArticleWithUrls
+        get: async function (chapterId: string, id: string) {
+          const result = await axios.get('/api/theory/chapter/' + chapterId + '/section/' + id)
+          return result.data as Section
         },
-        post: async function (chapterId: string, sectionId: string, article: Article) {
-          const result = await axios.post('/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/article', article)
-          return result.data as ArticleWithUrls
+        post: async function (chapterId: string, section: Section) {
+          const result = await axios.post('/api/theory/chapter/' + chapterId + '/section', section)
+          return result.data as Section
         },
-        put: async function (chapterId: string, sectionId: string, article: Article) {
-          const result = await axios.put('/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/article/' + article.id, article)
-          return result.data as ArticleWithUrls
+        put: async function (chapterId: string, section: Section) {
+          const result = await axios.put('/api/theory/chapter/' + chapterId + '/section/' + section.id, section)
+          return result.data as Section
         },
-        delete: async function (chapterId: string, sectionId: string, id: string) {
-          return axios.delete('/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/article/' + id)
-        },
-        getImageUrl: function (chapterId: string, sectionId: string, id: string, image: string) {
-          return baseUrl + '/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/article/' + id + '/image/' + image
-        },
-        postImage: function (chapterId: string, sectionId: string, id: string, image: File) {
-          const data = new FormData()
-          data.append('image', image)
-          return axios.post('/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/article/' + id + '/image', data)
-        },
-        deleteImage: function (chapterId: string, sectionId: string, id: string, image: string) {
-          return axios.delete('/api/theory/chapter/' + chapterId + '/section/' + sectionId + '/article/' + id + '/image/' + image)
+        delete: async function (chapterId: string, id: string) {
+          return axios.delete('/api/theory/chapter/' + chapterId + '/section/' + id)
         }
       },
-      getIds: async function (chapterId: string) {
-        const result = await axios.get('/api/theory/chapter/' + chapterId + '/sectionIds')
+      getIds: async function () {
+        const result = await axios.get('/api/theory/chapterIds')
         return result.data as string[]
       },
-      get: async function (chapterId: string, id: string) {
-        const result = await axios.get('/api/theory/chapter/' + chapterId + '/section/' + id)
-        return result.data as Section
+      get: async function (id: string) {
+        const result = await axios.get('/api/theory/chapter/' + id)
+        return result.data as Chapter
       },
-      post: async function (chapterId: string, section: Section) {
-        const result = await axios.post('/api/theory/chapter/' + chapterId + '/section', section)
-        return result.data as Section
+      post: async function (chapter: Chapter) {
+        const result = await axios.post('/api/theory/chapter', chapter)
+        return result.data as Chapter
       },
-      put: async function (chapterId: string, section: Section) {
-        const result = await axios.put('/api/theory/chapter/' + chapterId + '/section/' + section.id, section)
-        return result.data as Section
+      put: async function (chapter: Chapter) {
+        const result = await axios.put('/api/theory/chapter/' + chapter.id, chapter)
+        return result.data as Chapter
       },
-      delete: async function (chapterId: string, id: string) {
-        return axios.delete('/api/theory/chapter/' + chapterId + '/section/' + id)
+      delete: async function (id: string) {
+        return axios.delete('/api/theory/chapter/' + id)
       }
-    },
-    getIds: async function () {
-      const result = await axios.get('/api/theory/chapterIds')
-      return result.data as string[]
-    },
-    get: async function (id: string) {
-      const result = await axios.get('/api/theory/chapter/' + id)
-      return result.data as Chapter
-    },
-    post: async function (chapter: Chapter) {
-      const result = await axios.post('/api/theory/chapter', chapter)
-      return result.data as Chapter
-    },
-    put: async function (chapter: Chapter) {
-      const result = await axios.put('/api/theory/chapter/' + chapter.id, chapter)
-      return result.data as Chapter
-    },
-    delete: async function (id: string) {
-      return axios.delete('/api/theory/chapter/' + id)
     }
   }
 }
