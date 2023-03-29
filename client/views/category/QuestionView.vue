@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { api } from '@/services/api'
 import { useRoute, useRouter } from 'vue-router'
-import BackButton from '@/components/layout/BackButton.vue'
+import BackButton from '@/components/layout/HierarchicNav.vue'
 import type { QuestionWithUrls } from '@/components/domain/Question'
 import QuestionPreview from '@/components/view/QuestionPreview.vue'
 import QuestionTranslationEdit from '@/components/action/QuestionTranslationEdit.vue'
@@ -10,17 +10,27 @@ import { supportedLanguages } from '@/components/domain/SupportedLanguage'
 import QuestionMetaEdit from '@/components/action/QuestionMetaEdit.vue'
 import QuestionRemove from '@/components/action/QuestionRemove.vue'
 import QuestionImageAdd from '@/components/action/QuestionImageAdd.vue'
+import { routes } from '@/router'
 
 const question = ref<QuestionWithUrls>()
-const params = useRoute()
+const route = useRoute()
 const router = useRouter()
-const categoryId = params.params.categoryId as string
-const questionId = params.params.id as string
-api.exam.category.question.get(categoryId, questionId).then((result) => (question.value = result))
+const categoryId = computed(() => route.params.categoryId as string)
+const questionId = computed(() => route.params.id as string)
+watchEffect(() => {
+  api.exam.category.question.get(categoryId.value, questionId.value).then((result) => (question.value = result))
+})
+
+const questionIds = ref<string[]>()
+api.exam.category.question.getIds(categoryId.value).then((result) => (questionIds.value = result))
+
+const changeQuestion = (id: number) => {
+  router.replace({ name: routes.categoryQuestion, params: { categoryId: categoryId.value, id } })
+}
 </script>
 
 <template>
-  <BackButton />
+  <BackButton :can-go-back="true" :current="questionId" :siblings="questionIds" @change-sibling="changeQuestion" />
   <h2>{{ questionId }}</h2>
   <QuestionPreview v-if="question" :question="question" :category-id="categoryId" @updated="question = $event" />
   <p v-if="question" class="mt-5">
