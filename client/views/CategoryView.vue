@@ -3,13 +3,15 @@ import { ref } from 'vue'
 import { api } from '@/services/api'
 import { useRoute, useRouter } from 'vue-router'
 import type { ExamCategory } from '@/components/domain/Category'
-import CategoryEdit from '@/components/action/CategoryEdit.vue'
+import CategoryPreview from '@/components/view/CategoryPreview.vue'
 import { routes } from '@/router'
 import BackButton from '@/components/layout/BackButton.vue'
 import { useI18n } from 'vue-i18n'
 import CategoryRemove from '@/components/action/CategoryRemove.vue'
 import IdList from '@/components/view/IdList.vue'
 import QuestionCreate from '@/components/action/QuestionCreate.vue'
+import { supportedLanguages } from '@/components/domain/SupportedLanguage'
+import CategoryTranslationEdit from '@/components/action/CategoryTranslationEdit.vue'
 
 const params = useRoute()
 const router = useRouter()
@@ -30,7 +32,17 @@ const { t } = useI18n()
 
 <template>
   <BackButton />
-  <CategoryEdit v-if="category" :category="category" @updated="category = $event" />
+  <CategoryPreview v-if="category" :category="category" />
+  <p v-if="category">
+    <CategoryTranslationEdit
+      v-for="supportedLanguage in supportedLanguages"
+      :key="supportedLanguage"
+      :language="supportedLanguage"
+      :category="category"
+      :template="category.translations.find((entry) => entry.language === supportedLanguage)"
+      @updated="category = $event"
+    />
+  </p>
 
   <h3 class="mt-5">{{ t('domain.exam.category.questions') }}</h3>
   <QuestionCreate :category-id="categoryId" @created="toQuestion($event.id)" />
