@@ -2,15 +2,15 @@
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 
-const props = defineProps<{ canGoBack: boolean; siblings?: string[]; current: string }>()
+const props = withDefaults(defineProps<{ canGoBack: boolean; siblings?: string[]; current?: string }>(), { canGoBack: false })
 const emit = defineEmits<{
-  (e: 'changeSibling', target: string)
+  (e: 'changeSibling', target: string): void
 }>()
 
 const router = useRouter()
 
 const currentIndex = computed(() => {
-  if (!props.siblings) {
+  if (!props.siblings || !props.current) {
     return undefined
   }
 
@@ -43,6 +43,12 @@ const previousSibling = computed(() => {
 
   return undefined
 })
+
+const changeSibling = (target?: string) => {
+  if (target) {
+    emit('changeSibling', target)
+  }
+}
 </script>
 
 <template>
@@ -51,14 +57,18 @@ const previousSibling = computed(() => {
     <a v-if="canGoBack" href="#" @click.prevent="router.back()">
       <FontAwesomeIcon :icon="['far', 'chevron-double-left']" />
     </a>
-    <a class="ms-5" v-if="previousSibling" href="#" @click.prevent="emit('changeSibling', previousSibling)">
-      <FontAwesomeIcon :icon="['far', 'chevron-left']" />
-    </a>
-    <span class="ms-5 me-2" v-if="!previousSibling">&nbsp;</span>
-    <a class="ms-5" v-if="nextSibling" href="#" @click.prevent="emit('changeSibling', nextSibling)">
-      <FontAwesomeIcon :icon="['far', 'chevron-right']" />
-    </a>
-    <span class="ms-5 me-2" v-if="!nextSibling">&nbsp;</span>
-    <span class="ms-5" v-if="currentIndex !== undefined"> {{ currentIndex + 1 }} / {{ siblings.length }} </span>
+    <span class="ms-5">
+      <a v-if="previousSibling" href="#" @click.prevent="changeSibling(previousSibling)">
+        <FontAwesomeIcon :icon="['far', 'chevron-left']" />
+      </a>
+      <span class="me-2" v-if="!previousSibling">&nbsp;</span>
+    </span>
+    <span class="ms-5">
+      <a v-if="nextSibling" href="#" @click.prevent="changeSibling(nextSibling)">
+        <FontAwesomeIcon :icon="['far', 'chevron-right']" />
+      </a>
+      <span class="me-2" v-if="!nextSibling">&nbsp;</span>
+    </span>
+    <span class="ms-5" v-if="currentIndex !== undefined && siblings"> {{ currentIndex + 1 }} / {{ siblings.length }} </span>
   </p>
 </template>

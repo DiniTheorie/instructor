@@ -24,7 +24,7 @@ watchEffect(() => {
 const questionIds = ref<string[]>()
 api.exam.category.question.getIds(categoryId.value).then((result) => (questionIds.value = result))
 
-const changeQuestion = (id: number) => {
+const changeQuestion = (id: string) => {
   router.replace({ name: routes.categoryQuestion, params: { categoryId: categoryId.value, id } })
 }
 </script>
