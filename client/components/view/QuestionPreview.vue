@@ -1,20 +1,26 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Question } from '@/components/domain/Question'
+import type { QuestionWithUrls } from '@/components/domain/Question'
 import CorrectIndicator from '@/components/view/CorrectIndicator.vue'
 import GreenRedBadge from '@/components/shared/GreenRedBadge.vue'
 import { useI18n } from 'vue-i18n'
+import { api } from '@/services/api'
+import ImageWithFilename from '@/components/shared/ImageWithFilename.vue'
 
-const props = defineProps<{ question: Question }>()
+const props = defineProps<{ question: QuestionWithUrls; categoryId: string }>()
 
+const getImageUrl = (image: string) => api.exam.category.question.getImageUrl(props.categoryId, props.question.id, image)
 const primaryTranslation = computed(() => props.question.translations.find((entry) => entry.language === 'de'))
 const { t } = useI18n()
 </script>
 
 <template>
   <div class="row">
-    <div class="col-md-6">
-      <div v-if="primaryTranslation" class="mw-35em">
+    <div class="col-sm-9 col-md-6 col-xxl-4">
+      <ImageWithFilename :url="getImageUrl(question.examImageUrl)" :filename="question.examImageUrl" />
+    </div>
+    <div class="col-sm-9 col-md-6 col-xxl-4">
+      <div v-if="primaryTranslation">
         <p>
           <b>{{ primaryTranslation.question }}</b>
         </p>
@@ -35,8 +41,6 @@ const { t } = useI18n()
           {{ primaryTranslation.explanation }}
         </p>
       </div>
-    </div>
-    <div class="col-md-6">
       <p>
         {{ t('domain.exam.question.source') }}:
         <GreenRedBadge class="me-1" :title="t('domain.exam.question.meta.text_asa')" :active="question.meta.text_asa" />

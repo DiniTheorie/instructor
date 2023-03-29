@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Question, QuestionTranslation } from '@/components/domain/Question'
+import type { Question, QuestionTranslation, QuestionWithUrls } from '@/components/domain/Question'
 import { api } from '@/services/api'
 import { computed, ref } from 'vue'
 import type { SupportedLanguage } from '@/components/domain/SupportedLanguage'
@@ -9,7 +9,7 @@ import TranslatedTextarea from '@/components/shared/Form/TranslatedTextarea.vue'
 import TranslationFormModal from '@/components/shared/Modal/TranslationFormModal.vue'
 
 const emit = defineEmits<{
-  (e: 'updated', question: Question): void
+  (e: 'updated', question: QuestionWithUrls): void
 }>()
 
 const props = defineProps<{ language: SupportedLanguage; template?: QuestionTranslation; question: Question; categoryId: string }>()

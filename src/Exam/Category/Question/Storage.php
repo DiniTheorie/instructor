@@ -45,7 +45,7 @@ class Storage
         $examImage = StorageExtensions::readImage($questionDir, self::EXAM_FILE_NAME);
         $images = StorageExtensions::readFilteredImages($questionDir, self::EXAM_FILE_NAME);
 
-        return ['id' => $id, 'meta' => $meta, 'translations' => $translations, 'exam_image' => $examImage, 'images' => $images];
+        return ['id' => $id, 'meta' => $meta, 'translations' => $translations, 'examImageUrl' => $examImage, 'imagesUrls' => $images];
     }
 
     public function addQuestion(string $categoryId, array $question): void
@@ -71,9 +71,32 @@ class Storage
         StorageExtensions::removeDirectoryRecursively($questionDir);
     }
 
+    public function checkQuestionImageExists(string $categoryId, string $id, string $filename)
+    {
+        $questionDir = self::getQuestionDir($categoryId, $id);
+        $examImage = StorageExtensions::readImage($questionDir, self::EXAM_FILE_NAME);
+        if ($examImage === $filename) {
+            return true;
+        }
+
+        $images = StorageExtensions::readFilteredImages($questionDir, self::EXAM_FILE_NAME);
+        if (in_array($filename, $images, true)) {
+            return true;
+        }
+
+        return true;
+    }
+
     public function replaceQuestionImage(string $categoryId, string $id, ?UploadedFile $question): void
     {
         $questionDir = self::getQuestionDir($categoryId, $id);
         StorageExtensions::writeUploadedImage($questionDir, $question);
+    }
+
+    public function getQuestionImagePath(mixed $categoryId, string $id, string $filename): string
+    {
+        $questionDir = self::getQuestionDir($categoryId, $id);
+
+        return $questionDir.'/'.$filename;
     }
 }

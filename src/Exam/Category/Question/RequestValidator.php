@@ -44,6 +44,13 @@ class RequestValidator
         }
     }
 
+    public static function validateExistingQuestionImage(Request $request, Storage $storage, string $categoryId, string $questionId, string $filename): void
+    {
+        if (!$storage->checkQuestionImageExists($categoryId, $questionId, $filename)) {
+            throw new HttpNotFoundException($request, 'Image not found');
+        }
+    }
+
     public static function validateQuestion(Request $request, array $question): void
     {
         $metaKeys = ['exam', 'important', 'text_asa', 'image_asa', 'answer_1_correct', 'answer_2_correct', 'answer_3_correct'];

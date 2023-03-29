@@ -1,12 +1,14 @@
 import axios from 'axios'
 import { displayError, displaySuccess } from './notifiers'
 import type { ExamCategory } from '@/components/domain/Category'
-import type { Question } from '@/components/domain/Question'
+import type { Question, QuestionWithUrls } from '@/components/domain/Question'
 
 const validImageTypes = ['image/jpeg', 'image/png', 'image/gif']
 
+let baseUrl = ''
 if (window.location.hostname === 'localhost') {
-  axios.defaults.baseURL = 'https://localhost:8000'
+  baseUrl += 'https://localhost:8000'
+  axios.defaults.baseURL = baseUrl
 }
 
 const api = {
@@ -81,7 +83,21 @@ const api = {
         },
         get: async function (categoryId: string, id: string) {
           const result = await axios.get('/api/exam/category/' + categoryId + '/question/' + id)
-          return result.data as Question
+          return result.data as QuestionWithUrls
+        },
+        post: async function (categoryId: string, question: Question) {
+          const result = await axios.post('/api/exam/category/' + categoryId + '/question', question)
+          return result.data as QuestionWithUrls
+        },
+        put: async function (categoryId: string, question: Question) {
+          const result = await axios.put('/api/exam/category/' + categoryId + '/question/' + question.id, question)
+          return result.data as QuestionWithUrls
+        },
+        delete: async function (categoryId: string, id: string) {
+          return axios.delete('/api/exam/category/' + categoryId + '/question/' + id)
+        },
+        getImageUrl: function (categoryId: string, id: string, image: string) {
+          return baseUrl + '/api/exam/category/' + categoryId + '/question/' + id + '/image/' + image
         },
         postImage: function (categoryId: string, id: string, image: File, overrideImageName?: string) {
           let imageName = image.name
@@ -92,17 +108,6 @@ const api = {
           const data = new FormData()
           data.append('image', image, imageName)
           return axios.post('/api/exam/category/' + categoryId + '/question/' + id + '/image', data)
-        },
-        post: async function (categoryId: string, question: Question) {
-          const result = await axios.post('/api/exam/category/' + categoryId + '/question', question)
-          return result.data as Question
-        },
-        put: async function (categoryId: string, question: Question) {
-          const result = await axios.put('/api/exam/category/' + categoryId + '/question/' + question.id, question)
-          return result.data as Question
-        },
-        delete: async function (categoryId: string, id: string) {
-          return axios.delete('/api/exam/category/' + categoryId + '/question/' + id)
         }
       },
       getIds: async function () {

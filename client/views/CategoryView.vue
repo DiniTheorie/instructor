@@ -35,6 +35,7 @@ const { t } = useI18n()
   <CategoryPreview v-if="category" :category="category" />
   <p v-if="category">
     <CategoryTranslationEdit
+      class="me-1 d-inline-block"
       v-for="supportedLanguage in supportedLanguages"
       :key="supportedLanguage"
       :language="supportedLanguage"
@@ -49,6 +50,6 @@ const { t } = useI18n()
   <IdList class="mt-1" v-if="questionIds" size="2" :ids="questionIds" @click="toQuestion" />
 
   <div class="mt-5 mb-5">
-    <CategoryRemove v-if="category" :category="category" @removed="router.push({ name: routes.home })" />
+    <CategoryRemove v-if="category" :category="category" @removed="router.back()" />
   </div>
 </template>

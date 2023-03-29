@@ -7,6 +7,11 @@ export type QuestionTranslation = {
   explanation?: string
 }
 
+export type QuestionWithUrls = Question & {
+  examImageUrl: string
+  imageUrls: string[]
+}
+
 export type Question = {
   id: string
   meta: {

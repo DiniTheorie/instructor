@@ -16,6 +16,7 @@ use DiniTheorie\Instructor\Exam\Category\Storage as CategoryStorage;
 use DiniTheorie\Instructor\Utils\SlimExtensions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Psr7\Stream;
 use Slim\Routing\RouteCollectorProxy;
 
 class RouteFactory
@@ -86,6 +87,28 @@ class RouteFactory
                 $storage->removeQuestion($categoryId, $questionId);
 
                 return $response->withStatus(SlimExtensions::STATUS_OK);
+            });
+
+            $route->get('/question/{id}/image/{filename}', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
+                $categoryId = $args['categoryId'];
+                CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
+
+                $questionId = $args['id'];
+                RequestValidator::validateQuestionId($request, $questionId);
+
+                $filename = $args['filename'];
+                RequestValidator::validateExistingQuestionImage($request, $storage, $categoryId, $questionId, $filename);
+
+                $path = $storage->getQuestionImagePath($categoryId, $questionId, $filename);
+
+                $fh = fopen($path, 'rb');
+                $stream = new Stream($fh);
+
+                return $response->withBody($stream)
+                    ->withHeader('Content-Disposition', 'attachment; filename='.$filename.';')
+                    ->withHeader('Expires', '0') // immediately expire
+                    ->withHeader('Content-Type', mime_content_type($path))
+                    ->withHeader('Content-Length', filesize($path));
             });
 
             $route->post('/question/{id}/image', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {

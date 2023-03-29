@@ -35,8 +35,14 @@
       "question_create": {
         "title": "Frage hinzufügen"
       },
+      "question_meta_edit": {
+        "title": "Meta"
+      },
       "category_remove": {
         "remove_all": "Kategorie und Fragen entfernen"
+      },
+      "question_remove": {
+        "remove_all": "Frage & Bilder entfernen"
       }
     },
     "shared": {
@@ -61,11 +67,15 @@
         "exam_image": "Prüfungsbild",
         "source": "Quelle",
         "classification": "Einstufung",
+        "answer_correctness": "Lösung",
         "meta": {
           "text_asa": "Text ASA",
           "image_asa": "Bild ASA",
           "important": "Wichtig",
-          "exam": "Teil der Prüfung"
+          "exam": "Teil der Prüfung",
+          "answer_1_correct": "Antwort 1 richtig",
+          "answer_2_correct": "Antwort 2 richtig",
+          "answer_3_correct": "Antwort 3 richtig"
         },
         "question": "Frage",
         "answer_1": "Antwort 1",

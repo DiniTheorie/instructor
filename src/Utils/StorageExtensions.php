@@ -128,7 +128,7 @@ class StorageExtensions
             }
 
             if (self::checkSupportedImageFile($node)) {
-                return $node;
+                return substr($node, strlen($dir) + 1);
             }
         }
 
@@ -150,7 +150,7 @@ class StorageExtensions
             }
 
             if (self::checkSupportedImageFile($node)) {
-                $result[] = $node;
+                $result[] = substr($node, strlen($dir) + 1);
             }
         }
 
