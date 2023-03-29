@@ -18,11 +18,16 @@ use Slim\Exception\HttpNotFoundException;
 
 class RequestValidator
 {
-    public static function validateNewCategoryId(Request $request, Storage $storage, string $categoryId): void
+    public static function validateCategoryId(Request $request, string $categoryId): void
     {
         if (!preg_match('/^\w+/i', $categoryId)) {
             throw new HttpBadRequestException($request, 'category name invalid; use only alphanummeric or underscore');
         }
+    }
+
+    public static function validateNewCategoryId(Request $request, Storage $storage, string $categoryId): void
+    {
+        self::validateCategoryId($request, $categoryId);
 
         $categories = $storage->getCategoryIds();
         if (in_array($categoryId, $categories, true)) {
@@ -30,7 +35,7 @@ class RequestValidator
         }
     }
 
-    public static function validateCategoryId(Request $request, Storage $storage, string $categoryId): void
+    public static function validateExistingCategoryId(Request $request, Storage $storage, string $categoryId): void
     {
         $categories = $storage->getCategoryIds();
         if (!in_array($categoryId, $categories, true)) {

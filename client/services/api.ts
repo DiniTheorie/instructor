@@ -13,18 +13,30 @@ const api = {
   setup: function (translator: (label: string) => string) {
     axios.interceptors.response.use(
       (response) => {
-        if (response.config.url.endsWith('/publish')) {
+        const url = response.config.url
+        const method = response.config.method
+        if (url?.endsWith('/publish')) {
           const message = translator('service.api.published')
           displaySuccess(message)
-        } else if (response.config.method === 'post') {
-          const message = translator('service.api.created')
-          displaySuccess(message)
-        } else if (response.config.method === 'put') {
+        } else if (method === 'post') {
+          if (url?.endsWith('/image')) {
+            const message = translator('service.api.image_created')
+            displaySuccess(message)
+          } else {
+            const message = translator('service.api.created')
+            displaySuccess(message)
+          }
+        } else if (method === 'put') {
           const message = translator('service.api.stored')
           displaySuccess(message)
-        } else if (response.config.method === 'delete') {
-          const message = translator('service.api.removed')
-          displaySuccess(message)
+        } else if (method === 'delete') {
+          if (url?.endsWith('/image')) {
+            const message = translator('service.api.image_removed')
+            displaySuccess(message)
+          } else {
+            const message = translator('service.api.removed')
+            displaySuccess(message)
+          }
         }
 
         return response
@@ -69,6 +81,20 @@ const api = {
         },
         get: async function (categoryId: string, id: string) {
           const result = await axios.get('/api/exam/category/' + categoryId + '/question/' + id)
+          return result.data as Question
+        },
+        postImage: function (categoryId: string, id: string, image: File, overrideImageName?: string) {
+          let imageName = image.name
+          if (overrideImageName) {
+            const extension = imageName.split('.').pop()
+            imageName = overrideImageName + '.' + extension
+          }
+          const data = new FormData()
+          data.append('image', image, imageName)
+          return axios.post('/api/exam/category/' + categoryId + '/question/' + id + '/image', data)
+        },
+        post: async function (categoryId: string, question: Question) {
+          const result = await axios.post('/api/exam/category/' + categoryId + '/question', question)
           return result.data as Question
         },
         put: async function (categoryId: string, question: Question) {

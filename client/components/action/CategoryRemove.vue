@@ -7,7 +7,7 @@ import RemoveButton from '@/components/shared/RemoveButton.vue'
 const props = defineProps<{ category: ExamCategory }>()
 
 const emit = defineEmits<{
-  (e: 'removed')
+  (e: 'removed'): void
 }>()
 
 const { t } = useI18n()

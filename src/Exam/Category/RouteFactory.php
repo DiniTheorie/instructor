@@ -34,7 +34,7 @@ class RouteFactory
 
             $route->get('/category/{id}', function (Request $request, Response $response, array $args) use ($storage) {
                 $categoryId = $args['id'];
-                RequestValidator::validateCategoryId($request, $storage, $categoryId);
+                RequestValidator::validateExistingCategoryId($request, $storage, $categoryId);
 
                 $category = $storage->getCategory($categoryId);
 
@@ -55,7 +55,7 @@ class RouteFactory
 
             $route->put('/category/{id}', function (Request $request, Response $response, array $args) use ($storage) {
                 $category = SlimExtensions::parseJsonRequestBody($request);
-                RequestValidator::validateCategoryId($request, $storage, $args['id']);
+                RequestValidator::validateExistingCategoryId($request, $storage, $args['id']);
                 RequestValidator::validateCategory($request, $category);
 
                 $storage->storeCategory($category);
@@ -67,7 +67,7 @@ class RouteFactory
 
             $route->delete('/category/{id}', function (Request $request, Response $response, array $args) use ($storage) {
                 $categoryId = $args['id'];
-                RequestValidator::validateCategoryId($request, $storage, $categoryId);
+                RequestValidator::validateExistingCategoryId($request, $storage, $categoryId);
 
                 $storage->removeCategory($categoryId);
 

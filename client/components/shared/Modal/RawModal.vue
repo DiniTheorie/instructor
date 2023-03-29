@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 defineProps<{ title: string }>()
 const emit = defineEmits<{
@@ -22,10 +22,18 @@ const mouseUpOutside = (event: MouseEvent) => {
     emit('hide')
   }
 }
+
+const handleEsc = (event: KeyboardEvent) => {
+  if (event.key === 'Escape') {
+    emit('hide')
+  }
+}
+onMounted(() => document.addEventListener('keyup', handleEsc))
+onUnmounted(() => document.removeEventListener('keyup', handleEsc))
 </script>
 
 <template>
-  <div class="modal-wrapper">
+  <div class="modal-wrapper" @keydown.esc="emit('hide')">
     <div class="modal fade show d-block" @mousedown="lastMouseDownEvent = $event" @mouseup.self="mouseUpOutside" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">

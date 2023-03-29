@@ -15,7 +15,7 @@ const emit = defineEmits<{
 
 const props = defineProps<{ language: SupportedLanguage; template?: ExamCategoryTranslation; category: ExamCategory }>()
 
-const model = ref({ name: props.template?.name, description: props.template?.description })
+const model = ref({ name: props.template?.name ?? '', description: props.template?.description ?? '' })
 
 const store = async () => {
   const translations: ExamCategoryTranslation[] = supportedLanguages

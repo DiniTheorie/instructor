@@ -13,9 +13,21 @@ namespace DiniTheorie\Instructor\Utils;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpBadRequestException;
+use Slim\Psr7\UploadedFile;
 
 class RequestValidatorExtensions
 {
+    public static function checkFileUploadSuccessful(Request $request, ?UploadedFile $file): void
+    {
+        if (!$file) {
+            throw new HttpBadRequestException($request, 'file upload failed; no file was received by the server.');
+        }
+
+        if (UPLOAD_ERR_OK !== $file->getError()) {
+            throw new HttpBadRequestException($request, 'file upload failed with code '.$file->getError().'.');
+        }
+    }
+
     public static function checkExactlyKeysSet(Request $request, array $array, ...$keys): void
     {
         if (count(array_keys($array)) !== count($keys)) {

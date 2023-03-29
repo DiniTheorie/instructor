@@ -8,7 +8,7 @@ defineProps<{ ids: string[]; size: string }>()
 
 <template>
   <div class="row g-2">
-    <div v-for="id in ids" :key="id" :class="'col-' + size">
+    <div v-for="id in ids" :key="id" :class="'col-md-' + size">
       <div role="button" class="card shadow-sm bg-body-tertiary" @click="emit('click', id)">
         <div class="card-body">
           <p class="mb-0">

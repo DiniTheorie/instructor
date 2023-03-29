@@ -12,3 +12,14 @@ $enable-shadows: true;
 
 @use 'scss/typography';
 @use 'scss/colors';
+
+.form-switch-green-red .form-check-input {
+  background-color: bootstrap.$danger;
+  border-color: bootstrap.$danger;
+  background-image: bootstrap.escape-svg(bootstrap.$form-switch-checked-bg-image);
+}
+
+.form-switch-green-red .form-check-input:checked {
+  background-color: bootstrap.$success;
+  border-color: bootstrap.$success;
+}

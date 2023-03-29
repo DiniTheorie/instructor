@@ -2,9 +2,11 @@
   "service": {
     "api": {
       "published": "Änderungen publiziert",
+      "image_created": "Bild erfolgreich hochgeladen",
       "created": "Erfolgreich erstellt",
       "stored": "Änderungen gespeichert",
       "removed": "Erfolgreich entfernt",
+      "image_removed": "Bild erfolgreich entfernt",
       "request_failed": "Serveraufruf fehlgeschlagen"
     }
   },
@@ -28,15 +30,13 @@
   "components": {
     "action": {
       "category_create": {
-        "id_help": "Darf nur einmalig vorkommen und muss aus a-z A-Z 0-9 bestehen (kein äöü oder sonst Komisches). Nicht mehr änderbar!"
+        "title": "Kategorie hinzufügen"
+      },
+      "question_create": {
+        "title": "Frage hinzufügen"
       },
       "category_remove": {
         "remove_all": "Kategorie und Fragen entfernen"
-      }
-    },
-    "exam": {
-      "category": {
-        "create": "Kategorie hinzufügen"
       }
     },
     "shared": {
@@ -46,13 +46,32 @@
     }
   },
   "domain": {
+    "folder": {
+      "id": "Id",
+      "id_help": "Darf nur einmalig vorkommen und muss aus a-z A-Z 0-9 bestehen (kein äöü oder sonst Komisches). Nicht mehr änderbar!"
+    },
     "exam": {
       "category": {
-        "id": "Id",
         "name": "Name",
         "description": "Beschreibung",
         "translations": "Übersetzungen",
         "questions": "Fragen"
+      },
+      "question": {
+        "exam_image": "Prüfungsbild",
+        "source": "Quelle",
+        "classification": "Einstufung",
+        "meta": {
+          "text_asa": "Text ASA",
+          "image_asa": "Bild ASA",
+          "important": "Wichtig",
+          "exam": "Teil der Prüfung"
+        },
+        "question": "Frage",
+        "answer_1": "Antwort 1",
+        "answer_2": "Antwort 2",
+        "answer_3": "Antwort 3",
+        "explanation": "Erklärung"
       }
     },
     "supported_language": {

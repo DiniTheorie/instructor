@@ -9,6 +9,7 @@ import BackButton from '@/components/layout/BackButton.vue'
 import { useI18n } from 'vue-i18n'
 import CategoryRemove from '@/components/action/CategoryRemove.vue'
 import IdList from '@/components/view/IdList.vue'
+import QuestionCreate from '@/components/action/QuestionCreate.vue'
 
 const params = useRoute()
 const router = useRouter()
@@ -32,6 +33,7 @@ const { t } = useI18n()
   <CategoryEdit v-if="category" :category="category" @updated="category = $event" />
 
   <h3 class="mt-5">{{ t('domain.exam.category.questions') }}</h3>
+  <QuestionCreate :category-id="categoryId" @created="toQuestion($event.id)" />
   <IdList class="mt-1" v-if="questionIds" size="2" :ids="questionIds" @click="toQuestion" />
 
   <div class="mt-5 mb-5">

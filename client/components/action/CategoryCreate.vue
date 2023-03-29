@@ -30,8 +30,8 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <FormModal :submit="storeCategory" :can-submit="canSubmit" :title="t('components.exam.category.create')">
-    <FormField class="mb-5" field="domain.exam.category.id" help="components.action.category_create.id_help" v-model="model.id" />
+  <FormModal :submit="storeCategory" :can-submit="canSubmit" :title="t('components.action.category_create.title')">
+    <FormField class="mb-5" field="domain.folder.id" help="domain.folder.id_help" v-model="model.id" />
     <TranslatedField class="mb-3" field="domain.exam.category.name" language="de" v-model="model.name" />
     <TranslatedTextarea field="domain.exam.category.description" language="de" v-model="model.description" />
   </FormModal>

@@ -11,6 +11,7 @@
 
 namespace DiniTheorie\Instructor\Utils;
 
+use Slim\Psr7\UploadedFile;
 use Symfony\Component\Yaml\Yaml;
 
 class StorageExtensions
@@ -105,5 +106,15 @@ class StorageExtensions
     {
         $content = Yaml::dump($content);
         file_put_contents($filePath, $content);
+    }
+
+    public static function writeUploadedFile(string $dir, UploadedFile $file): void
+    {
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
+
+        $filename = pathinfo($file->getClientFilename(), PATHINFO_BASENAME);
+        $file->moveTo($dir.'/'.$filename);
     }
 }

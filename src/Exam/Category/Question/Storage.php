@@ -12,6 +12,7 @@
 namespace DiniTheorie\Instructor\Exam\Category\Question;
 
 use DiniTheorie\Instructor\Utils\StorageExtensions;
+use Slim\Psr7\UploadedFile;
 
 class Storage
 {
@@ -65,5 +66,11 @@ class Storage
         $questionDir = self::getQuestionDir($categoryId, $id);
 
         StorageExtensions::removeDirectoryRecursively($questionDir);
+    }
+
+    public function replaceQuestionImage(string $categoryId, string $id, ?UploadedFile $question): void
+    {
+        $questionDir = self::getQuestionDir($categoryId, $id);
+        StorageExtensions::writeUploadedFile($questionDir, $question);
     }
 }

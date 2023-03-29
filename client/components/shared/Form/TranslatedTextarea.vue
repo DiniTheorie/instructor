@@ -9,17 +9,22 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: string)
+  (e: 'update:modelValue', value: string): void
 }>()
 
+const handleInput = (event: Event) => {
+  emit('update:modelValue', (event.target as HTMLInputElement).value)
+}
+
 const { t } = useI18n()
+const uniqueId = String(Math.random())
 </script>
 
 <template>
   <div>
-    <label class="form-label">{{ t(field) }}</label>
+    <label class="form-label" :for="uniqueId">{{ t(field) }}</label>
     <div class="input-group mb-1">
-      <textarea rows="2" class="form-control" :value="modelValue" @input="emit('update:modelValue', $event.target.value)" />
+      <textarea rows="2" class="form-control" :id="uniqueId" :value="modelValue" @input="handleInput" />
       <span class="input-group-text">{{ t('domain.supported_language.' + language) }}</span>
     </div>
   </div>

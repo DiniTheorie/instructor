@@ -27,7 +27,7 @@ class RouteFactory
         $route->group('/exam/category/{categoryId}', function (RouteCollectorProxy $route) use ($categoryStorage, $storage) {
             $route->get('/questionIds', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
                 $categoryId = $args['categoryId'];
-                CategoryRequestValidator::validateCategoryId($request, $categoryStorage, $categoryId);
+                CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
 
                 $categories = $storage->getQuestionIds($categoryId);
 
@@ -36,10 +36,10 @@ class RouteFactory
 
             $route->get('/question/{id}', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
                 $categoryId = $args['categoryId'];
-                CategoryRequestValidator::validateCategoryId($request, $categoryStorage, $categoryId);
+                CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
 
                 $questionId = $args['id'];
-                RequestValidator::validateQuestionId($request, $storage, $categoryId, $questionId);
+                RequestValidator::validateExistingQuestionId($request, $storage, $categoryId, $questionId);
 
                 $question = $storage->getQuestion($categoryId, $questionId);
 
@@ -48,7 +48,7 @@ class RouteFactory
 
             $route->post('/question', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
                 $categoryId = $args['categoryId'];
-                CategoryRequestValidator::validateCategoryId($request, $categoryStorage, $categoryId);
+                CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
 
                 $question = SlimExtensions::parseJsonRequestBody($request);
                 RequestValidator::validateNewQuestionId($request, $storage, $categoryId, $question['id']);
@@ -63,10 +63,10 @@ class RouteFactory
 
             $route->put('/question/{id}', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
                 $categoryId = $args['categoryId'];
-                CategoryRequestValidator::validateCategoryId($request, $categoryStorage, $categoryId);
+                CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
 
                 $question = SlimExtensions::parseJsonRequestBody($request);
-                RequestValidator::validateQuestionId($request, $storage, $categoryId, $args['id']);
+                RequestValidator::validateExistingQuestionId($request, $storage, $categoryId, $args['id']);
                 RequestValidator::validateQuestion($request, $question);
 
                 $storage->storeQuestion($categoryId, $question);
@@ -78,12 +78,26 @@ class RouteFactory
 
             $route->delete('/question/{id}', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
                 $categoryId = $args['categoryId'];
-                CategoryRequestValidator::validateCategoryId($request, $categoryStorage, $categoryId);
+                CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
 
                 $questionId = $args['id'];
-                RequestValidator::validateQuestionId($request, $storage, $categoryId, $questionId);
+                RequestValidator::validateExistingQuestionId($request, $storage, $categoryId, $questionId);
 
                 $storage->removeQuestion($categoryId, $questionId);
+
+                return $response->withStatus(SlimExtensions::STATUS_OK);
+            });
+
+            $route->post('/question/{id}/image', function (Request $request, Response $response, array $args) use ($categoryStorage, $storage) {
+                $categoryId = $args['categoryId'];
+                CategoryRequestValidator::validateExistingCategoryId($request, $categoryStorage, $categoryId);
+
+                $questionId = $args['id'];
+                RequestValidator::validateQuestionId($request, $questionId);
+
+                $file = current($request->getUploadedFiles());
+                RequestValidator::validateQuestionImage($request, $file);
+                $storage->replaceQuestionImage($categoryId, $questionId, $file);
 
                 return $response->withStatus(SlimExtensions::STATUS_OK);
             });

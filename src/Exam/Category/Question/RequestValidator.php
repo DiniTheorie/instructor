@@ -15,26 +15,32 @@ use DiniTheorie\Instructor\Utils\RequestValidatorExtensions;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
+use Slim\Psr7\UploadedFile;
 
 class RequestValidator
 {
-    public static function validateNewQuestionId(Request $request, Storage $storage, string $categoryId, string $questionId): void
+    public static function validateQuestionId(Request $request, string $questionId): void
     {
         if (!preg_match('/^\w+/i', $questionId)) {
-            throw new HttpBadRequestException($request, 'category name invalid; use only alphanummeric or underscore');
-        }
-
-        $questions = $storage->getQuestionIds($categoryId);
-        if (in_array($questionId, $questions, true)) {
-            throw new HttpBadRequestException($request, 'category already exists');
+            throw new HttpBadRequestException($request, 'question name invalid; use only alphanummeric or underscore');
         }
     }
 
-    public static function validateQuestionId(Request $request, Storage $storage, string $categoryId, string $questionId): void
+    public static function validateNewQuestionId(Request $request, Storage $storage, string $categoryId, string $questionId): void
+    {
+        self::validateQuestionId($request, $questionId);
+
+        $questions = $storage->getQuestionIds($categoryId);
+        if (in_array($questionId, $questions, true)) {
+            throw new HttpBadRequestException($request, 'question already exists');
+        }
+    }
+
+    public static function validateExistingQuestionId(Request $request, Storage $storage, string $categoryId, string $questionId): void
     {
         $questions = $storage->getQuestionIds($categoryId);
         if (!in_array($questionId, $questions, true)) {
-            throw new HttpNotFoundException($request, 'category not found');
+            throw new HttpNotFoundException($request, 'question not found');
         }
     }
 
@@ -45,8 +51,13 @@ class RequestValidator
         RequestValidatorExtensions::checkKeysBoolean($request, $question['meta'], ...$metaKeys);
 
         foreach ($question['translations'] as $translation) {
-            RequestValidatorExtensions::checkExactlyKeysSet($request, $translation, 'language', 'category', 'answer_1', 'answer_2', 'answer_3');
+            RequestValidatorExtensions::checkExactlyKeysSet($request, $translation, 'language', 'question', 'answer_1', 'answer_2', 'answer_3', 'explanation');
             RequestValidatorExtensions::checkLanguageSupported($request, $translation['language']);
         }
+    }
+
+    public static function validateQuestionImage(Request $request, ?UploadedFile $file): void
+    {
+        RequestValidatorExtensions::checkFileUploadSuccessful($request, $file);
     }
 }

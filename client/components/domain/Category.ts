@@ -6,5 +6,5 @@ export type ExamCategoryTranslation = {
 
 export type ExamCategory = {
   id: string
-  translations: [ExamCategoryTranslation]
+  translations: ExamCategoryTranslation[]
 }
