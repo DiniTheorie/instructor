@@ -11,6 +11,7 @@
 
 namespace DiniTheorie\Instructor\Utils;
 
+use DiniTheorie\Instructor\PathHelper;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Psr7\UploadedFile;
@@ -26,6 +27,18 @@ class RequestValidatorExtensions
         if (UPLOAD_ERR_OK !== $file->getError()) {
             throw new HttpBadRequestException($request, 'file upload failed with code '.$file->getError().'.');
         }
+    }
+
+    public static function checkSupportedImageFile(Request $request, ?UploadedFile $file): void
+    {
+        foreach (PathHelper::SUPPORTED_IMAGE_EXTENSIONS as $extension) {
+            if (str_ends_with($file->getClientFilename(), $extension)) {
+                return;
+            }
+        }
+
+        $supportedExtensions = join(',', PathHelper::SUPPORTED_IMAGE_EXTENSIONS);
+        throw new HttpBadRequestException($request, 'Filetype of '.$file->getClientFilename().' not supported. Supported are only: '.$supportedExtensions);
     }
 
     public static function checkExactlyKeysSet(Request $request, array $array, array $requiredKeys, array $optionalKeys = []): void

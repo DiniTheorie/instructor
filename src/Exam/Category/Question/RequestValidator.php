@@ -59,5 +59,6 @@ class RequestValidator
     public static function validateQuestionImage(Request $request, ?UploadedFile $file): void
     {
         RequestValidatorExtensions::checkFileUploadSuccessful($request, $file);
+        RequestValidatorExtensions::checkSupportedImageFile($request, $file);
     }
 }

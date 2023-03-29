@@ -11,6 +11,7 @@
 
 namespace DiniTheorie\Instructor\Utils;
 
+use DiniTheorie\Instructor\PathHelper;
 use Slim\Psr7\UploadedFile;
 use Symfony\Component\Yaml\Yaml;
 
@@ -108,7 +109,7 @@ class StorageExtensions
         file_put_contents($filePath, $content);
     }
 
-    public static function writeUploadedFile(string $dir, UploadedFile $file): void
+    public static function writeUploadedImage(string $dir, UploadedFile $file): void
     {
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
@@ -116,5 +117,54 @@ class StorageExtensions
 
         $filename = pathinfo($file->getClientFilename(), PATHINFO_BASENAME);
         $file->moveTo($dir.'/'.$filename);
+    }
+
+    public static function readImage(string $dir, string $fileName): ?string
+    {
+        $nodes = glob($dir.'/'.$fileName.'.*');
+        foreach ($nodes as $node) {
+            if (!is_file($node)) {
+                continue;
+            }
+
+            if (self::checkSupportedImageFile($node)) {
+                return $node;
+            }
+        }
+
+        return null;
+    }
+
+    public static function readFilteredImages(string $dir, string $negativeFilter = ''): array
+    {
+        $nodes = glob($dir.'/*.*');
+        $result = [];
+        foreach ($nodes as $node) {
+            if (!is_file($node)) {
+                continue;
+            }
+
+            $basename = pathinfo($node, PATHINFO_BASENAME);
+            if ($negativeFilter && str_starts_with($basename, $negativeFilter)) {
+                continue;
+            }
+
+            if (self::checkSupportedImageFile($node)) {
+                $result[] = $node;
+            }
+        }
+
+        return $result;
+    }
+
+    private static function checkSupportedImageFile(string $path): bool
+    {
+        foreach (PathHelper::SUPPORTED_IMAGE_EXTENSIONS as $supportedImageExtension) {
+            if (str_ends_with($path, $supportedImageExtension)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -17,6 +17,7 @@ use Slim\Psr7\UploadedFile;
 class Storage
 {
     private const META_FILE_NAME = 'meta.yml';
+    private const EXAM_FILE_NAME = 'exam';
 
     private static function getQuestionsDir(string $categoryId): string
     {
@@ -41,8 +42,10 @@ class Storage
 
         $translations = StorageExtensions::readTranslations($questionDir);
         $meta = StorageExtensions::readYmlFile($questionDir.'/'.self::META_FILE_NAME);
+        $examImage = StorageExtensions::readImage($questionDir, self::EXAM_FILE_NAME);
+        $images = StorageExtensions::readFilteredImages($questionDir, self::EXAM_FILE_NAME);
 
-        return ['id' => $id, 'meta' => $meta, 'translations' => $translations];
+        return ['id' => $id, 'meta' => $meta, 'translations' => $translations, 'exam_image' => $examImage, 'images' => $images];
     }
 
     public function addQuestion(string $categoryId, array $question): void
@@ -71,6 +74,6 @@ class Storage
     public function replaceQuestionImage(string $categoryId, string $id, ?UploadedFile $question): void
     {
         $questionDir = self::getQuestionDir($categoryId, $id);
-        StorageExtensions::writeUploadedFile($questionDir, $question);
+        StorageExtensions::writeUploadedImage($questionDir, $question);
     }
 }
