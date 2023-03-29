@@ -42,6 +42,7 @@
         "./vendor/bin/php-cs-fixer fix",
         "npm run lint",
         "npm run format",
+        "npm run types:check",
         "git update-index --again"
       ],
       "post-merge": [
