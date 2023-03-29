@@ -47,11 +47,11 @@ class RequestValidator
     public static function validateQuestion(Request $request, array $question): void
     {
         $metaKeys = ['exam', 'important', 'text_asa', 'image_asa', 'answer_1_correct', 'answer_2_correct', 'answer_3_correct'];
-        RequestValidatorExtensions::checkExactlyKeysSet($request, $question['meta'], ...$metaKeys);
-        RequestValidatorExtensions::checkKeysBoolean($request, $question['meta'], ...$metaKeys);
+        RequestValidatorExtensions::checkExactlyKeysSet($request, $question['meta'], $metaKeys);
+        RequestValidatorExtensions::checkKeysBoolean($request, $question['meta'], $metaKeys);
 
         foreach ($question['translations'] as $translation) {
-            RequestValidatorExtensions::checkExactlyKeysSet($request, $translation, 'language', 'question', 'answer_1', 'answer_2', 'answer_3', 'explanation');
+            RequestValidatorExtensions::checkExactlyKeysSet($request, $translation, ['language', 'question', 'answer_1', 'answer_2', 'answer_3'], ['explanation']);
             RequestValidatorExtensions::checkLanguageSupported($request, $translation['language']);
         }
     }

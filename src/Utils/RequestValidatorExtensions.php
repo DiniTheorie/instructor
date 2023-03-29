@@ -28,20 +28,22 @@ class RequestValidatorExtensions
         }
     }
 
-    public static function checkExactlyKeysSet(Request $request, array $array, ...$keys): void
+    public static function checkExactlyKeysSet(Request $request, array $array, array $requiredKeys, array $optionalKeys = []): void
     {
-        if (count(array_keys($array)) !== count($keys)) {
-            throw new HttpBadRequestException($request, 'you must provide exactly '.count($keys).' keys.');
-        }
-
-        foreach ($keys as $key) {
+        foreach ($requiredKeys as $key) {
             if (!key_exists($key, $array)) {
                 throw new HttpBadRequestException($request, 'key '.$key.' expected, but not provided.');
             }
         }
+
+        foreach (array_keys($array) as $key) {
+            if (!in_array($key, $requiredKeys, true) && !in_array($key, $optionalKeys, true)) {
+                throw new HttpBadRequestException($request, 'the key '.$key.' is invalid.');
+            }
+        }
     }
 
-    public static function checkKeysBoolean(Request $request, array $array, ...$keys): void
+    public static function checkKeysBoolean(Request $request, array $array, array $keys): void
     {
         foreach ($keys as $key) {
             if (!is_bool($array[$key])) {

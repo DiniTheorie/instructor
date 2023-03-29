@@ -31,7 +31,8 @@ const { t } = useI18n()
           {{ primaryTranslation.answer_3 }}
         </p>
         <p class="alert alert-info mt-4">
-          <b>{{ primaryTranslation.explanation }}</b>
+          <span>{{ t('domain.exam.question.explanation') }}: </span>
+          {{ primaryTranslation.explanation }}
         </p>
       </div>
     </div>

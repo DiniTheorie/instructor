@@ -46,7 +46,7 @@ class RequestValidator
     public static function validateCategory(Request $request, array $category): void
     {
         foreach ($category['translations'] as $translation) {
-            RequestValidatorExtensions::checkExactlyKeysSet($request, $translation, 'language', 'name', 'description');
+            RequestValidatorExtensions::checkExactlyKeysSet($request, $translation, ['language', 'name', 'description']);
             RequestValidatorExtensions::checkLanguageSupported($request, $translation['language']);
         }
     }

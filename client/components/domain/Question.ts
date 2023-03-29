@@ -1,3 +1,12 @@
+export type QuestionTranslation = {
+  language: string
+  question: string
+  answer_1: string
+  answer_2: string
+  answer_3: string
+  explanation?: string
+}
+
 export type Question = {
   id: string
   meta: {
@@ -9,14 +18,5 @@ export type Question = {
     answer_2_correct: boolean
     answer_3_correct: boolean
   }
-  translations: [
-    {
-      language: string
-      question: string
-      answer_1: string
-      answer_2: string
-      answer_3: string
-      explanation?: string
-    }
-  ]
+  translations: QuestionTranslation[]
 }

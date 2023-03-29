@@ -27,14 +27,14 @@ const store = async () => {
     })
     .filter(truthy)
 
-  const payload: ExamCategory = { id: props.category.id, translations }
+  const payload: ExamCategory = { ...props.category, translations }
   const category = await api.exam.category.put(payload)
   emit('updated', category)
 }
 
 const remove = async () => {
   const translations = props.category.translations.filter((entry) => entry.language !== props.language)
-  const payload: ExamCategory = { id: props.category.id, translations }
+  const payload: ExamCategory = { ...props.category, translations }
   const category = await api.exam.category.put(payload)
   emit('updated', category)
 }
