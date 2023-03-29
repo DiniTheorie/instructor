@@ -11,6 +11,7 @@ import ChapterRemove from '@/components/action/theory/ChapterRemove.vue'
 import IdList from '@/components/view/IdList.vue'
 import { supportedLanguages } from '@/components/domain/SupportedLanguage'
 import ChapterTranslationEdit from '@/components/action/theory/ChapterTranslationEdit.vue'
+import SectionCreate from '@/components/action/theory/SectionCreate.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -53,6 +54,7 @@ const { t } = useI18n()
   </p>
 
   <h3 class="mt-5">{{ t('domain.theory.chapter.sections') }}</h3>
+  <SectionCreate :chapter-id="chapterId" @created="toSection($event.id)" />
   <IdList class="mt-1" v-if="sectionIds" size="2" :ids="sectionIds" @click="toSection" />
 
   <div class="mt-5">

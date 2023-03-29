@@ -40,7 +40,7 @@ const router = createRouter({
       path: '/chapter/:chapterId/section/:id',
       name: routes.chapterSection,
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/theory/ChapterView.vue')
+      component: () => import('../views/theory/SectionView.vue')
     },
     {
       path: '/chapter/:chapterId/section/:sectionId/article/:id',

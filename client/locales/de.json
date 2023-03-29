@@ -53,6 +53,12 @@
       },
       "chapter_remove": {
         "remove_all": "Kapitel, Abschnitte und Artikel entfernen"
+      },
+      "section_create": {
+        "title": "Abschnitt hinzufügen"
+      },
+      "section_remove": {
+        "remove_all": "Abschnitt und Artikel entfernen"
       }
     },
     "shared": {
@@ -101,6 +107,18 @@
         "description": "Beschreibung",
         "translations": "Übersetzungen",
         "sections": "Abschnitte"
+      },
+      "section": {
+        "title": "Titel",
+        "description": "Beschreibung",
+        "translations": "Übersetzungen",
+        "view": "Ansicht",
+        "views": {
+          "list": "Liste",
+          "gallery": "Gallerie"
+        },
+        "view_help": "Gallery auswählen, wenn das Artikelbild die Hauptaussage ist (zB. Verkehrsschild). Sonst Liste auswählen.",
+        "articles": "Artikel"
       }
     },
     "supported_language": {
