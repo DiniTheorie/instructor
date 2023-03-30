@@ -1,7 +1,18 @@
 <script setup lang="ts">
+import { ref, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useSettingsStore } from '@/stores/settingsStore'
 import { api } from '@/services/api'
 import SubmitButton from '@/components/shared/LoadingButton.vue'
+import type { SupportedLanguage } from '@/components/domain/SupportedLanguage'
+import { supportedLanguages } from '@/components/domain/SupportedLanguage'
+
+const language = ref<SupportedLanguage>('de')
+
+const settings = useSettingsStore()
+watchEffect(() => {
+  settings.setPreviewLanguage(language.value)
+})
 
 const publishChanges = async () => {
   await api.store()
@@ -39,6 +50,14 @@ const { t } = useI18n()
           <SubmitButton :submit="publishChanges">{{ t('layout.nav_bar.publish_changes') }}</SubmitButton>
           <SubmitButton class="btn-danger" :submit="discardChanges">{{ t('layout.nav_bar.discard_changes') }}</SubmitButton>
         </div>
+        <form class="d-flex ms-4">
+          <label class="col-form-label me-2" for="language-select">{{ t('layout.nav_bar.preview_language') }}</label>
+          <select class="form-select" v-model="language" id="language-select" aria-label="Default select example">
+            <option v-for="language in supportedLanguages" :key="language" :value="language">
+              {{ t('domain.supported_language.' + language) }}
+            </option>
+          </select>
+        </form>
       </div>
     </div>
   </nav>

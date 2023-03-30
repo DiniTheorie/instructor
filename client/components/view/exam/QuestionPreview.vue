@@ -7,6 +7,9 @@ import { useI18n } from 'vue-i18n'
 import { api } from '@/services/api'
 import ImageWithFilename from '@/components/shared/ImageWithFilename.vue'
 import RemovableImageWithFilename from '@/components/shared/RemovableImageWithFilename.vue'
+import { useSettingsStore } from '@/stores/settingsStore'
+import { storeToRefs } from 'pinia'
+import TranslationMissing from '@/components/view/TranslationMissing.vue'
 
 const props = defineProps<{ question: QuestionWithUrls; categoryId: string }>()
 
@@ -15,7 +18,8 @@ const emit = defineEmits<{
 }>()
 
 const getImageUrl = (image: string) => api.exam.category.question.getImageUrl(props.categoryId, props.question.id, image)
-const primaryTranslation = computed(() => props.question.translations.find((entry) => entry.language === 'de'))
+const { previewLanguage } = storeToRefs(useSettingsStore())
+const primaryTranslation = computed(() => props.question.translations.find((entry) => entry.language === previewLanguage.value))
 const { t } = useI18n()
 
 const removeImage = async (image: string) => {
@@ -37,7 +41,7 @@ const removeImage = async (image: string) => {
     </div>
     <div class="col-sm-9 col-md-6 col-xxl-4">
       <div v-if="primaryTranslation">
-        <p>
+        <p v-if="primaryTranslation.question">
           <b>{{ primaryTranslation.question }}</b>
         </p>
         <p>
@@ -57,6 +61,7 @@ const removeImage = async (image: string) => {
           {{ primaryTranslation.explanation }}
         </p>
       </div>
+      <TranslationMissing v-else />
       <p>
         {{ t('domain.exam.question.source') }}:
         <GreenRedBadge class="me-1" :title="t('domain.exam.question.meta.text_asa')" :active="question.meta.text_asa" />

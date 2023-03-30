@@ -45,7 +45,7 @@ const remove = async () => {
 }
 
 const canStore = computed(() => {
-  return !!(model.value.question && model.value.answer_1 && model.value.answer_2 && model.value.answer_3)
+  return !!(model.value.answer_1 && model.value.answer_2 && model.value.answer_3)
 })
 </script>
 

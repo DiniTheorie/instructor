@@ -62,7 +62,7 @@ const storeQuestion = async () => {
   emit('created', question)
 }
 const canSubmit = computed(() => {
-  return !!(model.value.id && model.value.question && model.value.answer_1 && model.value.answer_2 && model.value.answer_3 && examImage.value)
+  return !!(model.value.id && model.value.answer_1 && model.value.answer_2 && model.value.answer_3 && examImage.value)
 })
 
 const { t } = useI18n()

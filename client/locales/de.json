@@ -16,7 +16,7 @@
     },
     "nav_bar": {
       "publish_changes": "Änderungen publizieren",
-      "translation_language": "Übersetzung",
+      "preview_language": "Vorschau",
       "discard_changes": "Änderungen verwerfen",
       "discard_changes_confirm": "Verwirft alle Änderungen seit der letzten Publikation. Wirklich fortfahren?"
     }
@@ -67,7 +67,8 @@
     "shared": {
       "store": "Speichern",
       "remove": "Entfernen",
-      "remove_confirm": "Wirklich entfernen?"
+      "remove_confirm": "Wirklich entfernen?",
+      "preview_impossible_no_translation": "Vorschau nicht möglich da keine Übersetzung. Erstelle eine Übersetzung in der Vorschau-Sprache."
     }
   },
   "domain": {

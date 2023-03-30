@@ -58,7 +58,7 @@ class RequestValidator
         RequestValidatorExtensions::checkKeysBoolean($request, $question['meta'], $metaKeys);
 
         foreach ($question['translations'] as $translation) {
-            RequestValidatorExtensions::checkExactlyKeysSet($request, $translation, ['language', 'question', 'answer_1', 'answer_2', 'answer_3'], ['explanation']);
+            RequestValidatorExtensions::checkExactlyKeysSet($request, $translation, ['language', 'answer_1', 'answer_2', 'answer_3'], ['question', 'explanation']);
             RequestValidatorExtensions::checkLanguageSupported($request, $translation['language']);
         }
     }
