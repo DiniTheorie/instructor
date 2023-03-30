@@ -122,7 +122,9 @@
         "sections": "Abschnitte"
       },
       "article": {
-        "image": "Bild"
+        "image": "Bild",
+        "markdown": "Markdown",
+        "markdown_help": "Die erste Zeile muss ein Titel sein (somit mit `# Titel` anfangen). Nur fett, kursiv und Listen verwenden."
       },
       "section": {
         "title": "Titel",

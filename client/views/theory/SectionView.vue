@@ -12,6 +12,7 @@ import IdList from '@/components/view/IdList.vue'
 import { supportedLanguages } from '@/components/domain/SupportedLanguage'
 import SectionTranslationEdit from '@/components/action/theory/SectionTranslationEdit.vue'
 import SectionConfigEdit from '@/components/action/theory/SectionConfigEdit.vue'
+import ArticleCreate from '@/components/action/theory/ArticleCreate.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -59,7 +60,7 @@ const { t } = useI18n()
   </p>
 
   <h3 class="mt-5">{{ t('domain.theory.section.articles') }}</h3>
-  <!--<ArticleCreate :chapter-id="chapterId" :section-id="sectionId" @created="toArticle($event.id)" />-->
+  <ArticleCreate :chapter-id="chapterId" :section-id="sectionId" @created="toArticle($event.id)" />
   <IdList class="mt-1" v-if="articleIds" size="2" :ids="articleIds" @click="toArticle" />
 
   <div class="mt-5">

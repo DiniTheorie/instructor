@@ -12,6 +12,7 @@ const props = defineProps<{
   title: string
   canSubmit: boolean
   submit: () => Promise<void>
+  size?: string
 }>()
 
 const handleSubmit = async () => {
@@ -33,7 +34,7 @@ const handleSubmit = async () => {
       {{ title }}
     </button>
     <form @submit.prevent="handleSubmit" class="position-absolute">
-      <RawModal v-if="showModal" @hide="showModal = false" :title="title">
+      <RawModal v-if="showModal" @hide="showModal = false" :title="title" :size="size">
         <template v-slot:body>
           <slot></slot>
         </template>

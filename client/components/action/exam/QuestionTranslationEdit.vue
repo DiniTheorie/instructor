@@ -12,7 +12,7 @@ const emit = defineEmits<{
   (e: 'updated', question: QuestionWithUrls): void
 }>()
 
-const props = defineProps<{ language: SupportedLanguage; template?: QuestionTranslation; question: Question; categoryId: string }>()
+const props = defineProps<{ language: SupportedLanguage; template?: QuestionTranslation; question: QuestionWithUrls; categoryId: string }>()
 
 const model = ref({
   question: props.template?.question ?? '',
@@ -32,14 +32,14 @@ const store = async () => {
     })
     .filter(truthy)
 
-  const payload: Question = { ...props.question, translations }
+  const payload: Question = { id: props.question.id, meta: props.question.meta, translations }
   const question = await api.exam.category.question.put(props.categoryId, payload)
   emit('updated', question)
 }
 
 const remove = async () => {
   const translations = props.question.translations.filter((entry) => entry.language !== props.language)
-  const payload: Question = { ...props.question, translations }
+  const payload: Question = { id: props.question.id, meta: props.question.meta, translations }
   const question = await api.exam.category.question.put(props.categoryId, payload)
   emit('updated', question)
 }

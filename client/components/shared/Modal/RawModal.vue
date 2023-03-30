@@ -2,7 +2,7 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-defineProps<{ title: string }>()
+const props = defineProps<{ title: string; size?: string }>()
 const emit = defineEmits<{
   (e: 'hide'): void
 }>()
@@ -33,11 +33,13 @@ const handleEsc = (event: KeyboardEvent) => {
 }
 onMounted(() => document.addEventListener('keyup', handleEsc))
 onUnmounted(() => document.removeEventListener('keyup', handleEsc))
+
+console.log('size', props.title, props.size)
 </script>
 
 <template>
   <div class="modal-wrapper" @keydown.esc="emit('hide')">
-    <div class="modal fade show d-block" @mousedown="lastMouseDownEvent = $event" @mouseup.self="mouseUpOutside" tabindex="-1">
+    <div class="modal fade show d-block" :class="size ? 'modal-' + size : undefined" @mousedown="lastMouseDownEvent = $event" @mouseup.self="mouseUpOutside" tabindex="-1">
       <div class="modal-dialog" :class="{ 'me-4': alignRight }">
         <div class="modal-content">
           <div class="modal-header" :class="{ 'border-bottom-0': !showContent }">

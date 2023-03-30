@@ -8,6 +8,8 @@ import ArticlePreview from '@/components/view/theory/ArticlePreview.vue'
 import ArticleRemove from '@/components/action/theory/ArticleRemove.vue'
 import ArticleImageAdd from '@/components/action/theory/ArticleImageAdd.vue'
 import { routes } from '@/router'
+import ArticleTranslationEdit from '@/components/action/theory/ArticleTranslationEdit.vue'
+import { supportedLanguages } from '@/components/domain/SupportedLanguage'
 
 const article = ref<ArticleWithUrls>()
 const route = useRoute()
@@ -32,16 +34,17 @@ const changeArticle = (id: string) => {
   <ArticlePreview v-if="article" :article="article" :chapter-id="chapterId" :section-id="sectionId" @updated="article = $event" />
   <p v-if="article" class="mt-5">
     <ArticleImageAdd class="me-3 d-inline-block" :article="article" :chapter-id="chapterId" :section-id="sectionId" @updated="article = $event" />
-    <!--<ArticleTranslationEdit
+    <ArticleTranslationEdit
       class="d-inline-block me-1"
       v-for="supportedLanguage in supportedLanguages"
       :key="supportedLanguage"
       :language="supportedLanguage"
       :chapter-id="chapterId"
+      :section-id="sectionId"
       :article="article"
       :template="article.translations.find((entry) => entry.language === supportedLanguage)"
       @updated="article = $event"
-    />-->
+    />
   </p>
   <p v-if="article" class="mt-5">
     <ArticleRemove :chapter-id="chapterId" :section-id="sectionId" :article="article" @removed="router.back()" />
