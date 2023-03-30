@@ -25,7 +25,8 @@
     "home": {
       "title": "Instruktor",
       "exam_categories": "Prüfungsfragen Kategorien",
-      "theory_chapters": "Theorie Kapitel"
+      "theory_chapters": "Theorie Kapitel",
+      "booting": "Applikation wird gestartet..."
     }
   },
   "components": {

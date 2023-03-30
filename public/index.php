@@ -49,6 +49,11 @@ if (str_starts_with($_SERVER['REQUEST_URI'], '/api')) {
     $app->group('/api', function (RouteCollectorProxy $route) {
         $repository = new Repository();
 
+        $route->post('/setup', function (Request $request, Response $response) use ($repository) {
+            $repository->setup();
+
+            return $response->withStatus(SlimExtensions::STATUS_OK);
+        });
         $route->post('/publish', function (Request $request, Response $response) use ($repository) {
             $repository->store();
 

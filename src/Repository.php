@@ -18,14 +18,6 @@ class Repository
     /**
      * @throws \Exception
      */
-    public function __construct()
-    {
-        $this->setup();
-    }
-
-    /**
-     * @throws \Exception
-     */
     private function executeCommand(string $command): void
     {
         exec($command, $output, $result);
@@ -50,7 +42,7 @@ class Repository
     /**
      * @throws \Exception
      */
-    private function setup(): void
+    public function setup(): void
     {
         if (!is_dir(self::REPO_DIR)) {
             mkdir(self::REPO_DIR, 0777, true);
@@ -66,9 +58,9 @@ class Repository
     {
         $output = $this->executeRepositoryCommand('git status --porcelain');
         if ($output) {
-            $this->executeRepositoryCommand('git pull --rebase');
             $this->executeRepositoryCommand('git add -A');
             $this->executeRepositoryCommand('git commit -m "instructor: Store" --author="Automation <automation@instructor.dinitheorie.ch>"');
+            $this->executeRepositoryCommand('git pull --rebase');
             $this->executeRepositoryCommand('git push --set-upstream');
         }
     }

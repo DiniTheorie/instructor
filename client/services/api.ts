@@ -15,7 +15,7 @@ if (window.location.hostname === 'localhost') {
 }
 
 const api = {
-  setup: function (translator: (label: string) => string) {
+  addInterceptors: function (translator: (label: string) => string) {
     axios.interceptors.response.use(
       (response) => {
         const url = response.config.url
@@ -23,6 +23,8 @@ const api = {
         if (url?.endsWith('/publish')) {
           const message = translator('service.api.published')
           displaySuccess(message)
+        } else if (url?.endsWith('/setup')) {
+          // just ignore
         } else if (method === 'post') {
           if (url?.endsWith('/image')) {
             const message = translator('service.api.image_created')
@@ -70,6 +72,9 @@ const api = {
         return Promise.reject(error)
       }
     )
+  },
+  setup: function () {
+    return axios.post('/api/setup')
   },
   store: function () {
     return axios.post('/api/publish')
