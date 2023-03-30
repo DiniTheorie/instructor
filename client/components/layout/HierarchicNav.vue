@@ -69,5 +69,6 @@ const changeSibling = (target?: string) => {
       <span class="me-2" v-if="!nextSibling">&nbsp;</span>
     </span>
     <span class="ms-5" v-if="currentIndex !== undefined && siblings"> {{ currentIndex + 1 }} / {{ siblings.length }} </span>
+    <span class="ms-5"> {{ current }}</span>
   </p>
 </template>

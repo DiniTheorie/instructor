@@ -48,6 +48,15 @@
       "question_remove": {
         "remove_all": "Frage & Bilder entfernen"
       },
+      "article_create": {
+        "title": "Artikel hinzufügen"
+      },
+      "article_image_add": {
+        "title": "Bild hinzufügen"
+      },
+      "article_remove": {
+        "remove_all": "Artikel & Bilder entfernen"
+      },
       "chapter_create": {
         "title": "Kapitel hinzufügen"
       },
@@ -111,6 +120,9 @@
         "description": "Beschreibung",
         "translations": "Übersetzungen",
         "sections": "Abschnitte"
+      },
+      "article": {
+        "image": "Bild"
       },
       "section": {
         "title": "Titel",

@@ -31,7 +31,6 @@ const changeQuestion = (id: string) => {
 
 <template>
   <BackButton :can-go-back="true" :current="questionId" :siblings="questionIds" @change-sibling="changeQuestion" />
-  <h2>{{ questionId }}</h2>
   <QuestionPreview v-if="question" :question="question" :category-id="categoryId" @updated="question = $event" />
   <p v-if="question" class="mt-5">
     <QuestionMetaEdit class="me-3 d-inline-block" :question="question" :category-id="categoryId" @updated="question = $event" />

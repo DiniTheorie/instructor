@@ -126,7 +126,7 @@ class StorageExtensions
 
             $markdown = file_get_contents($node);
 
-            $fileSuffix = substr($node, -6); // get de.yml
+            $fileSuffix = substr($node, -5); // get de.md
             $language = substr($fileSuffix, 0, 2); // read out de
             $translation = ['language' => $language, 'markdown' => $markdown];
 

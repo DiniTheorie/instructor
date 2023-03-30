@@ -46,7 +46,7 @@ class RequestValidator
 
     public static function validateExistingArticleImage(Request $request, Storage $storage, string $chapterId, string $sectionId, string $articleId, string $filename): void
     {
-        if (!$storage->checkArticleImageExists($chapterId, $articleId, $sectionId, $filename)) {
+        if (!$storage->checkArticleImageExists($chapterId, $sectionId, $articleId, $filename)) {
             throw new HttpNotFoundException($request, 'Image not found');
         }
     }

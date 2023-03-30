@@ -7,7 +7,7 @@ export const sectionViews = ['list', 'gallery']
 export type SectionTranslation = {
   language: string
   title: string
-  description: string
+  description?: string
 }
 
 export type Section = {

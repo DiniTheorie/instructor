@@ -26,7 +26,7 @@ const storeSection = async () => {
   emit('created', section)
 }
 const canSubmit = computed(() => {
-  return !!(model.value.id && model.value.title && model.value.description)
+  return !!(model.value.id && model.value.title)
 })
 
 const { t } = useI18n()

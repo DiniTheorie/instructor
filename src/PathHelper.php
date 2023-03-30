@@ -17,5 +17,5 @@ class PathHelper
     public const PUBLIC_DIR = __DIR__.'/../public';
     public const CLIENT_DIR = __DIR__.'/../client';
 
-    public const SUPPORTED_IMAGE_EXTENSIONS = ['.png', '.jpg'];
+    public const SUPPORTED_IMAGE_EXTENSIONS = ['.png', '.jpg', '.jpeg'];
 }

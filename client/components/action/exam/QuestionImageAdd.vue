@@ -12,21 +12,21 @@ const emit = defineEmits<{
 
 const props = defineProps<{ categoryId: string; question: QuestionWithUrls }>()
 
-const examImage = ref<File>()
+const image = ref<File>()
 
 const storeImage = async () => {
-  let examImageValue = examImage.value
-  if (!examImageValue) {
+  let imageValue = image.value
+  if (!imageValue) {
     return
   }
 
-  await api.exam.category.question.postImage(props.categoryId, props.question.id, examImageValue)
+  await api.exam.category.question.postImage(props.categoryId, props.question.id, imageValue)
 
-  const question: QuestionWithUrls = { ...props.question, imageUrls: props.question.imageUrls.concat([examImageValue.name]).sort() }
+  const question: QuestionWithUrls = { ...props.question, imageUrls: props.question.imageUrls.concat([imageValue.name]).sort() }
   emit('updated', question)
 }
 const canSubmit = computed(() => {
-  return !!examImage.value
+  return !!image.value
 })
 
 const { t } = useI18n()
@@ -34,6 +34,6 @@ const { t } = useI18n()
 
 <template>
   <FormModal :submit="storeImage" :can-submit="canSubmit" :title="t('components.action.question_image_add.title')">
-    <ImageField class="mb-3" field="domain.exam.question.image" @change="examImage = $event" />
+    <ImageField class="mb-3" field="domain.exam.question.image" @change="image = $event" />
   </FormModal>
 </template>

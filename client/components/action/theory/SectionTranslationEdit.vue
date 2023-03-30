@@ -40,7 +40,7 @@ const remove = async () => {
 }
 
 const canStore = computed(() => {
-  return !!(model.value.title && model.value.description)
+  return !!model.value.title
 })
 </script>
 
