@@ -13,11 +13,11 @@ const primaryTranslation = computed(() => props.section.translations.find((entry
 
 <template>
   <div class="mw-35em">
-    <h2 v-if="primaryTranslation">
+    <h3 v-if="primaryTranslation">
       <b>{{ primaryTranslation.title }}</b>
       <br />
       {{ primaryTranslation.description }}
-    </h2>
+    </h3>
     <TranslationMissing v-else />
   </div>
 </template>

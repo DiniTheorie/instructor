@@ -6,12 +6,11 @@ import type { Chapter } from '@/components/domain/theory/Chapter'
 import ChapterPreview from '@/components/view/theory/ChapterPreview.vue'
 import { routes } from '@/router'
 import BackButton from '@/components/layout/HierarchicNav.vue'
-import { useI18n } from 'vue-i18n'
 import ChapterRemove from '@/components/action/theory/ChapterRemove.vue'
-import IdList from '@/components/view/IdList.vue'
 import { supportedLanguages } from '@/components/domain/SupportedLanguage'
 import ChapterTranslationEdit from '@/components/action/theory/ChapterTranslationEdit.vue'
 import SectionCreate from '@/components/action/theory/SectionCreate.vue'
+import SectionView from '@/components/view/theory/SectionView.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -34,8 +33,6 @@ api.theory.chapter.getIds().then((result) => (chapterIds.value = result))
 const changeChapter = (id: string) => {
   router.replace({ name: routes.chapter, params: { id } })
 }
-
-const { t } = useI18n()
 </script>
 
 <template>
@@ -53,11 +50,14 @@ const { t } = useI18n()
     />
   </p>
 
-  <h3 class="mt-5">{{ t('domain.theory.chapter.sections') }}</h3>
-  <SectionCreate :chapter-id="chapterId" @created="toSection($event.id)" />
-  <IdList class="mt-1" v-if="sectionIds" size="2" :ids="sectionIds" @click="toSection" />
+  <div class="mt-5 mb-5"></div>
+  <div class="bg-light p-5 mt-5 mb-5" v-for="sectionId in sectionIds" :key="sectionId">
+    <p class="mb-4 lead">{{ sectionId }}</p>
+    <SectionView :chapter-id="chapterId" :section-id="sectionId" />
+  </div>
 
   <div class="mt-5">
-    <ChapterRemove v-if="chapter" :chapter="chapter" @removed="router.back()" />
+    <SectionCreate class="d-inline me-1" :chapter-id="chapterId" @created="toSection($event.id)" />
+    <ChapterRemove class="d-inline" v-if="chapter" :chapter="chapter" @removed="router.back()" />
   </div>
 </template>
