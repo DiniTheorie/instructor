@@ -45,7 +45,7 @@ const { t } = useI18n()
   <BackButton :can-go-back="true" :siblings="sectionIds" :current="sectionId" @change-sibling="changeSection" />
   <SectionPreview v-if="section" :section="section" />
   <p v-if="section">
-    <SectionConfigEdit class="me-1 d-inline-block" :section="section" :chapter-id="chapterId" @updated="section = $event" />
+    <SectionConfigEdit class="me-3 d-inline-block" :section="section" :chapter-id="chapterId" @updated="section = $event" />
     <SectionTranslationEdit
       class="me-1 d-inline-block"
       v-for="supportedLanguage in supportedLanguages"

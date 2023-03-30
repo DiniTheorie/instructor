@@ -37,8 +37,8 @@ const { t } = useI18n()
 <template>
   <FormModal :submit="storeSection" :can-submit="true" :title="t('components.action.section_config_edit.title')">
     <SelectField
-      field="domain.exam.section.view"
-      help="domain.exam.section.view_help"
+      field="domain.theory.section.view"
+      help="domain.theory.section.view_help"
       v-model="model.view"
       :options="sectionViews"
       :trans-option="(entry) => t('domain.theory.section.views.' + entry)"

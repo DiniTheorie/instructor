@@ -25,7 +25,7 @@ class Storage
 
     public static function getSectionDir(string $chapterId, string $id): string
     {
-        return self::getSectionsDir($chapterId).'Storage.php/'.$id;
+        return self::getSectionsDir($chapterId).'/'.$id;
     }
 
     public function getSectionIds(string $chapterId): array

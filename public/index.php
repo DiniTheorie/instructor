@@ -13,6 +13,9 @@ use DiniTheorie\Instructor\Exam\Category\RouteFactory as ExamCategoryRouteFactor
 use DiniTheorie\Instructor\Repository;
 use DiniTheorie\Instructor\Theory\Chapter\RouteFactory as TheoryChapterRouteFactory;
 use DiniTheorie\Instructor\Utils\SlimExtensions;
+use Monolog\Handler\StreamHandler;
+use Monolog\Level;
+use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
@@ -37,8 +40,11 @@ if (str_starts_with($_SERVER['REQUEST_URI'], '/api')) {
     $app = AppFactory::create();
     $app->addRoutingMiddleware();
 
-    // display error details always, as frontend validation only bare-bones
-    $app->addErrorMiddleware(true, true, true);
+    $logger = new Logger('app');
+    $streamHandler = new StreamHandler(__DIR__.'/../var/'.$_SERVER['APP_ENV'].'.log', Level::Error);
+    $logger->pushHandler($streamHandler);
+    // always display error details, as frontend validation only bare-bones
+    $app->addErrorMiddleware(true, true, true, $logger);
 
     $app->group('/api', function (RouteCollectorProxy $route) {
         $repository = new Repository();

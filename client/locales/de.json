@@ -57,6 +57,9 @@
       "section_create": {
         "title": "Abschnitt hinzufügen"
       },
+      "section_config_edit": {
+        "title": "Einstellungen"
+      },
       "section_remove": {
         "remove_all": "Abschnitt und Artikel entfernen"
       }
@@ -117,7 +120,7 @@
           "list": "Liste",
           "gallery": "Gallerie"
         },
-        "view_help": "Gallery auswählen, wenn das Artikelbild die Hauptaussage ist (zB. Verkehrsschild). Sonst Liste auswählen.",
+        "view_help": "Gallery auswählen, wenn das Artikelbild die Hauptaussage ist (zB. wenn der Abschnitt über Verkehrsschilder ist). Sonst Liste auswählen.",
         "articles": "Artikel"
       }
     },

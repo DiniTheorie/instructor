@@ -6,6 +6,7 @@
   "require": {
     "php": "^8.2",
     "ext-fileinfo": "*",
+    "monolog/monolog": "^3.3",
     "slim/psr7": "^1.6",
     "slim/slim": "^4.11",
     "symfony/dotenv": "^6.2",

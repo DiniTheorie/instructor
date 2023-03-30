@@ -34,8 +34,8 @@ const changeQuestion = (id: string) => {
   <h2>{{ questionId }}</h2>
   <QuestionPreview v-if="question" :question="question" :category-id="categoryId" @updated="question = $event" />
   <p v-if="question" class="mt-5">
-    <QuestionMetaEdit class="me-1 d-inline-block" :question="question" :category-id="categoryId" @updated="question = $event" />
-    <QuestionImageAdd class="me-1 d-inline-block" :question="question" :category-id="categoryId" @updated="question = $event" />
+    <QuestionMetaEdit class="me-3 d-inline-block" :question="question" :category-id="categoryId" @updated="question = $event" />
+    <QuestionImageAdd class="me-3 d-inline-block" :question="question" :category-id="categoryId" @updated="question = $event" />
     <QuestionTranslationEdit
       class="d-inline-block me-1"
       v-for="supportedLanguage in supportedLanguages"

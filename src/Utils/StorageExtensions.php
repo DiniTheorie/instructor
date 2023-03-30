@@ -185,7 +185,7 @@ class StorageExtensions
             }
 
             $basename = pathinfo($node, PATHINFO_BASENAME);
-            if ($negativeFilter && str_starts_with($basename, $negativeFilter)) {
+            if ($negativeFilter && str_starts_with($basename, $negativeFilter.'.')) {
                 continue;
             }
 
