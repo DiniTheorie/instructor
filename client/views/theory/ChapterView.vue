@@ -11,6 +11,7 @@ import { supportedLanguages } from '@/components/domain/SupportedLanguage'
 import ChapterTranslationEdit from '@/components/action/theory/ChapterTranslationEdit.vue'
 import SectionCreate from '@/components/action/theory/SectionCreate.vue'
 import SectionView from '@/components/view/theory/SectionView.vue'
+import type { Section } from '@/components/domain/theory/Section'
 
 const route = useRoute()
 const router = useRouter()
@@ -23,15 +24,28 @@ watchEffect(() => {
   api.theory.chapter.section.getIds(chapterId.value).then((result) => (sectionIds.value = result))
 })
 
-const toSection = (id: string) => {
-  router.push({ name: routes.chapterSection, params: { chapterId: chapterId.value, id } })
-}
-
 const chapterIds = ref<string[]>()
 api.theory.chapter.getIds().then((result) => (chapterIds.value = result))
 
 const changeChapter = (id: string) => {
   router.replace({ name: routes.chapter, params: { id } })
+}
+
+const addSection = (section: Section) => {
+  const sectionIdsValue = sectionIds.value
+  if (sectionIdsValue) {
+    sectionIds.value = [...sectionIdsValue, section.id].sort()
+  }
+}
+const removeSection = (sectionId: string) => {
+  const sectionIdsValue = sectionIds.value
+  if (sectionIdsValue) {
+    sectionIds.value = sectionIdsValue.filter((entry) => entry !== sectionId)
+  }
+}
+
+const toArticle = (sectionId: string, id: string) => {
+  router.push({ name: routes.chapterSectionArticle, params: { chapterId: chapterId.value, sectionId, id } })
 }
 </script>
 
@@ -51,11 +65,11 @@ const changeChapter = (id: string) => {
   </p>
 
   <div class="mt-5 mb-2">
-    <SectionCreate :chapter-id="chapterId" @created="toSection($event.id)" />
+    <SectionCreate :chapter-id="chapterId" @created="addSection" />
   </div>
   <div class="bg-light p-5 mb-5" v-for="sectionId in sectionIds" :key="sectionId">
     <p class="mb-4 lead">{{ sectionId }}</p>
-    <SectionView :chapter-id="chapterId" :section-id="sectionId" />
+    <SectionView :chapter-id="chapterId" :section-id="sectionId" @go-to-article="(articleId) => toArticle(sectionId, articleId)" @removed="() => removeSection(sectionId)" />
   </div>
 
   <div class="mt-5">

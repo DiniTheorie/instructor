@@ -56,13 +56,13 @@ const removeImage = async (image: string) => {
           <CorrectIndicator class="me-2" :correct="question.meta.answer_3_correct" />
           {{ primaryTranslation.answer_3 }}
         </p>
-        <p class="alert alert-info mt-4">
-          <span>{{ t('domain.exam.question.explanation') }}: </span>
+        <p class="mt-4">
+          <b>{{ t('domain.exam.question.explanation') }}: </b>
           {{ primaryTranslation.explanation }}
         </p>
       </div>
       <TranslationMissing v-else />
-      <p>
+      <p class="mt-5">
         {{ t('domain.exam.question.source') }}:
         <GreenRedBadge class="me-1" :title="t('domain.exam.question.meta.text_asa')" :active="question.meta.text_asa" />
         <GreenRedBadge :title="t('domain.exam.question.meta.image_asa')" :active="question.meta.image_asa" />

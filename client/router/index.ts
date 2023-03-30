@@ -6,7 +6,6 @@ export const routes = {
   category: 'category',
   categoryQuestion: 'question',
   chapter: 'chapter',
-  chapterSection: 'section',
   chapterSectionArticle: 'article'
 }
 
