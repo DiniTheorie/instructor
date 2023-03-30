@@ -50,14 +50,15 @@ const changeChapter = (id: string) => {
     />
   </p>
 
-  <div class="mt-5 mb-5"></div>
-  <div class="bg-light p-5 mt-5 mb-5" v-for="sectionId in sectionIds" :key="sectionId">
+  <div class="mt-5 mb-2">
+    <SectionCreate :chapter-id="chapterId" @created="toSection($event.id)" />
+  </div>
+  <div class="bg-light p-5 mb-5" v-for="sectionId in sectionIds" :key="sectionId">
     <p class="mb-4 lead">{{ sectionId }}</p>
     <SectionView :chapter-id="chapterId" :section-id="sectionId" />
   </div>
 
   <div class="mt-5">
-    <SectionCreate class="d-inline me-1" :chapter-id="chapterId" @created="toSection($event.id)" />
-    <ChapterRemove class="d-inline" v-if="chapter" :chapter="chapter" @removed="router.back()" />
+    <ChapterRemove v-if="chapter" :chapter="chapter" @removed="router.back()" />
   </div>
 </template>

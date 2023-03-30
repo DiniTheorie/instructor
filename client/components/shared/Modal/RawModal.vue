@@ -33,8 +33,6 @@ const handleEsc = (event: KeyboardEvent) => {
 }
 onMounted(() => document.addEventListener('keyup', handleEsc))
 onUnmounted(() => document.removeEventListener('keyup', handleEsc))
-
-console.log('size', props.title, props.size)
 </script>
 
 <template>

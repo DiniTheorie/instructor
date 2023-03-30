@@ -8,7 +8,7 @@ Noty.overrideDefaults({
 const displaySuccess = function (successMessage: string) {
   new Noty({
     text: successMessage,
-    timeout: 2000
+    timeout: 1000
   }).show()
 }
 
