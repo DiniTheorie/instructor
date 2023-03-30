@@ -19,7 +19,8 @@ const model = ref({ id: '', title: '', description: '' })
 const storeSection = async () => {
   const payload: Section = {
     id: model.value.id,
-    translations: [{ language: 'de', title: model.value.title, description: model.value.description }]
+    translations: [{ language: 'de', title: model.value.title, description: model.value.description }],
+    config: { view: 'list' }
   }
   const section = await api.theory.chapter.section.post(props.chapterId, payload)
   emit('created', section)
