@@ -2,7 +2,7 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-const props = defineProps<{ title: string; size?: string }>()
+defineProps<{ title: string; size?: string }>()
 const emit = defineEmits<{
   (e: 'hide'): void
 }>()
